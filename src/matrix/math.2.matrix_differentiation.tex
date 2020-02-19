@@ -1,0 +1,119 @@
+\section{Matrix Calculus}
+
+\subsection{Layout}
+
+
+There are two different layout:
+
+\begin{itemize}
+	\item \cindex{numerator layout}:
+		\begin{equation}
+		\left [
+		\begin{matrix}
+		\nabla f \\
+		\nabla g
+		\end{matrix}
+		\right ]
+		\end{equation}
+	\item \cindex{denominator layout}:
+	\begin{equation}
+	\left [
+	\nabla f ,	\nabla g	\right ]
+	\end{equation}
+\end{itemize}
+
+numerator layout is preferred.
+
+
+\subsection{Jacobian Matrix}
+for $\mathbf{y}_{1 \times m} = \mathbf{f}(\mathbf{x}_{1 \times n})$, its \cindex{Jacobian matrix} is:
+
+\begin{equation}
+	\nabla{}_{\mathbf{x}} \mathbf{y} = 
+\frac{\partial \mathbf{y}}{\partial \mathbf{x}} = \left [ \begin{matrix}
+	\nabla f_1 (\mathbf{x}) \\
+	\nabla f_1 (\mathbf{x}) \\
+	\vdots \\
+	\nabla f_m (\mathbf{x})  
+\end{matrix} \right ] = \begin{pmatrix}
+    \pd{f_1}{x} \\
+    \\
+    \pd{f_2}{x} \\
+    \vdots \\
+    \pd{f_m}{x} 
+    \end{pmatrix} = \left [ \begin{matrix}
+\frac{\partial f_1({\mathbf{x}})}{x_1} & \frac{\partial f_1({\mathbf{x}})}{x_2} & \dots & \frac{\partial f_1({\mathbf{x}})}{x_n} \\
+\frac{\partial f_2({\mathbf{x}})}{x_1} & \frac{\partial f_2({\mathbf{x}})}{x_2} & \dots & \frac{\partial f_2({\mathbf{x}})}{x_n} \\
+\vdots & \vdots & \ddots & \vdots  \\
+\frac{\partial f_m({\mathbf{x}})}{x_1} & \frac{\partial f_m({\mathbf{x}})}{x_2} & \dots & \frac{\partial f_m({\mathbf{x}})}{x_n}
+\end{matrix} \right ]
+\end{equation}
+
+\subsection{Element-wise binary operator}
+
+for element-wise binary operator 
+\begin{equation}
+	\mathbf{y}= \mathbf{f}(\mathbf{w}) \bigcirc \mathbf{g}(\mathbf{x})
+\end{equation}
+
+$\bigcirc$ could be $+,-,\times\footnote{called \emph{hadamard product}}, \div, max $. The gradient is:
+
+\begin{equation}
+	\nabla{}_{\mathbf{x}} \mathbf{y} = 
+	\left [ \begin{matrix}
+		y_1 \\
+		y_2 \\
+		\vdots \\
+		y_n
+	\end{matrix} \right ] = \left [ \begin{matrix}
+	f_1 (\mathbf{w}) \bigcirc g_1 (\mathbf{x}) \\
+	f_2 (\mathbf{w}) \bigcirc g_2 (\mathbf{x}) \\
+	\vdots \\
+	f_n (\mathbf{w}) \bigcirc g_n (\mathbf{x})
+\end{matrix} \right ]
+\end{equation}
+
+The expanded matrix could be differentiated using Jacobian matrix.
+
+\subsection{Vector Sum}
+Vector sum operation $sum$ could be expressed as 
+\begin{equation}
+	y = \text{sum}\Big (\mathbf{f}(\mathbf{x}) \Big ) = \sum_{i=1}^{n} f_i (\mathbf{x})
+\end{equation}
+
+$\nabla \mathbf{y}$ could be calculated as usual.
+
+
+\subsection{Chain Rules}
+
+In machine learning there are two ways of taking \cindex{chain rules}:
+\begin{itemize}
+	\item forward differentiation: $\frac{dy}{dx} =\frac{du}{dx} \times \frac{dy}{du}$
+	\item backward differentiation: $\frac{dy}{dx}=\frac{dy}{du} \times \frac{du}{dx}$
+\end{itemize}
+
+Backward differentiation is preferred for matrix operation.
+
+
+
+The full expression of $\mathbf{y}=\mathbf{f}(\mathbf{g}(\mathbf{x}))$ is:
+
+\begin{equation}
+\begin{aligned}
+	\nabla{}_{\mathbf{x}} f &=  \pd{\mathbf{f}(\mathbf{g}(\mathbf{x}))}{\mathbf{x}} \\
+	&= \pd{\mathbf{f}}{\mathbf{g}} \times \pd{\mathbf{g}}{\mathbf{x}} \\
+	&= \left [ \begin{matrix}
+\frac{\partial f_1({\mathbf{x}})}{g_1} & \frac{\partial f_1({\mathbf{x}})}{g_2} & \dots & \frac{\partial f_1({\mathbf{x}})}{g_n} \\
+\frac{\partial f_2({\mathbf{x}})}{g_1} & \frac{\partial f_2({\mathbf{x}})}{g_2} & \dots & \frac{\partial f_2({\mathbf{x}})}{g_n} \\
+\vdots & \vdots & \ddots & \vdots  \\
+\frac{\partial f_m({\mathbf{x}})}{g_1} & \frac{\partial f_m({\mathbf{x}})}{g_2} & \dots & \frac{\partial f_m({\mathbf{x}})}{g_n}
+\end{matrix} \right ]_{m \times n}
+\times % multiple another one
+\left [ \begin{matrix}
+\frac{\partial g_1({\mathbf{x}})}{x_1} & \frac{\partial g_1({\mathbf{x}})}{x_2} & \dots & \frac{\partial g_1({\mathbf{x}})}{x_r} \\
+\frac{\partial g_2({\mathbf{x}})}{x_1} & \frac{\partial g_2({\mathbf{x}})}{x_2} & \dots & \frac{\partial g_2({\mathbf{x}})}{x_r} \\
+\vdots & \vdots & \ddots & \vdots  \\
+\frac{\partial g_n({\mathbf{x}})}{x_1} & \frac{\partial g_n({\mathbf{x}})}{x_2} & \dots & \frac{\partial g_n({\mathbf{x}})}{x_r}
+\end{matrix} \right ]_{n \times r}
+\end{aligned}
+\end{equation}

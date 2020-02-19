@@ -1,0 +1,252 @@
+\section{Diagonalization}
+
+\subsection{Eigenvalue and Eigenvectors}
+
+\begin{definition}
+    A linear operator $T$ on $V$ is \cindex{diagonalizable} if there is an ordered basis $\beta$ of $V$ that $[T]_\beta$ is a diagonal matrix. A matrix is \cindex{diagonalizable} if $L_A$ is diagonalizable.
+\end{definition}
+
+If an operator $T$ is diagonalizable, for $\beta = \{v_i\}$, we have
+\begin{equation*}
+    T(v_j) = \sum_{i=1}^n D_{ij} v_j = D_{jj} v_j = \lambda_j v_j
+\end{equation*}
+
+\begin{definition}
+    A vector $v \in V$ is called an \cindex{eigenvector} of linear operator $T$ if $\exists \lambda$ that $T(v) = \lambda v$. $\lambda$ is called \cindex{eigenvalue} corresponding to eigenvector $v$. So it is for matrix.
+\end{definition}
+
+Eigenvector is also called \cindex{characteristic vector}. Eigenvalue is also called \cindex{characteristic value}.
+
+\begin{theorem}
+    A linear operator $T$ is diagonalizable if there exists an ordered basis consisting of eigenvectors of $T$.
+\end{theorem}
+
+\begin{theorem}
+    $\lambda$ is an eigenvalue of $A$ $\iff$ $|A - \lambda I_n| = 0$.
+\end{theorem}
+
+\begin{proof}
+    If $\lambda$ is an eigenvalue of $A$, $\exists v \in F^n, v \neq 0$ that $A v = \lambda v$, which is $(A - \lambda I_n)(v)= 0$, which means $A - \lambda I_n$ is not invertible, so $|A - \lambda I_n| = 0$.
+\end{proof}
+
+\begin{definition}
+    the polynomial $f(t) = |A - t I_n|$ is called the \cindex{characteristic polynomial} of $A$. So is it for operator $T$.
+\end{definition}
+
+\begin{theorem}
+    $v$ is an eigenvector of $T$ corresponding to $\lambda$ $\iff$ $v \neq 0$ and $v \in N(T - \lambda I)$.
+\end{theorem}
+
+\begin{theorem}
+    if $Q$ is a matrix with columns of eigenvectors of $\beta$, then according to theorem (\ref{specialchangeofcoordinates}), $Q^{-1} A Q$ is a diagonal matrix with eigenvalue.
+\end{theorem}
+
+
+
+\subsection{Diagonalizability}
+
+
+\begin{theorem}
+    Let ${\lambda_i}$ be distinct eigenvalue of $T$. If $\{v_i\}$ are eigenvector that corresponding to $\lambda_i$, then $\{v_i\}$ is \emph{linearly independent}.
+\end{theorem}
+\begin{proof}
+    suppose it works for $k - 1 \geq 1$ and we have $k$ eigenvector $\{ v_i\}$. Suppose
+    \begin{equation*}
+        a_1 v_1 + a_2 v_2 + \dots + a_k v_k = 0
+    \end{equation*}
+    
+    multiply $T - \lambda_k I$ to both sides, we have
+    \begin{equation*}
+        a_1(\lambda_1 - \lambda_k) v_1 + a_1(\lambda_2 - \lambda_k) v_2 +  \dots + a_1(\lambda_{k-1} - \lambda_k) v_{k-1} +  = 0
+    \end{equation*}
+    
+    because $\{v_1, v_2, \dots, v_{k-1}$ are linearly independent, we have 
+    \begin{equation*}
+        a_1(\lambda_1 - \lambda_k) = a_1(\lambda_2 - \lambda_k) =  a_1(\lambda_{k-1} - \lambda_k) = 0
+    \end{equation*}
+    
+    because $\lambda_i$ are different, we have $a_i = 0$.
+\end{proof}
+
+\begin{theorem}
+    if $T$ has $n$ distinct eigenvalues, then $T$ is diagonalizable. If $T$ is diagonalizable, it may not have $n$ distinct eigenvalues, for example the identity matrix $I_V$.
+\end{theorem}
+
+\begin{definition}
+    A polynomial $f(t)$ in $P(F)$ \cindex{split over} $F$ if there are scalars $c, a_1, \dots, a_n$ (not necessarily distinct) in $F$ that
+    \begin{equation*}
+        f(t) = c(t - a_1)(t - a_2) \dots (t-a_n)
+    \end{equation*}
+\end{definition}
+
+\begin{theorem}
+    the characteristic polynomial of any diagonalizable linear operator splits.
+\end{theorem}
+
+\begin{proof}
+    choose a basis $\beta$ of eigenvectors. $[\mathrm{T}]_\beta$ is a diagonal matrix $D$. The characteristic polynomial of $T$ is $|D - tI|$ splits.
+\end{proof}
+
+Be careful that the characteristic polynomial splits does not mean the matrix is diagonalizable. The eigenvectors need to form a basis.
+
+\begin{definition}
+    the \cindex{multiplicity} of $\lambda$ is the largest positive integer $k$ for which $(t - \lambda)^k$ is a factor of $f(t)$.
+\end{definition}
+
+\begin{definition}
+    let $\lambda$ be an eigenvalue of $T$. Let $E_\lambda = N(T - \lambda I_V)$. the set $E_\lambda$ is called the \cindex{eigenspace} of $T$ corresponding to eigenvalue $\lambda$. So is it for matrix.
+\end{definition}
+
+\begin{theorem}
+    let $\lambda$ be an eigenvalue of $T$ having multiplicity $m$. then $1 \leq \text{dim}(E_\lambda) \leq m$.
+\end{theorem}
+\begin{proof}
+    choose ordered basis $\{v_1, v_2, \dots, v_p\}$ for $E_\lambda$, and extend it to ordered basis $\beta = \{ v_1, v_2, \dots, v_p, v_{p+1}, \dots, v_n$ for $V$, and let $A = [T]_\beta$. let $v_i (1 \leq i \leq q)$ be an eigenvector of $T$ corresponding to $\lambda$, we have
+    \begin{equation*}
+        A = \begin{pmatrix}
+            \lambda I_p & B \\
+            0 & C
+        \end{pmatrix}
+    \end{equation*}
+    so \begin{equation*}
+        \begin{aligned}
+            f(t) &= \text{det}(A - t I_n) \\
+            &= \text{det} \begin{pmatrix}
+                (\lambda - t) I_p & B \\
+                0 & C - t I_{n-p}
+            \end{pmatrix} \\
+            &= \text{det}((\lambda - t)I_p) \text{det}(C - t I_{n-p}) \\
+            &= (\lambda - t)^p g(t)
+        \end{aligned}
+        \end{equation*}
+    So $(\lambda - t)^p$ is a factor of $f(t)$, and the multiplicity of $\lambda$ is at least $p = \text{dim}(E_\lambda)$, so $\text{dim}(E_\lambda) \leq m$ 
+\end{proof}
+
+\begin{theorem}
+    let $\lambda_1, \lambda_2, \dots, \lambda_k$ be distinct eigenvalue of $T$. let $S_i$ be a finite linearly independent subset of eigenspace $E_{\lambda_i}$. then $S_1 \cup S_2 \cup \dots \cup S_k$ is a linearly independent subset of $V$.
+\end{theorem}
+
+\begin{theorem}
+    let $\lambda_1, \lambda_2, \dots, \lambda_k$ be distinct eigenvalue of $T$, then
+    \begin{enumerate}
+        \item $T$ is diagonalizable $\iff$ the multiplicity of $\lambda_i$ is equal to $\text{dim}(E_{\lambda_i})$ for all $i$.
+        \item If $T$ is diagonalizable and $\beta_i$ is an ordered basis for $E_{\lambda_i}$ for each $i$, then $\beta = \beta_1 \cup \beta_2 \cup \dots \cup \beta_k$ is an ordered basis for $V$ consisting of eigenvectors of $T$.
+    \end{enumerate}
+\end{theorem}
+
+\begin{theorem}
+    $T$ is diagonalizable $\iff$ both of the following holds:
+    \begin{enumerate}
+        \item the characteristic polynomial of $T$ splits.
+        \item for each eigenvalue $\lambda$ of $T$, the multiplicity of $\lambda$ equals $n - \text{rank}(T - \lambda I)$.
+    \end{enumerate}
+\end{theorem}
+
+\begin{definition}
+    Let $W_i$ be subspaces of a vector space $V$. The sum of these subspaces $\sum\limits_{i=1}^k W_i = \{ v_1 + v_2 + \dots + v_k : v_i \in W_i \text{ for } 1 \leq i \leq k \}$
+\end{definition}
+
+\begin{definition}
+    let $W_i$ be subspace of $V$. $V$ is the \cindex{direct sum} of subspace $W_1, W_2, \dots, W_k$, or $V = W_1 \oplus W_2 \oplus \dots \oplus W_k$ if
+    \begin{equation*}
+        V = \sum_{i=1}^k W_i
+    \end{equation*}
+    and 
+    \begin{equation*}
+        W_j \cap \sum_{i \neq j} W_i = \emptyset, (1 \leq j \leq k)
+    \end{equation*}
+\end{definition}
+
+\begin{theorem}
+    $T$ is diagonalizable $\iff$ $V$ is the direct sum of eigenspaces of $T$.
+\end{theorem}
+
+
+\subsection{Invariant Subspaces}
+
+\begin{definition}
+    A subspace $W$ of $V$ is $T$-\cindex{invariant subspace} of $V$ if $T(W) \subseteq W$.
+\end{definition}
+
+
+\begin{definition}
+    A $T$-\cindex{cyclic subspace} of $V$ generated by $x$ is defined as $W=\text{span}(\{x, T(x), T^2(x), \dots \})$.
+\end{definition}
+
+\begin{theorem}
+    Let $T$ be a linear operator on finite-dimensional vector space $V$, and let $W$ be a $T$-invariant subspace of $V$. Then the characteristic polynomial of $T_W$ divides the characteristic polynomial of $T$.
+\end{theorem}
+
+\begin{proof}
+    Choose ordered basis $\gamma$ for $W$ and expand it to $\beta$ for $V$. Calculate $[T]_\beta$ and $[T]_\gamma$.
+\end{proof}
+
+
+\begin{theorem}
+    Let $T$ be a linear operator on finiate-dimensional vector space $V$, and let $W$ be a $T$-cyclic subspace of $V$ generated by nonzero vector $v \in V$. Let $k = \text{dim}(W)$. Then:
+    \begin{enumerate}
+        \item $\{v, T(v), T^2(v), \dots, T^{k-1}(v)\}$ is a basis for $W$.
+        \item If $a_0 v + a_1 T(v) + a_2 T^2(v) + \dots + a_{k-1} T^{k-1}(v) + T^k(v) = 0$, then the characteristic polynomial of $T_W$ is $f(t) = (-1)^k (a_0 + a_1 t + \dots + a_{k-1} t^{k-1} + t^k)$.
+    \end{enumerate}
+\end{theorem}
+
+\begin{proof}
+    Let $\beta = \{v, T(v), T^2(v), \dots, T^{k-1}(v)\}$, and let $a_i$ be the scalars that 
+    \begin{equation*}
+            a_0 v + a_1 T(v) + a_2 T^2(v) + \dots + a_{k-1} T^{k-1}(v) + T^k(v) = 0
+    \end{equation*}
+    
+    Since $[T(v)]_\beta = [0,1,\dots]$, $T(T(v))_\beta = [0,0,1,\dots]$, etc, we have:
+    \begin{equation*}
+        [T_W]_\beta = \begin{pmatrix}
+            0 & 0 & \dots & 0 & - a_0 \\
+            1 & 0 & \dots & 0 & -a_1\\
+            \vdots & \vdots  & & \vdots & \vdots \\
+            0 & 0 & \dots & 1 & - a_{k-1}
+        \end{pmatrix}
+    \end{equation*}
+    which has characteristic polynomial 
+    \begin{equation*}
+        f(t) = (-1)^k (a_0 + a_1 t + \dots + a_{k-1} t^{k-1} + t^k)
+    \end{equation*}
+\end{proof}
+
+\begin{theorem}[\cindex{Cayley-Hamilton}]
+    Let $T$ be linear operator on a finite-dimensional vector space $V$, and let $f(t)$ be the characteristic polynomial of $T$. Then $f(T) = 0$.
+\end{theorem}
+
+\begin{proof}
+    Suppose $v \neq 0$. Let $W$ be the $T$-cyclic subspace generated by $v$, and suppose the $\text{dim}(W)=k$. So there exists scalars $\{a_i\}$ that 
+    \begin{equation*}
+        a_0 v + a_1 T(v) + a_2 T^2(v) + \dots + a_{k-1} T^{k-1}(v) + T^k(v) = 0
+    \end{equation*}
+    which implies the characteristic polynomial of $T_W$ is
+    \begin{equation*}
+        g(t) = (-1)^k (a_0 + a_1 t + \dots + a_{k-1} t^{k-1} + t^k)
+    \end{equation*}
+    We have
+    \begin{equation*}
+        g(T)(v) = (-1)^k (a_0 I + a_1 T + \dots + a_{k-1} T^{k-1} + T^k) = 0
+    \end{equation*}
+    Because $g(t)$ divides $f(t)$, $\exists q(t)$ that $f(t) = g(t) q(t)$. So
+    \begin{equation*}
+        f(T)(v) = q(T)g(T)(v) = q(T) (g(T)(v)) = q(T)(0) = 0
+    \end{equation*}
+\end{proof}
+
+
+
+\begin{definition}
+    Let $B_1 \in M_{m \times m}(F)$, and $B_2 \in M_{n \times n} (F)$. The \cindex{direct sum} of $B_1$ and $B_2$, denoted as $B_1 \oplus B_2$, as the $(m+n) \times (m+n)$ matrix $A$ that
+    \begin{equation*}
+        A = \begin{pmatrix}
+            B_1 & 0 \\
+            0 & B_2
+        \end{pmatrix}
+    \end{equation*}
+\end{definition}
+
+
+\begin{theorem}
+    Suppose $V=W_1 \oplus W_2 \oplus \dots \oplus W_k$, where $W_i$ is a $T$-invariant subspace of $V$. Suppose $f_i(t)$ is the characteristic polynomial of $T_{W_i}$, Then $f_1(t) f_2(t) \dots f_k(t)$ is the characteristic polynomial of $T$. Let $\beta_i$ be an ordered basis for $W_i$, and let $\beta = \bigcup_{i=1}^k \beta_i$. Let $A=[T]_\beta$, and $B_i=[T_{W_i}]_\beta$. Then $A = B_1 \oplus B_2 \oplus \dots \oplus B_k$.
+\end{theorem}

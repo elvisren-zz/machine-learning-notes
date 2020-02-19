@@ -1,0 +1,117 @@
+\section{Linear Equations}
+
+\subsection{Elementary Operations}
+
+\begin{definition}
+	Let $A$ be an $m\times n$ matrix. there are three \cindex{elementary row operation}:
+	\begin{enumerate}
+		\item interchange any two row of $A$.
+		\item multiply any row of $A$ by nonzero scalar.
+		\item add any scalar multiple of a row of $A$ to another row.
+	\end{enumerate}
+\end{definition}
+
+\begin{definition}
+	An $n\times n$ \cindex{elementary matrix} is a matrix obtained by performing \emph{one} elementary operation on $I_n$.
+\end{definition}
+
+\begin{definition}
+	The \cindex{rank} of $A_{m \times n}$, denoted $\text{rank}(A)$, is the rank\footnote{The rank of a linear transformation is defined in Definition \ref{rankdefinition} on page \pageref{rankdefinition}} of linear transformation $L_A: F^n \rightarrow F^m$.
+\end{definition}
+
+\begin{theorem}
+	the rank of a matrix equals the maximum number of linearly independent columns.
+\end{theorem}
+\begin{proof}
+	For any $A \in M_{m\times n}(F)$, 
+	\begin{equation*}
+		\begin{aligned}
+			\text{rank}(A) &= \text{rank}(L_A) = \text{dim}(R(L_A)) = \text{span}(L_A(\beta)) \\
+			&= \text{span}(\{ L_A(e_1), L_A(e_2), \dots, L_A(e_n) \})
+		\end{aligned}
+	\end{equation*}
+	we have $L_A(e_j) = A e_j = a_j$ where $a_j$ is the $j$th column of A. Hence
+	\begin{equation*}
+		R(L_A) = \text{span}(\{ a_1, a_2, \dots, a_n \})
+	\end{equation*}
+\end{proof}
+
+\begin{theorem}
+    Let $A_{m \times n}$ has rank $r$. Then there exist invertible matrix $B_{m \times m}$ and $C_{n \times n}$ that $D=BAC$, where:
+    \begin{equation*}
+        D = \begin{pmatrix}
+			I_r & 0 \\
+			0 & 0 \\
+		\end{pmatrix}
+    \end{equation*}
+\end{theorem}
+
+
+\begin{theorem}
+    Every invertible matrix is a product of elementary matrices.
+\end{theorem}
+
+\begin{definition}
+	For system $Ax=b$, the matrix $(A|b)$ is the \cindex{augmented matrix}.
+\end{definition}
+
+
+\begin{theorem}
+    If A is an invertible matrix, it is possible to transform augmented matrix $(A|I_n)$ into matrix $(I_n|A^{-1})$ by means of a finite number of elementary row operations.
+\end{theorem}
+
+\subsection{System of Equations}
+
+\begin{definition}
+	A system $A_{m \times n} x=b$ of $m$ linear equation in $n$ unknowns is \cindex{homogeneous} if $b=0$. Otherwise the system is \cindex{nonhomogeneous}.
+\end{definition}
+
+\begin{definition}
+	A system is \cindex{consistent} if its solution set is not empty. otherwise it is called \cindex{inconsistent}.
+\end{definition}
+
+\begin{theorem}
+	Let $K$ be the set of all solutions for $Ax=0$. Then $K=N(L_A)$ has dimension of $n-\text{rank}(L_A)=n-\text{rank}(A)$.
+\end{theorem}
+
+\begin{theorem}
+	if $m < n$, the system $Ax=0$ has nonzero solution.
+\end{theorem}
+
+\begin{theorem}
+	Let $K$ be the solution set of $Ax=b$, $K_H$ the solution set of $Ax=0$. Then for all solution $s$ to $Ax=b$,
+	\begin{equation}
+		K = \{ s \} + K_H = \{s+k: k \in K_H \}
+	\end{equation}
+\end{theorem}
+
+
+\begin{theorem}
+	Let $A_{n \times n}x=b$ be a system of equations. If $A$ is invertible, the solution is $A^{-1}b$. Conversely, if the system has exactly one solution, $A$ is invertible.
+\end{theorem}
+
+
+
+\begin{theorem}
+	Let $Ax=b$ be a system. the system is consistent $\Leftrightarrow$ $\text{rank}(A) = \text{rank}(A|b)$.
+\end{theorem}
+
+\begin{proof}
+    $R(L_A) = \text{span}(\{a_1, a_2, \dots, a_n \})$. Since $b \in R(L_A)$, the extended span is the same.
+\end{proof}
+
+
+\begin{definition}
+	A matrix is in \cindex{reduced row echelon form} if 
+	\begin{enumerate}
+		\item any row containing a nonzero entry precedes any row in which all the entries are zero.
+		\item the first nonzero entry in each row is the only nonzero entry in its column.
+		\item the first nonzero entry in each row is $1$ and it occurs in a column to the right of the first nonzero entry in the preceding row.
+	\end{enumerate}
+\end{definition}
+
+
+
+
+
+

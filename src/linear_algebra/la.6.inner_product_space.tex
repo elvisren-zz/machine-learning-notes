@@ -1,0 +1,139 @@
+\section{Inner Product Space}
+
+\begin{definition}
+	An \cindex{inner product} on $V$ is a function $V \rightarrow V \rightarrow F$ that $\forall x,y,z \in V$ and $\forall c \in F$ that:
+	\begin{itemize}
+		\item $\langle x+z,y \rangle = \langle x,y \rangle + \langle z,y \rangle$
+		\item $\langle cx,y \rangle = c \langle  x,y \rangle$
+		\item $\overline{\langle x,y \rangle} = \langle y,x \rangle$
+		\item $\langle x,x \rangle > 0$
+	\end{itemize}
+\end{definition}
+
+\begin{definition}
+	the \cindex{standard inner product} on $F^n$ for $x=(a_1,a_2,\dots,a_n)$ and $y=(b_1,b_2,\dots,b_n)$ is:
+	\begin{equation}
+		\langle x,y \rangle = \sum_{i=1}^n a_i \overline{b_i}		
+	\end{equation}
+	when $F=R$, it is usually called \cindex{dot product} and denoted as $x \cdot y$.
+\end{definition}
+
+\begin{definition}
+	For $A \in M_{m \times n}(F)$, the \cindex{conjugate transpose} or \cindex{adjoint} of $A$ is $A^* \in M_{n \times m}(F)$ that $(A^*)_{ij} = A_{ji}$. If $A$ has real entries, $A^*$ is $A^\top$.
+\end{definition}
+
+\begin{definition}
+	A very important inner product space in $C[0,1]$ of continuous complex-valued function on interval $[0, 2\pi]$ is:
+	\begin{equation}
+		\langle f,g \rangle = \frac{1}{2\pi} \int_{0}^{2\pi} f(t) \overline{g(t)} dt
+	\end{equation}
+\end{definition}
+
+\begin{theorem}
+	properties of inner product:
+	\begin{itemize}
+		\item $\langle x, y+z \rangle = \langle x,y \rangle + \langle x,z \rangle$
+		\item $\langle x, cy \rangle = \overline{c} \langle x , y \rangle $
+		\item $\langle x,x \rangle = 0 \iff x = 0$
+	\end{itemize}
+\end{theorem}
+
+\begin{definition}
+	the \cindex{norm} or \cindex{length} of $x$ is $ \|x\| = \sqrt{\langle x,x \rangle} $.
+\end{definition}
+
+\begin{theorem}
+	the property of norm:
+	\begin{itemize}
+		\item $\| cx \| = |c| \cdot \| x \|$
+		\item $\|x\| = 0 \iff x = 0$
+		\item $|\langle x,y \rangle | \leq \|x\| \cdot \|y\|$
+		\item $\|x+y\| \leq \|x\| + \|y\| $
+	\end{itemize}
+\end{theorem}
+
+\begin{definition}
+	$x$ and $y$ are \cindex{orthogonal} if $\langle x,y\rangle = 0$. A subset $S$ of $V$ is orthogonal if any two vectors in $S$ are orthogonal. A subset $S$ of $V$ is \cindex{orthonormal} if $S$ is orthogonal and consists entirely of unit vectors.
+\end{definition}
+
+\begin{definition}
+	A \cindex{normalizing} to non-zero $x$ is $\dfrac{1}{\|x\|} x$.
+\end{definition}
+
+\begin{definition}
+	A \cindex{orthonormal basis} for $V$ is an ordered basis that is orthonormal.
+\end{definition}
+
+\begin{theorem}
+	let $S=\{ v_1, v_2, \dots, v_k \}$ be an orthogonal subset of $V$ consisting of non-zero vectors. If $y \in \text{span}(S)$, then
+	\begin{equation}
+		y = \sum_{i=1}^k \frac{\langle y, v_i \rangle}{\| v_i \|^2} v_i
+	\end{equation}
+	If $S$ is orthonormal, then
+	\begin{equation}
+		y = \sum_{i=1}^k \langle y, v_i \rangle v_i
+	\end{equation}
+\end{theorem}
+\begin{proof}
+	let $y = \sum\limits_{i=1}^k a_i v_i$. we have
+	\begin{equation*}
+		\langle y, v_j \rangle = \left \langle \sum_{i=1}^k a_i v_i, v_j \right \rangle = \sum_{i=1}^k a_i \langle v_i, v_j \rangle = a_j \| v_j \|^2
+	\end{equation*}
+	So $a_j = \frac{\langle y, v_j \rangle}{\|v_j\|^2}$.
+	
+	
+\end{proof}
+
+\begin{theorem}
+	an orthogonal subset of $V$ is linearly independent.
+\end{theorem}
+
+\begin{definition}
+	\cindex{Gram-Schmidt process}: let $S=\{w_1, w_2, \dots, w_n$ be linearly independent subset of $V$. Define $S^\prime=\{v_1,v_2,\dots,v_n  \}$, where $v_1=w_1$ and 
+	\begin{equation}
+		v_k = w_k - \sum_{j=1}^{k-1} \frac{\langle w_k,v_j \rangle}{\|v_j\|^2} v_j
+	\end{equation}
+	then $S^\prime$ is an orthogonal set of non-zero vectors that $\text{span}(S^\prime) = \text{span}(S)$.
+\end{definition}
+
+\begin{theorem}
+	$V$ has an orthonormal basis $\beta=\{v_1,v_2,\dots,v_n\}$ and $\forall x\in V$, 
+	\begin{equation}
+		x = \sum_{i=1}^n \langle x,v_i \rangle v_i
+	\end{equation}
+\end{theorem}
+
+\begin{theorem}
+	Let $V$ with an orthonormal basis $\beta=\{v_1,v_2,\dots,v_n\}$. $T$ is a linear operator on $V$ and let $A=[T]_\beta$. then $A_{ij}=\langle T(v_j), v_i\rangle$.
+\end{theorem}
+\begin{proof}
+	we have
+	\begin{equation*}
+		T(v_j) = \sum_{i=1}^n \langle T(v_j), v_i \rangle v_i
+	\end{equation*}
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

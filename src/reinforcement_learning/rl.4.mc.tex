@@ -1,0 +1,279 @@
+
+
+\section{Monte Carlo Methods}
+
+\subsection{Requirement}
+
+\begin{itemize}
+	\item need episode, so need to terminate
+	\item start only when episode ends
+	\item do not need model
+\end{itemize}
+
+Note: Monte Carlo Method is not a online method because it is not step-by-step method.
+
+\subsection{Prediction}
+
+\subsubsection{First Visit MC}
+
+\cindex{Monte Carlo} prediction has \cindex{first visit} and \cindex{every visit} methods.
+
+
+The \cindex{first visit} Algorithm (\ref{algo:fvmc}) is an unbiased estimate. 
+
+
+
+\begin{algorithm}
+	\caption{First visit MC, estimate $v_\pi$}\label{algo:fvmc}
+	
+	\begin{algorithmic}[1]
+		\State $\forall s \in \mathcal{S}, V(s) \gets random$
+		\State $\text{Returns}(s) \gets []$
+		
+		\Statex
+		
+		\Loop
+			\State generate an episode $\pi: S_0, A_0, R_1, S_1, A_1, R_2, \dots, S_{T-1}, A_{T-1}, R_T$
+			\State $G \gets 0$
+			\For{$t \gets T-1, T-2, \dots, 0$}
+				\State $G \gets \gamma G + R_{t+1}$
+				
+				\Comment{loop backward to find first appearance}
+				\If{$S_t \notin \{S_0, S_1, \dots, S_{t-1}\}$}
+					\State $\text{Returns}(S_t) \gets \text{Returns}(S_t) + G$
+					\State $V(S_t) \gets \text{average}(\text{Returns}(S_t))$
+				\EndIf
+			\EndFor
+		\EndLoop
+	\end{algorithmic}
+\end{algorithm}
+
+\subsection{Explore All State-Action Pair}
+
+In Monte Carlo control, the policy at $S_t$ need to explore all $q(S_t,A_t)$, which means the MC algorithm needs to cover all $\langle S_t, A_t \rangle$ pairs. There are two ways to achieve this:
+
+\begin{itemize}
+	\item exploring start. It might not be possible to enumerate all start.
+	\item $\varepsilon$-soft policy.
+\end{itemize}
+
+\subsubsection{Exploring Starts}
+
+It tries all $\langle S_t, A_t \rangle$ pairs as the first action. See Algorithm (\ref{algo:estart}) for detail.
+
+If model is not available, $q_\pi$ is preferred than $V_\pi$ because it does not need transition probability when calculating optimal policy. 
+
+
+\begin{algorithm}
+	\caption{first visit MCES (Exploring Starts), estimate $\pi_*$}\label{algo:estart}	
+	
+	\begin{algorithmic}[1]
+		\State $\pi(s) \in \mathcal{A}(s)$
+		\State $q(s,a) \in \mathbb{R}$
+		\State $\text{Returns}(s,a) \gets []$
+		
+		\Statex
+		
+		\Loop
+			\State choose $S_0$ and $A_0$ so all pairs will appear \Comment{exploring starts}
+			\State generate episode from $\langle S_0,A_0 \rangle$: $\pi: S_0, A_0, R_1,\dots, S_{T-1}, A_{T-1}, R_T$
+			\State $G \gets 0$
+			
+			\For{$t \gets T-1, T-2, \dots, 0$}
+				\State $G \gets \gamma G + R_{t+1}$
+				
+				\If{$\langle S_t, A_t \rangle \notin \{\langle S_0,A_0 \rangle,\langle S_1,A_1 \rangle, \dots,\langle S_{t-1}, A_{t-1} \rangle \}$}
+					\State $\text{Returns}(S_t, A_t) \gets \text{Returns}(S_t, A_t) + G$
+					\State $q(S_t, A_t) \gets \text{average}(\text{Returns}(S_t, A_t))$
+					\State $\pi (S_t) \gets \underset{a \in \mathcal{A}(S_t)}{\text{argmax}}\ q(S_t, a) $
+				\EndIf
+			\EndFor
+		\EndLoop
+	\end{algorithmic}
+\end{algorithm}
+
+\subsubsection{$\varepsilon$-soft Policy}
+
+In $\varepsilon$-soft policy, all $\langle S_t, A_t \rangle$ pairs are tried in the middle with non-zero probability:
+
+\begin{itemize}
+	\item \cindex{$\varepsilon$-soft} : $\pi(a|s) > \frac{\varepsilon}{\mathcal{A}(s)}$.
+	\item \cindex{$\varepsilon$-greedy} : see Algorithm (\ref{algo:fvmcsoft}) for detail.
+\begin{equation*}
+	\pi(a|s) = 	
+		\begin{cases}
+				\frac{\varepsilon}{\mathcal{A}(s)} & \text{, if } a \text{ is not the greedy choice} \\
+				1 - \varepsilon + \frac{\varepsilon}{\mathcal{A}(s)} & \text{, if } a  \text{ is the greedy choice}
+		\end{cases}
+\end{equation*}
+\end{itemize}
+
+
+
+\begin{algorithm}
+	\caption{first visit MC control ($\varepsilon$-greedy), estimate $\pi_*$}\label{algo:fvmcsoft}	
+	
+	\begin{algorithmic}[1]
+		\State $\pi \gets $ random $\varepsilon$-greedy policy
+		\State $q(s,a) \in \mathbb{R}$
+		\State $\text{Returns}(s,a) \gets []$
+		
+		\Statex
+		
+		\Loop
+			\State choose $S_0$ and $A_0$ \Comment{non-exploring start}
+			\State generate episode from $\langle S_0,A_0 \rangle$: $\pi: S_0, A_0, R_1, \dots, S_{T-1}, A_{T-1}, R_T$
+			\State $G \gets 0$
+			
+			\For{$t \gets T-1, T-2, \dots, 0$}
+				\State $G \gets \gamma G + R_{t+1}$
+				
+				\If{$\langle S_t, A_t \rangle \notin \{\langle S_0,A_0 \rangle,\langle S_1,A_1 \rangle, \dots,\langle S_{t-1}, A_{t-1} \rangle \}$}
+					\State $\text{Returns}(S_t, A_t) \gets \text{Returns}(S_t, A_t) + G$
+					\State $q(S_t, A_t) \gets \text{average}(\text{Returns}(S_t, A_t))$
+					\State $A^* \gets \underset{a \in \mathcal{A}(S_t)}{\text{argmax }} q(S_t, a) $
+					
+					\For{$a \in \mathcal{A}(S_t)$}   \Comment{$\varepsilon$-greedy}
+						\State \begin{equation*}
+							\pi(a|S_t) \gets \begin{cases}
+								1 - \varepsilon + \frac{\varepsilon}{\mathcal{A}(s)} & \text{,if } a = A^* \\
+								\frac{\varepsilon}{\mathcal{A}(s)} & \text{,if } a \neq A^*
+							\end{cases} 
+						\end{equation*}
+					\EndFor
+				\EndIf
+			\EndFor
+		\EndLoop
+	\end{algorithmic}
+\end{algorithm}
+
+\subsection{Off-policy prediction via Importance Sampling}
+
+\subsubsection{Target Policy}
+
+\begin{description}
+	\item[behavior policy] the policy $b$ used to generate behavior
+	\item[target policy] the policy $\pi$ being learned
+\end{description}
+
+It has the assumption of \cindex{coverage}: 
+\begin{equation}
+	\pi(a|s) > 0 \Rightarrow b(a|s) >0
+\end{equation}
+
+
+\subsubsection{Importance Sampling}
+
+The probability of $\{ A_t, S_{t+1},A_{t+1},\dots,S_T  \}$ under policy $\pi$ is (using Monte Carlo property):
+\begin{equation}
+	\mathbb{P} \{ A_t, S_{t+1},A_{t+1},\dots,S_T | S_t, A_{t:T-1} \sim \pi \} = \prod_{k=t}^{T-1} \pi(A_k|S_k)p(S_{k+1}|S_k,A_k)
+\end{equation}
+
+The \cindex{importance-sampling ratio} is:
+\begin{equation}\label{importancsamplingratio}
+	\rho_{t:T-1}^{\pi / b} = \frac{\prod\limits_{k=t}^{T-1} \pi(A_k|S_k)p(S_{k+1}|S_k,A_k)}{\prod\limits_{k=t}^{T-1} b(A_k|S_k)p(S_{k+1}|S_k,A_k)} = \prod_{k=t}^{T-1} \frac{\pi(A_k|S_k)}{b(A_k|S_k)}
+\end{equation}
+
+Let $\mathcal{T}$ denotes the set of all timestamps that $s$ is visited, $T(t)$ is the timestamp that the episode terminate following timestamp $t$, $G_t$ is the return between timestamp $t$ and $T(t)$. There are two different importance sampling:
+\begin{description}
+	\item [ordinary importance sampling] \begin{equation}
+		V(s) = \frac{\sum\limits_{t \in \mathcal{T}} \rho_{t:T-1}^{\pi/b} G_t}{|\mathcal{T}|}
+	\end{equation}
+	\item [weighted importance sampling] \begin{equation}
+		V(s) = \frac{\sum\limits_{t \in \mathcal{T}} \rho_{t:T-1}^{\pi/b} G_t}{\sum\limits_{t \in \mathcal{T}} \rho_{t:T-1}^{\pi/b}}
+	\end{equation}
+\end{description}
+
+For \cindex{first visit} method, \cindex{Ordinary importance sampling} is unbiased, with unlimited variance. So \cindex{weighted importance sampling} is preferred in practice.
+
+For \cindex{every visit} method, both sampling is biased which reduces to near zero when the number of sampling increases.
+
+
+In practice, \cindex{every visit} is preferred because it does not need to keep trace of which states have been visited.
+
+\subsection{Incremental Policy Evaluation}
+
+Incremental implementation need the following background. If we want to estimate 
+\begin{equation}
+	V_n = \frac{\sum\limits_{k=1}^{n-1} W_k G_k}{\sum\limits_{k=1}^{n-1} W_k}, n \geq 2
+\end{equation}
+
+$V_n$ could be incrementally updated by:
+\begin{equation}
+	V_{n+1} = V_n + \frac{W_n}{C_n} \Big( G_n - V_n \Big), n \geq 1
+\end{equation}
+
+where 
+\begin{equation*}
+	C_{n+1} = C_n + W_{n+1}
+\end{equation*}
+
+Algorithm (\ref{algo:opmcp}) implements incremental solution of weighted importance sampling:
+
+\begin{algorithm}
+	\caption{off-policy MC policy evaluation, estimate $q_\pi$}\label{algo:opmcp}	
+	
+	\begin{algorithmic}[1]
+		\State $Q(s,a) \in \mathbb{R}$
+		\State $C(s,a) \in 0$
+		
+		\Statex
+		
+		\Loop
+			\State $b \gets $ any policy with coverage of $\pi$
+			\State generate episode following $b$: $S_0, A_0,R_1, \dots, S_{T-1},A_{T-1},R_T$
+			\State $G \gets 0$
+			\State $W \gets 1$
+			\For{$t \gets T-1, T-2, \dots, 0$}
+				\State $G \gets \gamma G + R_{t+1}$
+				\State $C(S_t,A_t) \gets C(S_t,A_t) + W$ 
+				\State $Q(S_t,A_t) \gets Q(S_t,A_t) + \frac{W}{C(S_t,A_t)} \Big ( G - Q(S_t,A_t) \Big)$
+				\State $W \gets W \frac{\pi(A_t|S_t)}{b(A_t|S_t)}$
+				
+				\If{$W = 0$} \Comment{$\pi(A_t|S_t) = 0$}, $b$ does not cover $\pi$
+					\State exit  For loop
+				\EndIf
+			\EndFor
+		\EndLoop
+	\end{algorithmic}
+\end{algorithm}
+
+
+\subsection{Incremental Policy Control}
+
+The behavior policy $b$ need to be $\varepsilon$-soft.
+
+Algorithm (\ref{algo:opmcpc}) implements incremental control of weighted importance sampling:
+
+\begin{algorithm}
+	\caption{off-policy MC policy control, estimate $q_*$}\label{algo:opmcpc}	
+	
+	\begin{algorithmic}[1]
+		\State $Q(s,a) \in \mathbb{R}$
+		\State $C(s,a) \in 0$
+		\State $\pi(s) \gets \underset{a}{\text{argmax}} Q(s,a)$
+		
+		\Statex
+		
+		\Loop
+			\State $b \gets $ any $\varepsilon$-soft policy
+			\State generate episode following $b$: $S_0, A_0,R_1, \dots, S_{T-1},A_{T-1},R_T$
+			\State $G \gets 0$
+			\State $W \gets 1$
+			\For{$t \gets T-1, T-2, \dots, 0$}
+				\State $G \gets \gamma G + R_{t+1}$
+				\State $C(S_t,A_t) \gets C(S_t,A_t) + W$ 
+				\State $Q(S_t,A_t) \gets Q(S_t,A_t) + \frac{W}{C(S_t,A_t)} \Big( G - Q(S_t,A_t) \Big)$
+				\State $\pi(S_t) \gets \underset{a}{\text{argmax}}\  Q(S_t,a)$
+				
+				\If{$A_t \neq \pi(S_t)$}
+					\State exit  For loop
+				\EndIf
+				
+				\State $W \gets W \frac{1}{b(A_t|S_t)}$ \Comment{$\pi(A_t|S_t) = 1$ because it is greedy}
+			\EndFor
+		\EndLoop
+	\end{algorithmic}
+\end{algorithm}
+
+

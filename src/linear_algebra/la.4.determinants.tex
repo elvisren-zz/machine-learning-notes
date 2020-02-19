@@ -1,0 +1,99 @@
+\section{Determinants}
+
+\begin{definition}
+	Let $A \in M_{n \times n} (F)$. If $n =1$, let $A=(A_{11})$ and we define $\text{det}(A) = A_{11}$. For $n \geq 2$, $\text{det}(A)$ (or $|A|$) is defined as
+	\begin{equation}
+		|A| = \sum_{j=1}^n (-1)^{i + j} A_{ij} \times |\tilde{A}_{ij} |
+	\end{equation}
+	
+	where $\tilde{A}_{ij}$ is obtained from $A$ by deleting row $i$ and column $j$.
+	
+	$(-1)^{i + j} A_{ij} \times |\tilde{A}_{ij} |$ is called the \cindex{cofactor} of $A$ in row $i$ and column $j$.
+\end{definition}
+
+
+The effect of elementary row operation on the determinant of a matrix $A$ is:
+\begin{enumerate}
+    \item interchange any two rows: $|B| = - |A|$.
+    \item multiply a row: $|B| = k |A|$.
+    \item add a multiple of a row to another: $|B| = |A|$.
+\end{enumerate}
+
+If the determinate is calculated using cofactor operation, the performance is $n!$ multiplication. However if it is calculated using elementary row operation, the performance is $(n^3 + 2n - 3)/3$ multiplication.
+
+\begin{theorem}
+	\begin{equation}
+		|AB| = |A| \times |B|
+	\end{equation}
+\end{theorem}
+
+\begin{theorem}
+	A matrix $A \in M_{n \times n}(F)$ is invertible $\Leftrightarrow$ $\text{det}(A) \neq 0$. If it is invertible, $|A^{-1}| = \dfrac{1}{|A|}$
+\end{theorem}
+
+\begin{theorem}[\cindex{Cramer's Rule}]
+	Let $Ax=b$ be a system of $n$ equation with $n$ unknowns. If $|A| \neq 0$, the system has a unique solution:
+	\begin{equation}
+		x_k = \frac{|M_k|}{|A|}
+	\end{equation}
+	
+	where $M_k$ is a $n\times n$ matrix obtained from $A$ by replacing column $k$ of $A$ by $b$.
+\end{theorem}
+
+\begin{proof}
+	Let $a_k$ be the $k$th column of $A$ and $X_k$ denote the matrix obtained from replacing the column $k$ of identity matrix $I_n$ by $x$. Then $A X_k = M_k$:
+	\begin{equation*}
+	\begin{aligned}
+        A X_k &= A \begin{pmatrix}
+			1 &   &   & x &   \\
+			 & 1 &  & x &   \\
+			 && \ddots &  \vdots \\
+			&&& x & \\
+			&&& \vdots & \ddots \\
+			&&& x&   & 1 
+		\end{pmatrix} \\
+		&= [Ae_1, Ae_2, \dots, Ax, \dots, Ae_n] \\
+		& = [a_1, a_2, \dots, b, \dots, a_n] \\
+		&= M_k
+		\end{aligned}
+    \end{equation*}
+	
+	
+	Evaluate $X_k$ by cofactor expansion along row $k$ produces
+	\begin{equation*}
+		|X_k| = x_k \times |I_{n-1}| = x_k
+	\end{equation*}
+	
+	Hence 
+	\begin{equation*}
+		|M_k| = |A X_k| = |A| \times |X_k| = |A| \times x_k
+	\end{equation*}
+	
+	Therefore
+	\begin{equation*}
+		x_k = \frac{|M_k|}{|A|}
+	\end{equation*}
+\end{proof}
+
+Note: Cramer's Rule is too slow for real world calculation.
+
+\begin{theorem}
+	For a matrix $A \in M_{n\times n}(F)$, $||A||$ is the \cindex{n-dimensional volume} of the parallelepiped having vector $a_i$ as adjacent sides.
+\end{theorem}
+
+
+\begin{theorem}
+    A square matrix is invertible $\iff$ its determinant is non-zero.
+\end{theorem}
+
+\begin{theorem}
+    The inverse of invertible square matrix A is:
+    \begin{equation*}
+        A^{-1} = C^\top 
+    \end{equation*}
+    where 
+    \begin{equation*}
+        C_{ij} = (-1)^{i+j}|\tilde{A}_{ij}|
+    \end{equation*}
+\end{theorem}
+

@@ -1,0 +1,287 @@
+\section{Policy Gradient}
+
+\subsection{Policy Approximation}
+
+The action $\pi(a|s, \theta ) = \mathbb{P}\{ A_t=a|S_t=s,\theta_t=\theta \}$ is a random variable. 
+
+
+The problem is to maximize performance measure $\mathcal{J}(\theta)$:
+\begin{equation}\label{maxperformancemeasure}
+	\theta_{t+1} = \theta_t + \alpha \nabla \widehat{\mathcal{J}(\theta_t)}
+\end{equation}
+
+All methods that follow this schema is called \cindex{policy gradient methods}. 
+
+The benefit of \cindex{policy gradient}:
+\begin{itemize}
+	\item continuous action space
+	\item can learn stochastic policy
+	\item no maximization cost which is slow
+\end{itemize}
+
+The disadvantage of \cindex{policy gradient}:
+\begin{itemize}
+	\item converge to local optimum rather than global
+\end{itemize}
+
+why it is a maximization problem: 
+\begin{itemize}
+	\item in value prediction, the policy is fixed and the value need to converge to a theoretical result. So the error need to be minimized.
+	\item in value control, the optimal policy is incrementally updated. However, the optimal policy is a deterministic result of updated value function.
+	\item in policy gradient, the goal is to maximize result.
+\end{itemize}
+
+
+
+In practice, in order to ensure exploration we require the policy is never deterministic, i.e., $\pi(a|s, \theta) \in (0,1)$. 
+
+If the action space is discrete and not too large, we can use \cindex{softmax} for numerical preference state-action pair $e^{h(s,a,\theta)}$:
+\begin{equation}
+	\pi(a|s, \theta) = \frac{e^{h(s,a,\theta)}}{\sum_b e^{h(s,a,\theta)}}
+\end{equation}
+
+The \cindex{softmax} could be used with $\varepsilon$-greedy to achieve non-deterministic policy. For some problem the best approximate policy may be stochastic.
+
+For some problem the action value function may have simpler presentation, while for some the policy gradient is simpler.
+
+\subsection{Policy Gradient Theorem}
+
+The \cindex{policy gradient theorem} says:
+\begin{equation}
+	\nabla \mathcal{J}(\theta ) \propto \sum_s \mu(s) \sum_a q_\pi (s,a) \nabla \pi(a|s, \theta )
+\end{equation}
+
+In episodic case, the constant of proportionality is the average length of the episode. In continuous case it is $1$. The $\mu$ here is the distribution of $s$ under policy $\pi$.
+
+The proof is:
+\begin{equation}
+	\begin{aligned}
+		\nabla v_\pi(s) &= \nabla \left[\sum_a \pi(a|s) q_\pi(s,a) \right] \\
+		&= \sum_a \Big[ \nabla \pi(a|s) q_\pi(s,a) + \pi(a|s) \nabla q_\pi(s,a) \Big] \\
+		&= \sum_a \Big[ \nabla \pi(a|s) q_\pi(s,a) + \pi(a|s) \nabla \sum_{s^{'},r} p(s',r|s,a) (r + v_\pi(s'))\Big] \\
+		&= \sum_a \Big[ \nabla \pi(a|s) q_\pi(s,a) + \pi(a|s)\sum_{s'} p(s'|s,a) \nabla v_\pi(s') \Big] \\
+		&= \sum_a \Big[  \nabla \pi(a|s) q_\pi(s,a) + \pi(a|s) \sum_{s'} p(s'|s,a) \\
+		& \ \ \ \sum_{a'}\big[ \nabla \pi(a'|s')q_\pi(s',a') + \pi(a'|s') \sum_{s''} p(s''|s',a') \nabla v_\pi(s'') \big] \Big] \\
+		&= \sum_{x \in \mathcal{S}} \left( \sum_{k=0}^\infty \mathbb{P}(s \rightarrow x, k, \pi ) \right) \sum_a \nabla \pi(a|x) q_\pi(x,a)
+	\end{aligned}
+\end{equation}
+
+where $\mathbb{P}(s \rightarrow x, k, \pi )$ is the probability of transition from state $s$ to state $x$ in $k$ steps under policy $\pi$. So:
+\begin{equation}
+	\begin{aligned}
+		\nabla \mathcal{J}(\theta ) &= \nabla v_\pi(s_0) \\
+		&= \sum_{s} \left( \sum_{k=0}^\infty \mathbb{P}(s_0 \rightarrow x, k, \pi ) \right) \sum_a \nabla \pi(a|x) q_\pi(x,a) \\
+		&= \sum_s \eta(s) \sum_a \nabla \pi(a|s) q_\pi(s,a) \\
+		&= \sum_{s'} \eta(s') \sum_s \frac{\eta(s)}{\sum_{s'} \eta{s'}} \sum_a \nabla \pi(a|s) q_\pi(s,a) \\
+		&= \sum_{s'} \eta(s') \sum_s \eta{s} \sum_a \nabla \pi(a|s) q_\pi(s,a) \\
+		&\propto \sum_s \mu(s) \sum_a \nabla \pi(a|s) q_\pi(s,a)
+	\end{aligned}
+\end{equation}
+
+\subsection{REINFORCE: Monte Carlo Policy Gradient}
+
+\cindex{REINFORCE} has \cindex{actor} but no \cindex{critic}. It use Monte Carlo method to calculate the $G$ directly without calculating the value function.
+
+\begin{equation}
+	\begin{aligned}
+		\nabla \mathcal{J}(\theta ) &\propto \sum_s \mu(s) \sum_a \nabla \pi(a|s,\mathbb{\theta} ) q_\pi(s,a) \\
+		&= \mathbb{E}_\pi \left[ \sum_a q_\pi(S_t,a) \nabla \pi(a|S_t,\mathbb{\theta}) \right] \\
+		&= \mathbb{E}_\pi \left[ \sum_a q_\pi(S_t,a) \pi(a|S_t,\theta) \frac{\nabla \pi(a|S_t,\mathbb{\theta})}{\pi(a|S_t,\mathbb{\theta})} \right] \\
+		&= \mathbb{E}_\pi \left[ q_\pi(S_t,A_t) \frac{\nabla \pi(A_t|S_t,\mathbb{\theta})}{\pi(A_t|S_t,\mathbb{\theta})} \right] \\
+		&= \mathbb{E}_\pi \left[ G_t \frac{\nabla \pi(A_t|S_t,\mathbb{\theta})}{\pi(A_t|S_t,\mathbb{\theta})} \right] \\
+		&= \mathbb{E}_\pi \Big[ G_t \nabla \log \pi(A_t|S_t,\mathbb{\theta}) \Big] 
+	\end{aligned}
+\end{equation}
+
+So formula (\ref{maxperformancemeasure}) is now:
+\begin{equation}\label{policygradientexpectation}
+	\begin{aligned}
+		\theta_{t+1} &= \theta_t + \alpha \nabla \widehat{\mathcal{J}(\theta_t)} \\
+		&= \theta_t + \alpha  G_t \nabla \log \pi(A_t|S_t,\mathbb{\theta})
+	\end{aligned}
+\end{equation}
+
+Here $G_t$ is the return in Monte Carlo cases.
+
+Algorithm (\ref{algo:reinforcemontecarlo}) contains detail.
+
+Formula (\ref{policygradientexpectation}) has many forms:
+\begin{equation}
+	\begin{aligned}
+		\nabla \widehat{\mathcal{J}(\theta_t )} &= \mathbb{E}_\pi \Big[ \nabla \log \pi(A_t|S_t,\mathbb{\theta}) G_t \Big] \\
+		&= \mathbb{E}_\pi \Big[  \nabla \log \pi(A_t|S_t,\mathbb{\theta})v_t \Big]  \\
+		&= \mathbb{E}_\pi \Big[ \nabla \log \pi(A_t|S_t,\mathbb{\theta})q_t(s,a)  \Big] \\
+		&= \mathbb{E}_\pi \Big[\nabla \log \pi(A_t|S_t,\mathbb{\theta}) \delta_t  \Big]		
+	\end{aligned}
+\end{equation}
+
+\begin{algorithm}
+	\caption{REINFORE: Monte Carlo control for $\pi_*$}\label{algo:reinforcemontecarlo}	
+	
+	\begin{algorithmic}[1]
+		\State $ \theta \in \mathbb{R}^d $
+		\State $\gamma$: the discount rate
+		
+		\Statex
+		
+		\Loop
+			\State generate episode $S_0,A_0,R_1,\dots,S_{T-1},A_{T-1},R_T$ following $\pi(\cdot|\cdot, \theta)$
+			\For{$t \in [0,1,\dots,T-1]$}
+				\State $G \gets \sum_{k=t+1}^T \gamma^{k-t-1} R_k$
+				\State $\theta \gets \theta + \alpha \gamma^t G \nabla \log \pi(A_t|S_t,\theta) $
+			\EndFor
+		\EndLoop		
+	\end{algorithmic}
+\end{algorithm}
+
+\subsection{Baseline}
+
+A \cindex{baseline} is an arbitrary function $b(s)$ that does not vary with $a$:
+\begin{equation}
+	\nabla \mathcal{J}(\theta ) \propto \sum_s \mu(s) \sum_a \nabla \pi(a|s,\mathbb{\theta} ) \Big( q_\pi(s,a) - b(s)\Big)
+\end{equation}
+
+It is ok to add \cindex{baseline} because it has no effect:
+\begin{equation}
+	\begin{aligned}
+		\sum_a b(s)\nabla \pi(a|s,\theta) &= b(s) \nabla \sum_a \pi(a|s,\theta) \\
+		&= b(s) \nabla 1 \\
+		&= 0
+	\end{aligned}
+\end{equation}
+
+So the REINFORCE update now becomes:
+\begin{equation}
+	\theta_{t+1} = \theta_t + \alpha \Big( G_t - b(S_t) \Big) \nabla \log \pi(A_t|S_t,\mathbb{\theta})
+\end{equation}
+
+One good choice of $b(s)$ is the state value $\widehat{v}(S_t,\mathbf{W})$. It is called \cindex{advantage function}:
+
+\begin{equation}
+	A(s,a) = Q(s,a) - V(s)	
+\end{equation}
+
+
+For optimal $A^*$, the \cindex{advantage function} becomes:
+\begin{equation}
+	\begin{aligned}
+		A^*(s,a) &= Q^*(s,a) - V^*(s)\\
+		&= \begin{cases}
+			0 & \text{, if } a = a^* \\
+			<0 & \text{, if } a \neq a^*
+		\end{cases}
+	\end{aligned}
+\end{equation}
+
+
+Because REINFORCE is a Monte Carlo learning algorithm, it is natural to learn $\widehat{v}$ using Monte Carlo as well.
+
+
+
+
+Algorithm (\ref{algo:reinforcemontecarlowithbase}) contains detail. In algorithm, in linear case $\alpha^\mathbf{W} = \frac{0.1}{\mathbb{E} \big[ \| \nabla \widehat{v}(S_t,\mathbf{W}) \|_\mu^2 \big]}$, while the best value of $\alpha^\theta$  depends on the problem.
+
+\begin{algorithm}
+	\caption{REINFORE with baseline for $\pi_*$}\label{algo:reinforcemontecarlowithbase}	
+	
+	\begin{algorithmic}[1]
+		\State $ \theta \in \mathbb{R}^d $ such as $0$
+		\State $\gamma$: the discount rate
+		\State $\alpha^\theta > 0$
+		\State $\alpha^{\mathbf{W}} > 0$
+		
+		\Statex
+		
+		\Loop
+			\State generate episode $S_0,A_0,R_1,\dots,S_{T-1},A_{T-1},R_T$ following $\pi(\cdot|\cdot, \theta)$
+			\For{$t \in [0,1,\dots,T-1]$}
+				\State $G \gets \sum_{k=t+1}^T \gamma^{k-t-1} R_k$
+				\State $\delta \gets G - \widehat{v}(S_t, \mathbf{W})$
+				\State $\mathbf{W} \gets \mathbf{W} + \alpha^{\mathbf{W}} \gamma^t \delta \nabla \widehat{v}(S_t, \mathbf{W}) $ \Comment{learn $\widehat{v}$ by TD(0) }
+				\State $\theta \gets \theta + \alpha^\theta \gamma^t G \nabla \log \pi(A_t|S_t,\theta) $
+			\EndFor
+		\EndLoop		
+	\end{algorithmic}
+\end{algorithm}
+
+\subsection{Actor-Critic Methods}
+
+In \cindex{actor-critic methods}, \cindex{actor} refers to learned policy and \cindex{critic} refers to learned value function, usually a state-value function:
+\begin{description}
+	\item [actor] update $Q$ by policy gradient
+	\item [critic] update $w$ by TD(0)
+\end{description}
+
+In REINFORCE with baseline case it only calculate policy, but not value function. And it is not a bootstrapping method. Bootstrapping is good because it reduce variance and accelerate learning speed, although it is biased. 
+
+\cindex{actor} learning alone is slow, so need the help of \cindex{critic}.
+
+The change is to use $G_{t:t+1}$ instead of $G_t$:
+
+\begin{equation}
+	\begin{aligned}
+		\theta_{t+1} &= \theta_t + \alpha \Big( G_{t:t+1} - b(S_t) \Big) \nabla \log \pi(A_t|S_t,\mathbb{\theta}) \\
+		&= \theta_t + \alpha \Big( R_{t+1} + \gamma \widehat{v}(S_{t+1},\mathbf{W}) - b(S_t) \Big) \nabla \log \pi(A_t|S_t,\mathbb{\theta})
+	\end{aligned}
+\end{equation}
+
+The forward algorithm is (\ref{algo:actorcriticforward}) and the backward algorithm is (\ref{algo:actorcriticbackward}).
+
+
+\begin{algorithm}
+	\caption{one-step Actor-Critic forward view for $\pi_*$}\label{algo:actorcriticforward}	
+	
+	\begin{algorithmic}[1]
+		\State $ \theta \in \mathbb{R}^d $ such as $0$
+		\State $\gamma$: the discount rate
+		\State $\alpha^\theta > 0$
+		\State $\alpha^{\mathbf{W}} > 0$
+		
+		\Statex
+		
+		\Loop
+			\State initialize $S$
+			\State $I \gets 1$
+			\Repeat
+				\State $A \sim \pi(\cdot|S,\theta)$
+				\State take action $A$, observe $S', R$
+				\State $\delta \gets R + \gamma \widehat{v}(S',\mathbf{W}) - \widehat{v}(S,\mathbf{W})$ \Comment{$\widehat{v}(S',\mathbf{W})=0$ if $S'$ is terminal}
+				\State $\mathbf{W} \gets \mathbf{W} + \alpha^{\mathbf{W}} I \delta \nabla \widehat{v}(S, \mathbf{W}) $
+				\State $\theta \gets \theta + \alpha^\theta I \delta \nabla \log \pi(A|S,\theta) $
+				\State $I \gets \gamma I$
+				\State $S \gets S'$
+			\Until{$S$ is terminal}
+		\EndLoop		
+	\end{algorithmic}
+\end{algorithm}
+
+
+\begin{algorithm}
+	\caption{Actor-Critic with eligibility trace, backward view for $\pi_*$}\label{algo:actorcriticbackward}	
+	
+	\begin{algorithmic}[1]
+		\State $ \theta \in \mathbb{R}^d $ such as $0$
+		\State $\gamma$: the discount rate
+		\State $\alpha^\theta > 0$
+		\State $\alpha^{\mathbf{W}} > 0$
+		
+		\Statex
+		
+		\Loop
+			\State initialize $S$
+			\State $I \gets 1$
+			\Repeat
+				\State $A \sim \pi(\cdot|S,\theta)$
+				\State take action $A$, observe $S', R$
+				\State $\delta \gets R + \gamma \widehat{v}(S',\mathbf{W}) - \widehat{v}(S,\mathbf{W})$ \Comment{$\widehat{v}(S',\mathbf{W})=0$ if $S'$ is terminal}
+				\State $z^\mathbf{W} \gets \gamma \lambda^\theta z^\mathbf{W} + I \nabla \widehat{v}(S,\mathbf{W})$
+				\State $z^\theta \gets \gamma \lambda^\theta z^\theta + I \nabla \log \pi(A|S, \theta)$
+				\State $\mathbf{W} \gets \mathbf{W} + \alpha^\mathbf{W} \delta z^\mathbf{W}$
+				\State $\theta \gets \theta + \alpha^\theta \delta z^\theta$
+				\State $I \gets \gamma I$
+				\State $S \gets S'$
+			\Until{$S$ is terminal}
+		\EndLoop	
+	\end{algorithmic}
+\end{algorithm}
+

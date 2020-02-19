@@ -1,0 +1,175 @@
+
+
+
+\section{Dynamic Programming}
+
+DP are effective for medium size problems (million of states).
+
+\subsection{Policy Evaluation (Prediction)}
+
+If $P$ and $\pi$ are known, Bellman equation (\ref{bellman:v}) could be converted to iterative solution. All $V$ are randomly initialized and updated using \cindex{iterative policy evaluation}:
+
+\begin{equation}
+	V_{k+1} (s) = \sum_a \pi (a | s) \left ( \sum_{s',r} p(s',r | s,a) \Big ( r + \gamma V_{k}(s') \Big ) \right )
+\end{equation}
+
+Here $V_{t+1}(s)$ means the value of $V(s)$ in $(t+1)$ round.
+
+There are two ways to update $V_{t+1}(s)$:
+\begin{itemize}
+	\item copy $V_{t+1}(s)$ to a new array and update original array when sweeping is done
+	\item \cindex{in-place} update: update $V(s)$ on the fly. updated value may be used immediately so it is faster than two array solution.
+\end{itemize}
+
+
+The problem is that iterative algorithm \cindex{sweep} through all state space, which might not be practical.
+
+See Algorithm (\ref{algo:itepole}) for detail.
+
+\begin{algorithm}
+	\caption{Iterative policy evaluation, estimate $V_\pi$}\label{algo:itepole}
+	
+	\begin{algorithmic}[1]
+		\Procedure{}{$\pi, p, \theta$}
+			\State $\forall s \in S, V(s) \gets random$
+			\State $V(terminal) \gets 0$
+			\Repeat
+				\State $\Delta \gets 0$
+				\For{$s \in S$}
+					\State $v \gets V(s)$
+					\State \Comment{in-place update}
+					\State $V(s) \gets \sum\limits_a \pi (a | s) \left ( \sum\limits_{s',r} p(s',r | s,a) \big(r + \gamma V(s') \big ) \right )$ 
+					\State $\Delta \gets \max{}(v, |v - V(s)|)$
+				\EndFor
+			\Until{$\Delta < \theta$}
+		\EndProcedure
+	\end{algorithmic}
+
+\end{algorithm}
+
+
+\subsection{Policy Improvement}
+
+The reason for calculating value function is to help find a better policy. A new greedy policy $\pi^{\prime}$ could be calculated using:
+
+\begin{equation}
+	\begin{aligned}
+		\pi^{\prime}(s) &= \underset{a \in \mathcal{A}(s)}{\text{argmax}} \ q_{\pi}(s,a)\\
+		&=\underset{a \in \mathcal{A}(s)}{\text{argmax}}\ \sum_{s',r} p(s',r|s,a)\Big ( r+\gamma V(s') \Big )
+	\end{aligned}
+\end{equation}
+
+A series of policy evaluation and improvement will converge to optimal result, and its conversion is very fast. 
+
+The drawback is that every iteration may trigger evaluation, which involves multiple sweep through all state space.
+
+See Algorithm (\ref{algo:polite}) for detail.
+
+
+\begin{algorithm}
+	\caption{Policy Iteration, estimate $V_*$ and $\pi_*$}\label{algo:polite}
+	
+	\begin{algorithmic}[1]
+		\State $\forall s \in \mathcal{S}, V(s) \gets random$
+		\State $V(terminal) \gets 0$
+		\State $\pi(s) \gets \text{random}(\mathcal{A}(s))$
+		
+		\Statex
+		
+		\Procedure{PolicyEvaluation}{$\varepsilon$}
+			\Repeat
+				\State $\Delta \gets 0$
+				\For{$s \in \mathcal{S}$}
+					\State $v \gets V(s)$
+					\State $V(s) \gets \sum\limits_{s',r} p(s',r|s,\pi(s))\big (r+\gamma V(s') \big )$ \Comment{$\pi(s)$ : use optimal policy}
+					\State $\Delta \gets \max (\Delta, |v - V(s)|)$
+				\EndFor
+			\Until{$\Delta < \varepsilon$}
+		\EndProcedure
+		
+		\Statex
+		
+		\Procedure{PolicyImprovement}{}
+			\State $\text{stable} \gets \text{TRUE}$
+			\For{$s \in \mathcal{S}$}
+				\State $old \gets \pi(s)$
+				\State $\pi(s) \gets \underset{a \in \mathcal{A}(s)}{\text{argmax}}\ \sum\limits_{s',r}P(s',r|s,a) \big (r+\gamma V(s') \big )$
+				\If{$old \neq \pi(s)$}
+					\State $\text{stable} \gets \text{FALSE}$
+				\EndIf
+			\EndFor
+			\If{$\text{stable}$}
+				\Return $(V_*,\pi_*)$
+			\Else
+				\State \Call{PolicyEvaluation}{$\varepsilon$} \Comment{update $V$ if optimal policy has changed}
+			\EndIf
+		\EndProcedure
+	\end{algorithmic}
+\end{algorithm}
+
+\subsection{Value Iteration}
+
+In policy iteration, multiple sweep can be reduce to one by taking the best action, and calculate optimal policy using (\ref{optimal:policy}):
+
+\begin{equation}
+	\begin{aligned}
+		V_{k+1}^{old} (s) &= \sum_{s',r} p(s',r|s,\pi(s))\big (r+\gamma V_k(s') \big ) \\
+		V_{k+1}^{new} (s) &= \underset{a}{\max} \sum_{s',r} p(s',r|s,a) \big (r+\gamma V_k(s') \big )
+	\end{aligned}
+\end{equation}
+
+See Algorithm (\ref{algo:valite}) for detail.
+
+\begin{algorithm}
+	\caption{Value Iteration, estimate $\pi_*$}\label{algo:valite}
+	
+	\begin{algorithmic}[1]
+		\State $\forall s \in S, V(s) \gets random$
+		\State $V(terminal) \gets 0$
+		
+		\Statex
+		
+		\Repeat
+			\State $\Delta \gets 0$
+			\For{$s \in S$}
+				\State $v \gets V(s)$
+				\State \Comment policy evaluation and improvement
+				\State $V(s) \gets \underset{a}{\max}\ \sum\limits_{s',r} p(s',r|s,a) \big ( r+\gamma V(s') \big )$ 
+				\State $\Delta \gets \max (\Delta, |v - V(s)|)$
+			\EndFor
+		\Until{$\Delta < \theta$}
+		
+		\State \Return $\pi_*(s)= \underset{a}{\text{argmax}} \ \sum\limits_{s',r} p(s',r|s,a) \big (r+\gamma V(s') \big )$
+	\end{algorithmic}
+\end{algorithm}
+
+\subsection{Generalized Policy Iteration}
+
+\cindex{Generalized Policy Iteration} (GPI) is a series of evaluation and improvement process. Almost all reinforcement learning methods are GPI.
+
+
+\subsection{Performance}
+
+DP is exponentially faster than direct \cindex{policy space search}.
+
+DP is better than \cindex{linear programming methods} for large problem, but worse for small problem.
+
+
+The \cindex{curse of dimension} is not the problem of algorithm but the problem itself.
+
+The time complexity for $v$ is $O(mn^2)$ and for $q$ is $O(m^2 n^2)$, where $m$ is the number of action and $n$ is the number of state. So DP is effective for medium size problems (million of states).
+
+\subsection{Extension to Sweeping}
+
+\subsubsection{Prioritized Sweeping}
+
+backup the state with the maximum \cindex{Bellman error}:
+\begin{equation}
+	\left| \max_{ a \in \mathcal{A}} \left( \mathcal{R}
+	+ \gamma \sum_{s' \in S} \mathcal{P}_{ss'}^a v(s') \right) - v(s) \right|
+\end{equation}
+
+\subsubsection{Realtime Dynamic Programming}
+
+Choose the state that are relevant to agent.
+

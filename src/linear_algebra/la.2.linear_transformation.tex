@@ -1,0 +1,547 @@
+\section{Linear Transformation and Matrix}
+
+\subsection{Linear Transformation}
+
+
+\begin{definition}
+	a \cindex{linear transformation}  from $V$ to $W$ is a function $\mathrm{T}: V \rightarrow W$ that:
+	\begin{enumerate}
+		\item $\mathrm{T}(x+y) = T\mathrm{T}(x) + \mathrm{T}(y)$
+		\item $\mathrm{T}(c x) = c T(x)$
+	\end{enumerate}
+\end{definition}
+
+The two linear transformation verification criteria could be combined into one: prove that 
+\begin{equation}
+    \mathrm{T}(cx + y) = c\mathrm{T}x+\mathrm{T}y
+\end{equation}
+
+
+The \cindex{identity transformation}  $\mathrm{I}_v : V \rightarrow V$ is defined as $\mathrm{I}_v(x) = x$.
+
+The \cindex{zero transformation}  $\mathrm{T}_0: V \rightarrow W$ is defined as $\mathrm{T}_0 = 0$.
+
+\begin{definition}
+	Let $\mathrm{T}:V \rightarrow W$ be linear. the \cindex{null space}  $N(\mathrm{T})$ of $\mathrm{T}$ is the set $\{x \in V : \mathrm{T}(x) = 0 \}$. it is also called the \cindex{kernel} of $\mathrm{T}$. It measures how much  information is lost by the transformation $\mathrm{T}$.
+\end{definition}
+
+\begin{definition}
+	The \cindex{range}  of $\mathrm{T}$ is defined as $R(T) = \{ {\mathrm{T}(x):x \in V} \}$. It measures how much information is retained by the transformation $\mathrm{T}$.
+\end{definition}
+
+\begin{theorem}
+	Let $\mathrm{T}: V \rightarrow W$ be linear. If $\beta=\{v_i\}$ is a basis for $V$, then
+	\begin{equation}
+		R(\mathrm{T}) = \text{span}(\mathrm{T}(\beta)) = \text{span}( \{ \mathrm{T}(v_i) \} )
+	\end{equation}
+\end{theorem}
+
+\begin{definition}
+	Let $\mathrm{T}: V \rightarrow W$ be linear. the \cindex{nullity}  of $\mathrm{T}$ is the dimension of $N(\mathrm{T})$. The \cindex{rank} \label{rankdefinition} of $\mathrm{T}$ is the dimension of $R(T)$.
+\end{definition}
+
+\begin{theorem}[\cindex{Dimension Theorem}]
+	If $V$ is finite dimensional, $\mathrm{T}:V\rightarrow W$ is linear, then
+	\begin{equation}
+		\text{nullity}(\mathrm{T})  + \text{rank}(\mathrm{T}) = \text{dim}(\mathrm{T})
+	\end{equation}
+\end{theorem}
+
+\begin{proof}
+	expand nullity set to a basis and prove the image of extra parameters are independent.
+\end{proof}
+
+\begin{theorem}\label{uniquelineartransformation}
+	Let $V:\{v_i \}$ and $W:\{w_i \}$ be vector space over $F$, and their dimensions are the same. Then there exists a unique linear transformation $\mathrm{T}:V\rightarrow W$ such that $\mathrm{T}(v_i) = w_i$.
+\end{theorem}
+
+\begin{proof}
+    For $x = \sum_{i=1}^{n} a_i v_i$, define $\mathrm{T}:V \rightarrow W$ that $\mathrm{T}(x) = \sum_{i=1}^n a_i w_i$.
+\end{proof}
+
+Theorem (\ref{uniquelineartransformation}) is useful when proving two functions are the same.
+
+\subsection{Matrix Representation}
+
+\begin{definition}
+	A \cindex{ordered basis}  for $V$ is a basis for $V$ with a specific order.
+\end{definition}
+
+\begin{definition}
+	$\{e_1, e_2, \dots, e_n \}$ is the \cindex{standard ordered basis}  for $F^n$. $\{1, x, \dots, x^n \}$ is the \cindex{standard ordered basis}  for $P_n (F)$.
+\end{definition}
+
+\begin{definition}
+	Let $\beta = \{u_1, u_2, \dots, u_n \}$ be an ordered basis for $V$. $\forall x \in V$, let $a_1, a_2, \dots, a_n$ be the unique scalar such that
+	\begin{equation*}
+		x = \sum_{i=1}^n a_i u_i
+	\end{equation*}
+	
+	the \cindex{coordinate vector}  of $x$ relative to $\beta$, is defined as 
+	\begin{equation}
+		[x]_\beta = \left [
+		\begin{matrix}
+		a_1 \\
+		a_2 \\
+		\vdots \\
+		a_n
+		\end{matrix}
+		\right ]
+	\end{equation}
+	
+	Note that $[u_i]_\beta = e_i$.
+\end{definition}
+
+\begin{definition}
+	Let $V$ with ordered basis $\beta=\{ v_i \}$, $W$ with ordered basis $\gamma:\{w_i\}$, $\mathrm{T}:V \rightarrow W$ be linear. There exists unique scala $a_{ij} \in F$ such that
+	\begin{equation}
+		\mathrm{T}(v_j) = \sum_{i=1}^m a_{ij} w_j
+	\end{equation}
+	
+	The $m \times n$ matrix $A$ defined by $A_{ij}=a_{ij}$ is the \cindex{matrix representation}  of $\mathrm{T}$ in the ordered basis $\beta$ and $\gamma$ and write $A=[\mathrm{T}]_\beta^\gamma$. If $V = W$ and $\beta = \gamma$, we write $A=[\mathrm{T}]_\beta$.
+\end{definition}
+
+	Note that the $j$th column of $A$ is $[\mathrm{T}(v_j)]_\gamma$: $[\mathrm{T}]_\beta^\gamma = [\dots, [\mathrm{T}(v_j)]_\gamma, \dots ]$.
+	
+	Note that $\mathrm{T}$ is the relationship between two basis. The value of $\mathrm{T}$ might be the same as basis, for example when they are operators on $F^n$, but $\mathrm{T}$ and basis are different objects. It is easy to confuse them, especially on $F^n$.
+	
+
+\begin{definition}
+  The word \cindex{matrix} is Latin for womb which is the same root as matrimony. The idea is that a matrix is a receptacle for holding numbers.   
+\end{definition}
+
+
+
+\begin{theorem}
+	If $\mathrm{U},\mathrm{T}:V \rightarrow W$ are linear transformation that $[\mathrm{U}]_\beta^\gamma = [\mathrm{T}]_\beta^\gamma$, then $\mathrm{U} = \mathrm{T}$.
+\end{theorem}
+
+\begin{definition}
+	\cindex{$\mathcal{L}(V,W)$} contains all linear transformation from $V$ to $W$.
+\end{definition}
+
+\begin{theorem}
+	Let $\mathrm{T}$,$\mathrm{U}$ be linear transformation over $V$ and $W$, 
+	\begin{enumerate}
+		\item $[\mathrm{T} + \mathrm{U}]_\beta^\gamma = [\mathrm{T}]_\beta^\gamma  + [\mathrm{U}]_\beta^\gamma $
+		\item $[a \mathrm{T} ]_\beta^\gamma = a[T]_\beta^\gamma $ for all scalar $a$
+	\end{enumerate}
+\end{theorem}
+
+\begin{theorem}
+	let $\mathrm{T}:V\rightarrow W$ and $\mathrm{U}:W\rightarrow Z$. Then $\mathrm{UT}: V \rightarrow Z$ is linear.
+\end{theorem}
+
+\begin{definition}
+	Let $\mathrm{T}:V\rightarrow W$ and $\mathrm{U}:W\rightarrow Z$ be linear transformation. $A_{m \times n}=[\mathrm{U}]_\alpha^\beta$ and $B_{n \times p}=[\mathrm{T}]_\beta^\gamma$ where $\alpha=\{v_i\}$, $\beta=\{w_i\}$, $\gamma=\{z_i\}$. Define the \cindex{product} of matrix $AB$ as:
+	\begin{equation}
+		(AB)_{ij} = \sum_{k=1}^n A_{ik} B_{kj}
+	\end{equation}
+	
+	then 
+	\begin{equation}
+	    [UT]_\alpha^\gamma = [U]_\beta^\gamma [T]_\alpha^\beta
+	\end{equation}
+\end{definition}
+
+\begin{proof}
+	For product $AB=[UT]_\alpha^\gamma$, we have 
+	\begin{equation}
+		\begin{aligned}
+			(UT)(v_j) &= U(T(v_j)) = U \left( \sum_{k=1}^m B_{kj} w_k \right) = \sum_{k=1}^m B_{kj} U(w_k) \\
+			&= \sum_{k=1}^m B_{kj} \left( \sum_{i=1}^p A_{ik} z_i \right) = \sum_{k=1}^m  \left( \sum_{i=1}^p A_{ik} B_{kj} \right)  z_i \\
+			&= \sum_{i=1}^p C_{ij} z_i
+		\end{aligned}
+	\end{equation}
+\end{proof}
+
+
+\begin{definition}
+	the \cindex{Kronecker delta}  $\delta_{ij}$ is defined as 
+	\begin{equation}
+		\delta_{ij} = \begin{cases}
+			1 & \text{, if } i = j \\
+			0 & \text{, if } i \neq j
+ 		\end{cases}
+	\end{equation}
+\end{definition}
+
+\begin{definition}
+	The $n\times n$ \cindex{identity matrix} \cindex{$I_n$} is defined as $(I_n)_{ij} = \delta_{ij}$.
+\end{definition}
+
+\begin{theorem}
+	Let $u_j$ and $v_j$ be the $j$th column of $AB$ and $B$, then
+	\begin{enumerate}
+		\item $u_j = A v_j$ : $AB = [A v_1, A v_2, \dots, A v_j, \dots, A v_p]$
+		\item $v_j = B e_j$ : $B = B \times I_n$
+	\end{enumerate}
+\end{theorem}
+
+\begin{theorem} Let $T:V \rightarrow W$ be linear, we have
+	\begin{equation}
+		[T(u)]_\gamma = [T]_\beta^\gamma [u]_\beta
+	\end{equation}
+\end{theorem}
+
+\begin{proof}
+	Fix $u \in V$, and define linear transformation $f: F \rightarrow V$ by $f(a) = a u$ and $g: F \rightarrow W$ by $g(a) = a T(u)$. Let $a=\{1\}$ be the standard basis of $F$. Notice that $g=Tf$. we have:
+	\begin{equation}
+		[T(u)]_\gamma = [g(1)]_\gamma = [g]_\alpha^\gamma = [Tf]_\alpha^\gamma = [T]_\beta^\gamma [f]_\alpha^\beta = [T]_\beta^\gamma [f(1)]_\beta = [T]_\beta^\gamma [u]_\beta
+	\end{equation}
+\end{proof}
+
+Note: in the above proof, a vector could be treated as a linear transformation from a field to vector space.
+
+\begin{definition}
+	Let $A$ be an $m \times n$ matrix. The mapping \cindex{$L_A$} that $L_A: F^n \rightarrow F^m$ defined by $L_A (x) = A x$ is called \cindex{left-multiplication transformation} .
+\end{definition}
+
+\begin{theorem}
+    \begin{equation}
+        \begin{cases}
+            [L_A]_\alpha^\beta = A \\
+            L_{[T]_\alpha^\beta} = T
+        \end{cases}
+    \end{equation}
+\end{theorem}
+
+
+\subsection{Inverse}
+
+\begin{definition}
+	Let $\mathrm{T}: V\rightarrow W$ and $\mathrm{U}:W \rightarrow V$ be linear. $\mathrm{U}$ is an \cindex{inverse}   of $\mathrm{T}$ if $\mathrm{TU} = I_W$ and $\mathrm{UT} = I_V$. If $\mathrm{T}$ has an inverse, $\mathrm{T}$ is \cindex{invertable}  , which is denoted as $\mathrm{T}^{-1}$.
+\end{definition}
+
+\begin{theorem}
+    $(\mathrm{UT})^{-1} = \mathrm{T}^{-1} \mathrm{U}^{-1}$.
+\end{theorem}
+
+\begin{definition}
+	Let $A$ be $n \times n$ matrix. $A$ is invertable if there is an $n \times n$ matrix $B$ that $AB=BA=I$.
+\end{definition}
+
+\begin{theorem}
+    if $T$ is invertible, 
+	\begin{equation*}
+		[T^{-1}]_\gamma^\beta = ([T]_\beta^\gamma)^{-1}
+	\end{equation*}
+\end{theorem}
+\begin{proof}
+	\begin{equation*}
+		I_n = [I_V]_\beta = [T^{-1} T]_\beta = [T^{-1}]_\gamma^\beta [T]_\beta^\gamma
+	\end{equation*}
+\end{proof}
+
+\begin{definition}
+	$V$ is \cindex{isomorphic} to $W$ if there exists a linear transformation $T:V\rightarrow W$ that is invertible. $T$ is called an \cindex{isomorphism}  from $V$ to $W$.
+\end{definition}
+
+\begin{theorem}
+	$V$ is isomorphic to $W$ if $\text{dim}(V) = \text{dim}(W)$.
+\end{theorem}
+
+\begin{proof}
+	If the dimensions are the same, choose basis $\beta$ of $V$ and $\gamma$ of $W$ and create a linear mapping $T:\beta \rightarrow \gamma$ by theorem (\ref{uniquelineartransformation}).
+\end{proof}
+
+
+\begin{theorem}
+	Let $V$ be a vector space over $F$. Then $V$ is isomorphic to $F^n$ $\Leftrightarrow$ $\text{dim}(V) = n$.
+\end{theorem}
+
+
+\begin{theorem}
+	The function $\Phi: \mathcal{L}(V,M) \rightarrow M_{m \times n}(F)$ defined by $\Phi (T) = [T]_\beta^\gamma$, is an isomorphism. The dimension has relation that 
+	\begin{equation}
+		\text{dim}(\mathcal{L}(V,M)) = \text{dim}(V) \times \text{dim}(W)
+	\end{equation}
+\end{theorem}
+
+
+\subsection{Change of Coordinate Matrix}
+
+
+\begin{theorem}
+	Let $\beta$ and $\beta^\prime$ be two ordered basis of $V$. Let $Q = [I_V]_{\beta^\prime}^\beta$, then
+	\begin{enumerate}
+		\item $Q$ is invertable.
+		\item $\forall v \in V$, $[v]_\beta = Q [v]_{\beta^\prime} = [I_V]_{\beta^\prime}^\beta [v]_{\beta^\prime}$.
+	\end{enumerate}
+	
+	The $Q$ is called \cindex{change of coordinate matrix}.
+\end{theorem}
+
+\begin{proof}
+    $\forall v \in V $,  $[v]_\beta = [I_V (v)]_\beta =  [I_V]_{\beta^\prime}^\beta [v]_{\beta^\prime} = Q [v]_{\beta^\prime}$.
+\end{proof}
+
+If $Q$ changes $\beta^\prime$-coordinate into $\beta$-coordinate, $Q^{-1}$ changes $\beta$-coordinate into $\beta^\prime$-coordinate.
+
+\begin{definition}
+	A \cindex{linear operator} is a linear transformation that map from $V$ to $V$.
+\end{definition}
+
+\begin{theorem}\label{twoindextransform}
+	If $\mathrm{T}$ is a linear operator on $V$, then
+	\begin{equation}
+		[\mathrm{T}]_{\beta^\prime} = [I_V]_{\beta}^{\beta^\prime} [\mathrm{T}]_\beta [I_V]_{\beta^\prime}^\beta= Q^{-1} [\mathrm{T}]_\beta Q 
+	\end{equation}
+\end{theorem}
+
+\begin{proof}
+    $Q [\mathrm{T}]_{\beta^\prime} = [I]_{\beta^\prime}^\beta [\mathrm{T}]_{\beta^\prime}^{\beta^\prime} = [I \mathrm{T}]_{\beta^\prime}^\beta = [\mathrm{T} I]_{\beta^\prime}^\beta = [\mathrm{T}]_\beta^\beta [I]_{\beta^\prime}^\beta = [\mathrm{T}]_\beta Q$.
+\end{proof}
+
+\begin{theorem}
+    Let $A \in M_{n \times n} (F)$, and $\gamma:\{a_i\}$ is an ordered basis for $F^n$. Then $[L_A]_\gamma = Q^{-1} A Q$, where $Q = [a_1, a_2, \dots, a_n]$.
+\end{theorem}
+
+\begin{proof}
+    \begin{equation*}
+        [L_A]_\gamma = [I_V]_\gamma^I \times A_I \times [I_V]_I^\gamma
+    \end{equation*}
+\end{proof}
+
+
+\begin{theorem} \label{specialchangeofcoordinates}
+	Let $T:V\rightarrow W$, $\beta$ and $\beta^\prime$ are ordered basis of $V$, $\gamma$ and $\gamma^\prime$ are ordered basis of $W$. Then
+	\begin{equation}
+		[T]_{\beta^\prime}^{\gamma^\prime} = [I_W]_\gamma^{\gamma^\prime} [T]_\beta^\gamma [I_V]_{\beta^\prime}^\beta
+	\end{equation}
+\end{theorem}
+
+
+There is an example of the usage of change of coordinate matrix: do reflection operation $T$ against a line $y = a x$. Let $\beta$ be the standard basis of $R^2$ and $\beta^\prime$ be the standard basis of $R^2$ after the rotation of $y = a x$. The operation $T$ has a matrix representation in $\beta^\prime$
+	\begin{equation*}
+		[T]_{\beta^\prime} = \begin{pmatrix}
+			1 & 0 \\
+			0 & -1
+		\end{pmatrix}		
+	\end{equation*}
+	Then calculate $[T]_\beta$ based on $[T]_{\beta^\prime}$.
+	
+
+
+
+\begin{definition}
+	$B$ is \cindex{similar} to $A$ if there is an invertible matrix $Q$ that $B = Q^{-1} A Q$.
+\end{definition}
+
+So if $\mathrm{T}$ is a linear operator on finite dimension vector space $V$, and if $\beta$ and $\beta^\prime$ are any ordered basis of $V$, then $[\mathrm{T}]_{\beta^\prime}$ is similar to $[\mathrm{T}]_\beta$.
+
+
+
+\subsection{Quotient Space}
+
+\begin{definition}
+    Let subspace $U \subset V$, The \cindex{affine subset}  $v + U$ of $V$ is defined as:
+    \begin{equation}
+        v + U = \{ v + u: u \in U\}
+    \end{equation}    
+\end{definition}
+
+\begin{definition}
+    Let subspace $U \subset V$. Then the \cindex{quotient space} $V/U$ is defined as:
+    \begin{equation}
+        V/U = \{ v + U: v \in V \}
+    \end{equation}
+\end{definition}
+
+\begin{definition}
+    Let subspace $U \subset V$. The \cindex{quotient map} $\pi: V \rightarrow V/U$ is defined as:
+    \begin{equation}
+        \pi(v) = v + U
+    \end{equation}
+\end{definition}
+
+\begin{theorem}
+    \begin{equation}
+        \text{dim}(V/U) = \text{dim}(V) - \text{dim}(U)
+    \end{equation}
+\end{theorem}
+
+\begin{proof}
+    Define $\pi : V \rightarrow V/U$. The null space is $U$.
+\end{proof}
+
+\begin{theorem}
+    Define $\tilde{T}: V/(\text{null } T) \rightarrow W$ by:
+    \begin{equation*}
+        T(v + \text{null } T) = Tv
+    \end{equation*}
+    Then $\tilde{T}$ is an isomorphism between $V/(\text{null } T)$ and $T$.
+\end{theorem}
+
+
+
+% dual space section
+\subsection{Dual Space}
+
+
+\begin{definition}
+	A \cindex{linear functional} is a linear transformation that map from $V$ into $F$.
+\end{definition}
+
+\begin{definition}
+	a $i$th coordinate function $f_i$ with respect to basis $\beta$ is defined as $f_i(x) = a_i$ where
+	\begin{equation*}
+		[x]_\beta = \begin{pmatrix}
+			a_1 \\
+			a_2 \\
+			\vdots \\
+			a_n
+		\end{pmatrix} = \begin{pmatrix}
+			f_1(a) \\
+			f_2(a) \\
+			\vdots \\
+			f_n(a)
+		\end{pmatrix}
+	\end{equation*}
+\end{definition}
+
+
+
+\begin{definition}
+	The \cindex{dual space} of $V$ is the vector space $\mathcal{L}(V,F)$ which is denoted as $V^*$.
+\end{definition}
+
+
+The dimension of dual space is $\text{dim}(V^*)=\text{dim}(\mathcal{L}(V,F)) = \text{dim}(V) \times \text{dim}(F) = \text{dim}(V)$.
+
+\begin{definition}
+	Let $f_i$ be the $i$th coordinate function of $\beta$. let $\beta^*=\{f_i\}$. Then $\beta^*$ is an ordered basis for $V^*$, and $\forall f \in V^*$, we have
+	\begin{equation}
+		f = \sum_{i=1}^n f(x_i) f_i
+	\end{equation}
+\end{definition}
+\begin{proof}
+	Let $g = \sum\limits_{i=1}^n f(x_i) f_i$, we have
+	\begin{equation*}
+		\begin{aligned}
+			g(x_j) &= \left( \sum_{i=1}^n f(x_i) f_i \right) (x_j) \\
+			&= \sum_{i=1}^n f(x_i) f_i (x_j) \\
+			&= \sum_{i=1}^n f(x_i) \delta_{ij} \\
+			&= f(x_j)
+		\end{aligned}
+	\end{equation*}
+\end{proof}
+
+
+\begin{theorem}
+	Let $V$ and $W$ be vector space over $F$ with ordered basis $\beta$ and $\gamma$. For any linear transformation $T:V \rightarrow W$, the mapping $T^t: W^* \rightarrow V^*$ defined as $T^\top (g) = gT, \forall g \in W^*$ is a linear transformation with property that $[T^\top]_{\gamma^*}^{\beta^*} = ([T]_\beta^\gamma)^\top$
+\end{theorem}
+\begin{proof}
+	Let $\beta = \{x_i\}$ and $\gamma=\{y_i\}$ with dual basis $\beta^*=\{f_i\}$ and $\gamma^*=\{g_i\}$, $A=[T]_\beta^\gamma$. we have
+	\begin{equation*}
+		T^\top (g_j) = g_j T = \sum_{s=1}^n (g_j T) (x_s) f_s
+	\end{equation*}
+	
+	So the row $i$, column $j$ entry of $[T^\top]_{\gamma^*}^{\beta^*}$ is
+	\begin{equation*}
+		\begin{aligned}
+			(g_j T)(x_i) &= g_j (T(x_i)) \\
+			&= g_j \left( \sum_{k=1}^m A_{kj} y_k \right) \\
+			&= \sum_{k=1}^m A_{kj} g_j(y_k) \\
+			&= \sum_{k=1}^m A_{kj} \delta_{kj} \\
+			&= A_{ji}
+		\end{aligned}
+	\end{equation*}
+	
+	Hence $[T^\top]_{\gamma^*}^{\beta^*} = A^\top $
+\end{proof}
+
+\begin{definition}
+    For $U \subset V$, the \cindex{annihilator} of $U$, denoted as $U^0_V$, is defined as
+    \begin{equation*}
+        U^0_V = \{ \phi \in V^*: \phi(u) = 0, \forall u \in U \}
+    \end{equation*}
+    The annihilator is a subspace.
+\end{definition}
+
+\begin{theorem}
+    \begin{equation}
+        \text{dim}(U) + \text{dim}(U_V^0) = \text{dim}(V)
+    \end{equation}
+\end{theorem}
+
+\begin{proof}
+    Define $i \in \mathcal{L}(U,V)$ that $i(u) = u, \forall u \in U$. $i^* \in \mathcal{L}(V^*,U^*)$. So
+    \begin{equation*}
+        \text{dim}(\text{range}(i^*)) + \text{dim}(\text{null } (i^*)) = \text{dim}(V^*)
+    \end{equation*}
+    By definition, $\text{null}(i^*) = U^0_V$. Also $\text{range}(i^*) = U^*$.
+\end{proof}
+
+
+\begin{theorem}
+    Let $V$ and $W$ be two finite-dimentional vector space, and $T \in \mathcal{L}(V,W)$. Then:
+    \begin{enumerate}
+        \item $\text{null } T^* = (\text{range } T)^0$
+        \item $\text{range } T^* = (\text{null } T)^0$
+        \item $\text{dim} (\text{range } T^*) = \text{dim} ( \text{range } T)$
+        \item $\text{dim}(\text{null } T^*) = \text{dim}(\text{null } T) + \text{dim}(W) - \text{dim}(V)$
+    \end{enumerate}
+\end{theorem}
+
+\begin{proof}
+    Suppose $\varphi \in \text{null } T^*$. Then $ 0 = T^*(\varphi) = \varphi T$. Then
+    \begin{equation*}
+        0 = (\varphi T)(v) = \varphi (Tv) 
+    \end{equation*}
+    So $\varphi \in (\text{range } T)^0_W$.
+    
+    \begin{equation*}
+        \begin{aligned}
+            \text{dim}(\text{range } T^*) &= \text{dim}(W^*) - \text{dim}(\text{null } T^*) \\
+            &= \text{dim}(W) - \text{dim}(\text{range } T)^0 \\
+            &= \text{dim}(\text{range } T)
+        \end{aligned}
+    \end{equation*}
+    
+    \begin{equation*}
+        \begin{aligned}
+            \text{dim}(\text{null }  T^*) &= \text{dim}(\text{range } T)^0  \\
+            &= \text{dim}(W) - \text{dim}(\text{range T}) \\
+            &= \text{dim}(W) - (\text{dim}(V) - \text{dim}(\text{null } T))\\
+            &= \text{dim}(W) + \text{dim}(\text{null } T) - \text{dim}(V)
+        \end{aligned}
+    \end{equation*}
+\end{proof}
+
+\begin{proof}
+    
+\end{proof}
+
+\begin{definition}
+    For vector $x \in V$, define $\hat{x}: V^* \rightarrow F $ by $\hat{x}(f) = f(x)$. $\hat{x}$ is a linear functional on $V^*$, so $\hat{x} \in V^{**}$.
+\end{definition}
+
+
+\begin{theorem}
+    Define $\psi : V \rightarrow V^{**}$ by $\psi (x) = \hat{X}$.  Then $\psi$ is an isomorphism.
+\end{theorem}
+
+\begin{theorem}
+    Let $V$ be a finite dimension vector space with dual space $V^*$. Every ordered basis for $V^*$ is the dual basis for some basis for $V$.
+\end{theorem}
+
+\begin{center}
+    \begin{tikzcd}
+V \arrow[rrddd, "V^*"{name=U}] \arrow[rrrr, "T"] && & & W \arrow[llddd, "W^*"'{name=W}] \\
+\\
+\\
+&& F
+\arrow[rightarrow, from=W, to=U, "T^\top"]
+\end{tikzcd}
+\end{center}
+
+
+
+A linear transformation is different from matrix:
+\begin{itemize}
+    \item Matrix has relation only in finite dimension space.
+    \item for a transformation, its matrix representation depends on the chosen basis.
+\end{itemize}
+
+

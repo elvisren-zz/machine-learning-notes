@@ -1,0 +1,75 @@
+\section{Classic Models}
+
+\subsection{Linear Regression}
+
+\subsection{Logistic Regression}
+
+\subsection{Softmax Regression}
+
+\subsection{SVM}
+
+\subsection{Decision Trees}
+
+\subsection{Ensemble Learning}
+
+\subsubsection{Voting Classifiers}
+
+A list of sufficiently diverse weak classifiers. It may have high success chance by the law of large numbers. There are two types:
+
+\begin{description}
+	\item [\cindex{hard voting}] majority vote
+	\item [\cindex{soft voting}] select highest average probability over all classifiers
+\end{description}
+
+\subsubsection{Bagging and Pasting}
+
+One training algorithm but with different subset of training set. There are two different ways:
+
+\begin{description}
+	\item [\cindex{bagging}] random sample with replacement. put things back
+	\item [\cindex{pasting}] random sample without replacement. do not put things back
+\end{description}
+
+bagging is more diverse so it has higher bias but lower variance. Overall bagging is better than pasting.
+
+\cindex{out-of-bag evaluation}: if there are $n$ samples, each classifier will also sample $n$ sample with replacement, which will choose $1 - e^{-1} \approx 63.2\%$ samples. The remaining could be used as test test.
+
+
+\subsubsection{AdaBoost}
+
+
+\subsubsection{Gradient Boosting}
+
+In \cindex{gradient boosting} there is a series of models $\mathbf{F}_i$:
+
+\begin{equation}
+	\begin{aligned}
+		\mathbf{F}_1 &\approx (\mathbf{X},\mathbf{Y}) \\
+		\mathbf{F}_2 &\approx \Big(\mathbf{X},\mathbf{Y} - \mathbf{F}_1 (\mathbf{X}) \Big ) \\
+		&\dots \\
+		\mathbf{F}_n &\approx \Big(\mathbf{X},\mathbf{Y} - \mathbf{F}_{n-1} (\mathbf{X}) \Big )
+	\end{aligned}
+\end{equation}
+
+It is called \cindex{gradient} because it is a gradient descent process. Suppose the loss function is:
+\begin{equation}
+	\mathcal{L}(\mathbf{Y},\mathbf{F}_k) = \frac{1}{2} \sum_i \Big ( y_i - \mathbf{F}_k (x_i) \Big )^2
+\end{equation}
+
+Suppose the aggregate function $\mathcal{F}_i = \sum\limits_i \mathbf{F}_i $, the derivative is:
+\begin{equation}
+	\begin{aligned}
+		\frac{\partial \mathcal{L}(\mathbf{Y},\mathbf{F}_k)}{\partial \mathbf{F}(x_i)} &= \mathbf{F}_k (x_i) - y_i \\
+		y_i - \mathbf{F}_k (x_i) &= - \frac{\partial \mathcal{L}(\mathbf{Y},\mathbf{F}_k )}{\partial \mathbf{F}_k (x_i)}\\
+		\mathcal{F}_2 &= \mathbf{F}_1 + \mathbf{F}_2 \\
+		&= \mathbf{F}_1 + y_i - \mathbf{F}_1 \\
+		&= \mathbf{F}_1 - 1 \times \frac{\partial \mathcal{L}(\mathbf{Y},\mathbf{F}_1 )}{\partial \mathbf{F}_1 (x_i)} \\
+		&= \mathcal{F}_1 - 1 \times \frac{\partial \mathcal{L}(\mathbf{Y},\mathcal{F}_1 )}{\partial \mathcal{F}_1 (x_i)} 
+	\end{aligned}
+\end{equation}
+
+So it is a gradient descent process.
+
+
+\subsubsection{Stacking}
+

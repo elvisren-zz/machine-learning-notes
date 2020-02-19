@@ -1,0 +1,152 @@
+\documentclass[reqno]{book}
+
+\usepackage{amssymb}
+\usepackage{latexsym}
+
+
+
+% algorithm
+\usepackage{algpseudocode}
+\usepackage[section]{algorithm}
+\usepackage{algorithmicx}
+\usepackage[colorlinks,linkcolor=red,anchorcolor=blue,citecolor=green]{hyperref}
+\usepackage{tikz}
+\usepackage{multirow}
+\usepackage{float}
+
+% math theorem, lemma, proof
+\usepackage{amsthm}
+%\theoremstyle{definition}
+%\newtheorem{definition}{Definition}
+%\newtheorem{theorem}{Theorem}
+
+\usepackage{thmtools}
+\declaretheorem{theorem}
+\declaretheorem{definition}
+\declaretheorem{example}
+
+
+% for mathematical integratoin
+\usepackage{commath}
+
+
+% for drawing beautiful math commutative diagram
+% note:
+%   it treat nodes as a matrix and use "&" to separate row and "\\" for line.
+%   "'" change the label from above arrow to below arrow.
+%   "l", "r" and "d" means move among matrix nodes.
+\usepackage{tikz-cd}
+
+
+% create index
+\usepackage{mathtools}
+\usepackage{makeidx}
+\makeindex
+
+
+\usepackage{listings}
+
+
+
+% set font
+\usepackage{fontspec}
+\usepackage{amsfonts}
+%\setmonofont{PragmataPro}
+%\usepackage{mathptmx}
+%\setmainfont{Verdana}
+%\usepackage{kpfonts}
+
+
+
+% no space in itemize
+\usepackage{enumitem}
+%\setitemize{noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt}
+\setitemize{noitemsep}
+\setenumerate{noitemsep}
+\setdescription{noitemsep}
+
+
+
+
+% set page size
+\usepackage{geometry}
+\geometry{a4paper,top=2.5cm,bottom=2.5cm,left=2.5cm,right=2.0cm}
+
+
+% set toc and section level
+\setcounter{secnumdepth}{7}
+\setcounter{tocdepth}{7}
+
+
+
+% customized commands
+\newcommand\cindex[1]{\textcolor{blue}{\textbf{#1}}\index{#1}}
+\newcommand\mathhilight[1]{\mathop{\bf #1\/}}
+\newcommand\probability[1]{\mathop{\bf P\/}\left\{#1\right\}}
+\newcommand\expect[1]{\mathop{\bf E\/} \left[ #1 \right]}
+\newcommand\variance[1]{\mathop{\bf Var\/}\left[ #1 \right]}
+\newcommand\covariance[2]{\mathop{\bf Cov\/}\left(#1,#2 \right)}
+\newcommand{\absolutevalue}[1]{\left\lvert #1 \right\rvert}
+
+% start of the document  
+\begin{document}
+
+\title{Machine Learning}
+\author{Elvis Ren}
+\date{\today}
+
+\maketitle
+\tableofcontents
+
+%\setcounter{page}{1}
+
+
+
+
+\chapter{Linear Algebra}
+\include{linear_algebra/la.1.vector_space}
+\include{linear_algebra/la.2.linear_transformation}
+\include{linear_algebra/la.3.linear_equation}
+\include{linear_algebra/la.4.determinants}
+\include{linear_algebra/la.5.diagonalization}
+\include{linear_algebra/la.6.inner_product_space}
+
+
+\chapter{Matrix}
+\include{matrix/math.2.matrix_differentiation}
+
+
+\chapter{Probability}
+\include{probability/p.1.random_variable}
+
+
+
+\chapter{Classic Machine Learning}
+\include{machine_learning/classic.1.classification}
+\include{machine_learning/classic.1.models}
+
+\chapter {Deep Neural Network}
+
+
+\chapter{Reinforement Learning}
+\include{reinforcement_learning/rl.1.bg}
+\include{reinforcement_learning/rl.2.mdp}
+\include{reinforcement_learning/rl.3.dp}
+\include{reinforcement_learning/rl.4.mc} 
+\include{reinforcement_learning/rl.5.td}
+\include{reinforcement_learning/rl.6.nstep_sarsa}
+\include{reinforcement_learning/rl.7.onpolicy_pred_fun_approx}
+\include{reinforcement_learning/rl.8.eligibility_traces}
+\include{reinforcement_learning/rl.9.policy_gradient}
+\include{reinforcement_learning/rl.10.dyna}
+
+
+
+\chapter{Others}
+\include{others/other}
+
+
+
+\printindex
+
+\end{document}

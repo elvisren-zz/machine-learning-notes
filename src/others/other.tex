@@ -1,0 +1,16 @@
+\section{Other Notes}
+
+\subsection{Convergence of Value Iteration}
+
+let $T^\pi(v) = R^\pi + \gamma P^\pi v$
+
+\begin{equation}
+	\begin{aligned}
+		||T^\pi(u) - T^\pi(v)||_{\infty} &= ||(R^\pi + \gamma P^\pi u) - (R^\pi + \gamma P^\pi v) ||_\infty \\
+		&= ||\gamma P^\pi (u-v) ||_\infty \\
+		&\leq || \gamma P^\pi ||u-v ||_\infty ||_\infty \\
+		&\leq \gamma ||u-v||_\infty
+	\end{aligned}
+\end{equation}
+
+So $T$ will converge to fixed point at linear rate $\gamma$ according to \emph{contraction mapping theorem}.

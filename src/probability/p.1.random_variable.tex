@@ -1,0 +1,658 @@
+\section{Random Variable}
+
+\subsection{Events}
+
+\begin{definition}[sample space]
+    The set of all possible outcome of an experiment is defined as \cindex{sample space} $S$.
+\end{definition}
+
+\begin{definition}[event]
+    Any subset $E$ of sample space $S$ is defined as \cindex{event}.
+\end{definition}
+
+It is conventional to designate $E \cup F$ as $EF$.
+
+
+\begin{definition}[mutually exclusive]
+    If $EF = \emptyset $, $E$ and $F$ are said to be \cindex{mutually exclusive}.
+\end{definition}
+
+\begin{definition}
+    The probabilty $P$ is defined on event $E$ of sample space $S$ which follow the following condition:
+    \begin{enumerate}
+        \item $0 \leq P(E) \leq 1$.
+        \item $P(S) = 1$.
+        \item for any sequence of mutually exclusive event $E_1, E_2, \dots$,
+            \begin{equation*}
+                P \left(\bigcup_{n=1}^\infty E_n \right) = \sum_{n=1}^\infty P(E_n)
+            \end{equation*}
+        
+    \end{enumerate}
+    \qed
+\end{definition}
+
+If the experiment is repeated over and over again, with probability $1$ the proportion of time that event $E$ will occur is $P(E)$.
+
+\begin{theorem}[inclusion-exclusion identity]
+    \begin{equation}
+        \begin{aligned}
+            P(\bigcup_{i=1}^n E_i) &= \sum_i P(E_i) - \sum_{i < j}P(E_i E_j) + \sum_{i < j < k} P(E_i E_j E_k) + \dots + (-1)^{n+1} P(E_1 E_2 \dots E_n)
+        \end{aligned}
+    \end{equation}
+\end{theorem}
+
+\begin{definition}[conditional probability]
+    The \cindex{conditional probability} that $E$ occurs given that $F$ occurs is denoted by $P(E/F)$ and defined as:
+    \begin{equation}
+        P(E/F) = \frac{P(EF)}{P(F)}
+    \end{equation}
+\end{definition}
+
+\begin{definition}[independent]
+    Two event $E$ and $F$ are \cindex{independent} if $P(EF) = P(E) P(F)$.
+\end{definition}
+
+\begin{theorem}
+    $E$ and $F$ are independent if $P(E/F) = P(E)$.    
+\end{theorem}
+
+\begin{definition}
+    The events $\{ E_i \}$ are independent if for every subset $E_{i_j}$ ($ \forall j, 1 \leq j \leq n$), that
+    \begin{equation}
+        P(E_{i_1} E_{i_2} \dots E_{i_j}) = P(E_{i_1}) P(E_{i_2}) \cdots P(E_{i_j})
+    \end{equation}
+\end{definition}
+
+\begin{definition}
+    For mutually exclusive event $F_i$ that $\displaystyle \bigcup_{i=1}^n F_i = S$ .The \cindex{Bayes' formula} is defined as:
+    \begin{equation}
+        P(F_j | F) = \frac{P(EF_j}{\sum\limits_{i=1}^n P(EF_i)} = \frac{P(E|F_j) P(F_j)}{\sum\limits_{i=1}^n P(E|F_i) P(F_i)}
+    \end{equation}
+\end{definition}
+
+
+
+\subsection{Random Variable}
+
+\subsubsection{Random Variable Definition}
+
+\begin{definition}[random variable]
+    A real value function defined on sample space is called \cindex{random variable}.
+\end{definition}
+
+\begin{definition}[discrete random variable]
+    A random variable that can takes at most a countable values is said to be \cindex{discrete random variable}.
+\end{definition}
+
+\begin{definition}[probability mass function]
+    The \cindex{probability mass function} $p(a)$ of discrete random variable $X$ is defined as $p(a) = \probability{X = a}$.
+\end{definition}
+
+
+\begin{definition}[cdf]
+    The \cindex{cumulative distribution function (cdf)} of random variable $X$ for any $- \infty < b < \infty$ is defined as $F(b) = \probability{ X \leq b }$
+\end{definition}
+
+\begin{theorem}
+    Some properties of cdf are:
+    \begin{enumerate}
+        \item $F(b)$ is nondecreasing function of $b$.
+        \item $\displaystyle \lim_{b \rightarrow \infty} F(b) = F(\infty) = 1$.
+        \item $\displaystyle \lim_{b \rightarrow -\infty} F(b) = F(- \infty) = 0$.
+    \end{enumerate}
+\end{theorem}
+
+\begin{definition}
+    $P\{ X < b \}$ is defined as $\probability{ X < b } = \displaystyle \lim_{h \rightarrow 0^+} \probability{ X \leq b - h } = \lim_{h \rightarrow 0^+} F(b-h)$.
+\end{definition}
+
+$\probability{X < b} \neq F(b)$ because $F(b)$ also include the probability that $X$ equals $b$.
+
+\begin{definition}[Bernoulli random variable]
+    A trial of two outcome with probability $p$ of being true. Let $X=1$ if the outcome is true and $X=0$ if it is false, we have the probability mass function for \cindex{Bernoulli random variable}:
+    \begin{equation}
+        \begin{aligned}
+            p(0) &= 1 - p \\
+            p (1) &= p
+        \end{aligned}
+    \end{equation}
+\end{definition}
+
+\begin{definition}[Binomial random variable]
+    For $n$ successive independent Bernoulli trial. Let $X$ represent the total number of successes in the trial, $X$ is a \cindex{binomial random variable} with parameter $(n, p)$:
+    \begin{equation}
+        p(i) = \binom{n}{i} p^i (1-p)^{n - i}
+    \end{equation}
+\end{definition}
+
+\begin{definition}[geometric random variable]
+    A \cindex{geometric random variable} is a series of trial until a success occurs. The probability mass function is defined as:
+    \begin{equation}
+        p(n) = (1-p)^{n-1} p
+    \end{equation}
+\end{definition}
+
+\begin{definition}[Poisson random variable]
+    The \cindex{Poisson random variable} is defined as:
+    \begin{equation}
+        p(i) = e^{- \lambda} \frac{\lambda^i}{ i !}
+    \end{equation}
+\end{definition}
+
+Poisson random variable is a approximate of binomial random variable when $n$ is large and $p$ is small. Let $\lambda = np$, then:
+\begin{equation*}
+    \begin{aligned}
+        \binom{n}{i}p^i (1-p)^{n-i} &= \frac{n!}{(n-i)! i!} \left(\frac{\lambda}{n} \right)^i \left(1-\frac{\lambda}{n} \right)^{n-i} \\
+        &= \frac{n (n-1) \cdots (n - i + 1)}{n^i} \frac{\lambda^i}{i!} \frac{(1- \frac{\lambda}{n})^n}{(1- \frac{\lambda}{n})^i} \\
+        & \approx 1 \times \frac{\lambda^i}{i!} \times \frac{e^{- \lambda}}{1} = e^{- \lambda} \frac{\lambda^i}{ i !}
+    \end{aligned}
+\end{equation*}
+
+\begin{definition}
+    $f(x)$ is called \cindex{probability density function} if $\probability{X \in B} = {\displaystyle \int_B f(x) \dif{x}} $. \qed
+\end{definition}
+
+Because $\probability{ a - \frac{\varepsilon}{2} \leq X \leq a + \frac{\varepsilon}{2} } =\displaystyle \int_{a - \frac{\varepsilon}{2}}^{a + \frac{\varepsilon}{2}} f(x) \dif{x} \approx \varepsilon f(a)  $, $f(a)$ is a measure of how likely it is that the random variable will be near $a$ within interval $\varepsilon$.
+
+\begin{definition}[uniform random variable]
+    The \cindex{uniform random variable} defined over $(a,b)$ is 
+    \begin{equation}
+        f(x) = \begin{cases}
+             {\displaystyle \frac{1}{b - a}} & , \text{if } a < x < b \\
+            0 & , \text{otherwise}
+        \end{cases}
+    \end{equation}
+    with cumulative distribution function as
+    \begin{equation}
+        F(x) = \begin{cases}
+            0 & \text{, if } x \leq a \\
+            \displaystyle \frac{x - a}{b - a} & \text{, if } a < x < b \\
+            1 & \text{, if } b < x
+        \end{cases}
+    \end{equation}
+    \qed
+\end{definition}
+
+\begin{definition}[exponential random variable]
+    the \cindex{exponential random variable} is defined as
+    \begin{equation}
+        f(x) = \begin{cases}
+            \lambda e^{-\lambda x} & \text{, if } x \geq 0 \\
+            0 & \text{, if } x < 0
+        \end{cases}
+    \end{equation}
+    with cumulative distribution function as
+    \begin{equation}
+        F(x) = 1 - e^{-\lambda x} \text{, for } x \geq 0
+    \end{equation}
+    \qed
+\end{definition}
+
+\begin{definition}[gamma random variable]
+    The \cindex{gamma random variable} is defined as
+    \begin{equation}
+        f(x) = \begin{cases}
+           \displaystyle \frac{\lambda e^{- \lambda x} (\lambda x)^{\alpha - 1}}{\Gamma(\alpha)} & \text{, if } x \geq 0 \\
+            0 & \text{, if } x < 0
+        \end{cases}
+    \end{equation}
+    gamma function is defined as $\Gamma(\alpha) =\displaystyle \int_{0}^\infty e^{-x} x^{\alpha - 1} \dif{x}$ with $\Gamma(n) = (n-1)!$
+    \qed
+\end{definition}
+
+
+\begin{definition}
+    The \cindex{normal random variable} is defined as
+    \begin{equation}
+        f(x) = \frac{1}{\sqrt{2 \pi} \rho } e^{- \frac{(x - \mu )^2}{2 \rho^2}}
+    \end{equation}
+\end{definition}
+
+If $X$ is normally distributed with $\mu$ and $\rho^2$, then $Y =\displaystyle \frac{X - \mu}{\rho}$ is normally distributed with $0$ and $1$, which is called \cindex{standard normal distribution}.
+
+
+
+\begin{definition}[expectation]
+    The \cindex{expectation} of $X$ is defined as:
+    \begin{equation}
+        \expect{X} = \begin{cases}
+            \displaystyle \sum x p(x) & \text{for discrete case} \\
+            \displaystyle \int_{-\infty}^{\infty} x f(x) \dif{x} & \text{for continuous case}
+        \end{cases}
+    \end{equation}
+\end{definition}
+
+
+
+
+\begin{theorem}
+    The expectation of a function $g$  of a random variable $X$ is:
+    \begin{equation}
+        \expect{g(X)} = \begin{cases}
+            \displaystyle \sum g(x) p(x) & \text{for discrete case} \\
+            \displaystyle \int_{-\infty}^{\infty} g(x) f(x) \dif{x} & \text{for continuous case}
+        \end{cases}
+    \end{equation}
+\end{theorem}
+
+
+\begin{theorem}
+    \begin{equation}
+        \expect{aX + b} = a \expect{X} + b
+    \end{equation}    
+\end{theorem}
+
+\begin{theorem}
+    \begin{equation}
+        \expect{aX + bY} = a \expect{X} + b \expect{Y}
+    \end{equation}    
+\end{theorem}
+
+
+
+\begin{definition}[variance]
+    The \cindex{variance} of $X$ is defined as
+    \begin{equation}
+        \variance{X} = \expect{(X - \expect{X})^2}
+    \end{equation}
+\end{definition}
+
+
+\begin{theorem}
+    \begin{equation}
+        \variance{X} = \expect{X^2} - \expect{X}^2
+    \end{equation}
+\end{theorem}
+
+
+
+% joint distribution
+\subsubsection{Joint Distribution}
+
+\begin{definition}
+    The \cindex{joint cumulative probability distribution function} of two discrete random variable $X$ and $Y$ is defined as
+    \begin{equation}
+        F(a,b) = \probability{ X \leq a, Y \leq b }
+    \end{equation}
+    
+    The cumulative distribution of $Y$ is defined as
+    \begin{equation}
+        F_X(a) = \probability{X \leq a } =\probability{X \leq a, Y < \infty } = F(a, \infty)
+    \end{equation}
+    
+    The \cindex{joint probability mass function} is defined as 
+    \begin{equation}
+        p(x,y) =\probability{X = x, Y = y}
+    \end{equation}
+    
+    The probability mass function of $X$ from $p(x,y)$ is defined as
+    \begin{equation}
+        p_X(x) = \displaystyle \sum_{y: p(x,y) > 0} p(x,y)
+    \end{equation}
+    \qed
+\end{definition}
+
+
+\begin{definition}
+    for continuous case, $X$ and $Y$ are \cindex{jointly continuous} if there is a function $f(x,y)$ that for all sets $A$ and $B$ we have 
+\begin{equation}
+    \probability{X \in A, Y \in B} = \int_B \int_A f(x,y) \dif{x} \dif{y}
+\end{equation}
+
+$f(x,y)$ is called \cindex{joint probability density function} of $X$ and $Y$. The probability density function of $X$ can be obtained as
+\begin{equation}
+    \begin{aligned}
+        \probability{X \in A} &= \int_A \int_{-\infty}^\infty f(x,y) \dif{x} \dif{y} \\
+        &= \int_A f_X (x) \dif{x}
+    \end{aligned}
+\end{equation}
+where
+\begin{equation}
+     f_X(x) = \int_{-\infty}^\infty f(x,y) \dif{y}
+\end{equation}
+
+We have 
+\begin{equation}
+    \dmd{F(a,b)}{2}{a}{1}{b}{1} = f(a,b)
+\end{equation}
+\qed
+\end{definition}
+
+For $n$ random variable $X_i$, we could construct $Y_i$ that
+\begin{equation}
+    \begin{aligned}
+        Y_1 &= g_1 (X_1, X_2, \dots, X_n) \\
+        Y_2 &= g_2 (X_1, X_2, \dots, X_n) \\
+        & \vdots \\
+        Y_n &= g_n (X_1, X_2, \dots, X_n) \\
+    \end{aligned}
+\end{equation}
+
+Assume its \cindex{Jacobian} determinant $J(x_1, \dots, x_n) \neq 0$ for all $x_i$. Then the probability density function of $Y_i$ is 
+\begin{equation}
+    f_{Y_1, \dots, Y_n}(y_1, \dots, y_n) = f_{X_1, \dots, X_n}(x_1, \dots , x_n) \absolutevalue{J(x_1, \dots, x_n)}^{-1}
+\end{equation}
+
+So the process of calculating $f_{Y_i}$ are:
+\begin{enumerate}
+    \item solve $X_i = h(Y_i)$ from equation.
+    \item calculate $J(X_i)$.
+    \item replace $x_i$ by $y_i$ in $f(x_i)$ and multiplicate by $\absolutevalue{J}$.
+\end{enumerate}
+
+
+\subsubsection{Independence}
+
+\begin{definition}
+    Two random variable $X$ and $Y$ are \cindex{independent} if $\forall a,b \in \mathbf{R}$,
+    \begin{equation}
+        \probability{ X \leq a , Y \leq b } = \probability{ X \leq a } \probability{ X \leq b }
+    \end{equation}
+    It means
+    \begin{equation}
+        F(a,b) = F_X(a) F_Y(b)
+    \end{equation}
+    When $X$ and $Y$ are discrete, it reduces to
+    \begin{equation}
+        p(x,y) = p_X(x) p_Y(y)
+    \end{equation}
+    
+    When they are continuous, it reduces to
+    \begin{equation}
+        f(x,y)=f_X(x) f_Y(y)
+    \end{equation}
+    \qed
+\end{definition}
+
+\begin{theorem}
+    If $X$ and $Y$ are indepent, for any function $h$ and $g$, we have
+    \begin{equation}
+        \expect{g(X) h(Y)} = \expect{g(X)} \expect{h(Y)}
+    \end{equation}    
+\end{theorem}
+
+\subsubsection{Covariance}
+
+\begin{definition}[covariance]
+    The \cindex{covariance} for $X$ and $Y$ is defined as 
+    \begin{equation}
+    \begin{aligned}
+        \covariance{X}{Y} &= \expect{(X - \expect{X})(Y - \expect{Y})} \\
+        &= \expect{XY} - \expect{X} \expect{Y}
+    \end{aligned}
+    \end{equation}
+    In general covariance means $Y$ tends to move in the same direction of $X$.
+    \qed
+\end{definition}
+
+\begin{theorem}
+    \begin{equation}
+        \covariance{X}{Y} = \variance{X}
+    \end{equation}    
+\end{theorem}
+
+\begin{theorem}
+    \begin{equation}
+        \covariance{X}{Y} = \covariance{Y}{X}
+    \end{equation}    
+\end{theorem}
+
+\begin{theorem}
+    \begin{equation}
+        \covariance{cX}{Y} = c \covariance{X}{Y}
+    \end{equation}    
+\end{theorem}
+
+\begin{theorem}
+    \begin{equation}
+        \covariance{X}{Y + Z} = \covariance{X}{Y} + \covariance{X}{Z}
+    \end{equation}    
+\end{theorem}
+
+\begin{theorem}
+    \begin{equation}
+        \mathhilight{Cov} \left(\sum_{i=1}^n X_i, \sum_{j=1}^m Y_j \right) = \sum_{i=1}^n \sum_{j=1}^m \mathhilight{Cov}(X_i, Y_j)
+    \end{equation}    
+\end{theorem}
+
+\begin{theorem}
+    \begin{equation}
+    \begin{aligned}
+        \mathhilight{Var} \left( \sum_{i=1}^n X_i \right) &= \mathhilight{Cov}\left( \sum_{i=1}^n X_i, \sum_{j=1}^n X_j \right) \\
+        &= \sum_{i=1}^n \variance{X_i} + 2 \sum_{i=1}^n \sum_{j < i} \covariance{X_i}{X_j} \\
+        &= \sum_{i=1}^n \variance{X_i} \text{ (if } X_i \text{,} X_j \text{ are independent)}
+    \end{aligned}
+    \end{equation}
+    This theorem is often used to calculate the variance. \qed
+\end{theorem}
+
+\begin{definition}[sample mean]
+    If $X_i$ are independent and identically distributed, then the random variable $\bar{X} =\displaystyle \frac{\sum_{i=1}^n X_i}{n}$ is called the \cindex{sample mean}.
+\end{definition}
+
+\begin{theorem}
+\begin{equation}
+    \expect{\bar{X}} = \mu
+\end{equation}    
+\end{theorem}
+
+\begin{theorem}
+\begin{equation}
+    \variance{\bar{X}} = \frac{\sigma^2}{n}
+\end{equation}    
+\end{theorem}
+\begin{theorem}
+\begin{equation}
+    \covariance{\bar{X}}{X_i - \bar{X}} = 0
+\end{equation}    
+\end{theorem}
+
+\begin{definition}
+    Function $F_{X+Y}$ is called the \cindex{convolution} of the distribution of $F_X$ and $F_Y$, which is
+    \begin{equation}
+        \begin{aligned}
+            F_{X+Y}(a) &= \probability{X + Y \leq a} \\
+            &= \iint_{x+y \leq a} f(x) g(y) \dif{x} \dif{y} \\
+            &= \int_{-\infty}^\infty \left( \int_{-\infty}^{a - y} f(x) \dif{x} \right) g(y) \dif{y} \\
+            &= \int_{-\infty}^\infty F_X (a-y)g(y) \dif{y}
+        \end{aligned}
+    \end{equation}
+    
+    The probability density function $f_{X+Y}(a)$ is given by 
+    \begin{equation}
+        \begin{aligned}
+            f_{X+Y}(a) &= \dod{F_{X+Y}(a)}{a} \\
+            &= \dod{\displaystyle \int_{-\infty}^\infty F_X (a-y)g(y) \dif{y}}{a} \\
+            &= \int_{-\infty}^{\infty} f(a-y) g(y) \dif{y}
+        \end{aligned}
+    \end{equation} \qed
+\end{definition}
+
+
+
+% moment generating function
+
+\begin{definition}
+    The \cindex{moment generating function} $\phi(t)$ of the random variable $X$ is defined by
+    \begin{equation}
+        \begin{aligned}
+            \phi(x) &= \expect{e^{tX}} \\
+            &= \begin{cases}
+                \sum_x e^{tx} p(x)\\
+                \int_{-\infty}^\infty e^{tx} f(x) \dif{x}
+            \end{cases}
+        \end{aligned}
+    \end{equation}
+    
+    For any $n$ random variable $X_i$, the \cindex{joint moment generating function} $\phi(t_i)$ is defined by $\phi(t_1, \dots, t_n) = \expect{ e^{ \sum_{i=1}^n t_i X_i}}$.
+    \qed
+\end{definition}
+
+Because $\phi^n (t) = \expect{X^n e^{tX}}$, we have $\phi^n(0) = \expect{X^n}$.
+
+\begin{theorem}
+    \begin{equation}
+        \phi_{X+Y}(t) = \phi_X(t) \phi_Y(t)
+    \end{equation}    
+\end{theorem}
+
+\begin{theorem}
+The moment generating function uniquely determine the distribution.    
+\end{theorem}
+
+
+
+% sample mean and sample variance
+
+\subsubsection{Sample Mean and Sample Variance}
+
+\begin{definition}[sample mean]
+    The \cindex{sample mean} is defined as $\bar{X} = \frac{\sum X_i}{n}$ \qed
+\end{definition}
+
+\begin{definition}[sample variance]
+    Let $X_i$ be independent and identically distributed random variable with mean $\mu$ and variance $\sigma^2$, the \cindex{sample variance} $S^2$ is defined by 
+\begin{equation}
+    S^2 = \sum_{i=1}^n \displaystyle \frac{(X_i - \bar{X})^2}{n - 1}
+\end{equation} 
+\qed
+\end{definition}
+
+\begin{theorem}
+\begin{equation}
+    \expect{S^2} = \sigma^2
+\end{equation}    
+\end{theorem}
+
+
+\begin{definition}[chi-squared]
+    If $Z_i$ are $n$ independent standard normal random variables, the random variable $\displaystyle \sum_i Z_i^2$ is called \cindex{chi-squared} random variable with $n$ degrees of freedom.
+\end{definition}
+
+\begin{theorem}
+If $X_i$ are independent and identically distributed normal random variable with mean $\mu$     and variance $\sigma^2$, then the sample mean $\bar{X}$ and sample variance $S^2$ are independent. $\bar{X}$ is a normal random variable with mean $\mu$ and variance $\displaystyle \frac{\sigma^2}{n}$. $\displaystyle \frac{(n-1)S^2}{\sigma^2}$ is a chi-squared random variable with $n-1$ degrees of freedom.
+\end{theorem}
+
+\begin{proof}
+    Because $X_1$ are normal random varialbe, $\bar{X}$ is also a normal random variable. Since $\covariance{\bar{X}}{X_i - \bar{X}} = 0$, normal random variable $\bar{X}$ and $X_i - \bar{X}$ are independent. Since $S^2 = \displaystyle \sum_{i=1}^n \frac{(X_i - \bar{X})^2}{n -1}$ is a function of $X_i - \bar{X}$ which is independ from $\bar{X}$, $S^2$ is independent from $\bar{X}$.
+    
+    Because 
+    \begin{equation*}
+        \frac{(n-1)S^2}{\sigma^2} + \left(\frac{\bar{X} - \mu}{\frac{\sigma}{\sqrt{n}}}\right)^2 = \sum_{i=1}^n \frac{(X_i - \mu)^2}{\sigma^2}
+    \end{equation*}
+    generate the moment generating function of $\frac{(n-1)S^2}{\sigma^2}$ from above formula and we have $\expect{e^{t \frac{(n-1)S^2}{\sigma^2}}} =\displaystyle (1-2t)^{- \frac{n-1}{2}}$ which is an chi-squared distribution with freedom $n-1$.
+\end{proof}
+
+
+% inequality
+
+\subsubsection{Inequality}
+
+\begin{theorem}[\cindex{Markov's Inequality}]
+If $X$ is a random variable that is non-negative. Then for any $a > 0$ we have 
+\begin{equation}
+    \probability{X \geq a} \leq \frac{\expect{X}}{a}
+\end{equation}    
+\end{theorem}
+\begin{proof}
+    \begin{equation*}
+        \begin{aligned}
+            \expect{X} &= \int_0^\infty x f(x) \dif{x} \\
+            &= \int_0^a x f(x) \dif{x} + \int_a^\infty x f(x) \dif{x} \\
+            & \geq \int_a^\infty x f(x) \dif{x} \\
+            & \geq \int_a^\infty a f(x) \dif{x} \\
+            &= a \int_a^\infty f(x) \dif{x} \\
+            &= \probability{X \geq a}
+        \end{aligned}
+    \end{equation*}
+\end{proof}
+
+\begin{theorem}[\cindex{Chebyshev's Inequality}]
+    If $X$ is a random variable with mean $\mu$ and variance $\sigma^2$. Then for any $k > 0$ we have
+    \begin{equation}
+        \probability{\absolutevalue{X - \mu} \geq k } \leq \frac{\sigma^2}{k^2}
+    \end{equation}
+\end{theorem}
+\begin{proof}
+    Since $(X - \mu)^2$ is nonnegative, using Markov's Inequality we have
+    \begin{equation*}
+        \probability{\absolutevalue{(X - \mu)} \geq k} = \probability{(X - \mu)^2 \geq k^2} \leq \frac{\expect{(X-\mu)^2}}{k^2}
+    \end{equation*}
+\end{proof}
+
+\begin{theorem}[\cindex{Strong Law of Large Numbers}]
+    Let $X_i$ be a sequence of independent random variables having a common distribution. With probability 1
+    \begin{equation}
+        \frac{X_1 + X_2 + \dots + X_n}{n} \rightarrow \mu \text{ as } n \rightarrow \infty
+    \end{equation}
+\end{theorem}
+
+\begin{theorem}[\cindex{Central Limit Theorem}]
+    Let $X_i$ be a sequence of independent identical random variables with mean $\mu$ and variance $\sigma^2$, the distribution $\displaystyle \frac{X_1 + X_2 + \dots + X_n - n \mu}{\sigma \sqrt{n}}$ tends to be standard normal distribution as $n \rightarrow \infty$.
+\end{theorem}
+
+
+
+
+% examples
+\subsubsection{Examples}
+
+\begin{example}
+    In a party $N$ people throw their hat into the center of a room and randomly pick one. What is expected number of correct selection?
+\end{example}
+
+\begin{proof}
+    Let $X$ denote the number of men that selected his hat. We have $X = X_1 + X_2 + \dots + X_N$ where
+    \begin{equation*}
+        X_j = \begin{cases}
+            1 & \text{ , if the } i \text{th man selected his own hat} \\
+            0 & \text{ , otherwise}
+        \end{cases}
+    \end{equation*}
+    
+    So $P\{X_i=1\} = \frac{1}{N}$, $\expect{X_i} = \frac{1}{N}$, and $\expect{X} = \expect{X_1} + \dots + \expect{X_N} = N \times \frac{1}{N} = 1$
+\end{proof}
+
+\begin{example}
+    Suppose $m$ coupons are selected from $n$ different types of coupons. Each coupon is equally likely to be selected. What is the expected number of different types?
+\end{example}
+
+\begin{proof}
+    Let $X$ denote the number of types in $m$ selection. We have $X = X_1 + ... + X_n$ where
+    \begin{equation*}
+        X_i = \begin{cases}
+            1 & \text{ , if } i \text{ occurs in selection} \\
+            0 & \text{ , otherwise}
+        \end{cases}
+    \end{equation*}
+    We have 
+    \begin{equation*}
+        \expect{X_i} = 1 - \left(\frac{n - 1}{n} \right)^m
+    \end{equation*}
+    So $\expect{X} = \expect{X_1} + \dots + \expect{X_n} = \displaystyle n \left(1 - (\frac{n - 1}{n})^m \right)$
+\end{proof}
+
+\begin{example}
+    Let $X_i$ be independent and identically distributed continuous random variable. Let $X_{(i)}$ denote the $i$th smallest of these random variables. Then $X_{(i)}$ is called \cindex{order statistics}. Note that $X_{(i)} \leq x$ if and only if at least $i$ of $X_j$ are not larger than $x$, so
+    \begin{equation*}
+        \probability{X_{(i)} \leq x} = \sum_{k=i}^n \binom{n}{k} (F(x))^k (1 - F(x))^{n-k}
+    \end{equation*}
+    
+    So
+    \begin{equation*}
+        \begin{aligned}
+            f_{X_{(i)}} (x) &= \dod{\probability{X_{(i)} \leq x}}{x} \\
+            &= \frac{n!}{(n-i)!(i-1)!} f(x) \left( F(x) \right)^{i-1} \left(1-F(x) \right)^{n-i}
+        \end{aligned}
+    \end{equation*}
+    The result could be read as there are $\left( F(x) \right)^{i-1}$ which are less than $x$, $\left(1-F(x) \right)^{n-i}$ which are larger than $x$, and $f(x)$ which equals $x$. \qed
+\end{example}
+
+\begin{example}
+A particle moves along a circle of $m+1$ nodes. Each time it has equality of moving clockwise or counterclockwise. What is the probability that node $i$ is the last visited node?    
+\end{example}
+\begin{proof}
+    Suppose $i$ is the last visited nodes and consider 2 nodes $i-1$ and $i+1$ around it. If $i-1$ is visited before $i+1$, the probability is the same as gambling without losing money when it reaches $i+1$, so the probability is the same for every nodes. So the result is $\displaystyle \frac{1}{m}$.
+\end{proof}
+
+

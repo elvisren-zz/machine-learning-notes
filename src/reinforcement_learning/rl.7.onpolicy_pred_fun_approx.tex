@@ -1,0 +1,206 @@
+\section{Value Function Approximation}
+
+In function approximation, the value function $v_\pi$ becomes:
+\begin{equation}
+	v_\pi (s) \approx \widehat{v}(s, \mathbf{W}) \text{  ,  } \mathbf{W} \in \mathbb{R}^d
+\end{equation}
+
+It is a supervised learning with data pair:
+\begin{equation}
+	\begin{aligned}
+		\langle S_1, R_1 &+ \gamma \widehat{v}(S_2, \mathbf{W}) \rangle \\
+		\langle S_2, R_2 &+ \gamma \widehat{v}(S_3, \mathbf{W}) \rangle \\
+		&\dots
+	\end{aligned}
+\end{equation}
+
+\subsection{On-policy Prediction}
+
+\subsubsection{Requirement}
+
+The approximate function $\widehat{v}(s, \mathbf{W})$ has these requirements:
+\begin{itemize}
+	\item learning needs to be online
+	\item the learning target is non-stationary and can change over time
+	\item differentiable of $\mathbf{W}$ for all $s \in \mathcal{S}$
+\end{itemize}
+
+\subsubsection{Prediction Objective}
+
+In tabular case there is no estimation of value function quality because it will converge to the end goal. However in function approximation there is no exact value function and the quality need to be estimated. 
+
+Assume the state is distributed under $\mu(s)>0, \sum\limits_s \mu(s) = 1$, the \cindex{mean squared value error} $\overline{\text{VE}}$ is defined as:
+\begin{equation}
+	\overline{\text{VE}} = \sum_{s \in \mathcal{S}} \mu (s) \Big ( v_\pi (s) - \widehat{v}(s,\mathbf{W}) \Big )^2
+\end{equation}
+
+$\mu(s)$ can be chosen as the fraction of time for episodes, and stationary distribution for continuous tasks.
+
+$\widehat{v}$ is chosen to be differentiable function, which could be:
+\begin{itemize}
+	\item linear combination of features
+	\item neural network
+\end{itemize}
+
+\subsubsection{Stochastic Gradient Descent}
+
+Assume $\mu$ is uniform distribution, the $\mathbf{W}$ is updated as:
+\begin{equation}\label{wstogradesc}
+	\begin{aligned}
+		\mathbf{W}_{t+1} &= \mathbf{W}_t - \frac{1}{2} \alpha \nabla_{\mathbf{W}} \Big ( v_\pi(S_t) - \widehat{v}(S_t, \mathbf{W}_t) \Big )^2 \\
+		&= \mathbf{W}_t+ \alpha \Big ( v_\pi(S_t) - \widehat{v}(S_t, \mathbf{W}_t) \Big ) \nabla_{\mathbf{W}}  \widehat{v}(S_t, \mathbf{W}_t) 
+	\end{aligned}
+\end{equation}
+
+where $\nabla_{\mathbf{W}} f(\mathbf{W})$ is defined as:
+\begin{equation}
+	\nabla_{\mathbf{W}} f(\mathbf{W}) = \left( \frac{\partial f(\mathbf{W})}{\partial \mathbf{W}_1}, \frac{\partial f(\mathbf{W})}{\partial \mathbf{W}_2}, \dots, \frac{\partial f(\mathbf{W})}{\partial \mathbf{W}_d}  \right)^{\top}
+\end{equation}
+
+ Formula (\ref{wstogradesc}) need to follow these in order to converge to a local minimum:
+\begin{itemize}
+	\item $\alpha$ follow equation (\ref{convergenceofsequence}).
+	\item $v_\pi(S_t) $ is an unbiased estimate of $v$.
+\end{itemize}
+
+
+
+
+See Algorithm (\ref{algo:gradmcapprox}) for detail.
+
+In practice, the $v_\pi$ in formula (\ref{wstogradesc}) is chosen as:
+\begin{itemize}
+	\item for MC, the target is the return $G_t$:
+	\item for TD(0), the target is $R_{t+1} + \gamma \widehat{v}(S_{t+1}, \mathbf{W} )$
+	\item for TD($\lambda$), the target is $G_t^\lambda$ which could be forward or backward view
+\end{itemize}
+
+
+\begin{algorithm}
+	\caption{gradient MC, estimate $\widehat{v} \approx v_\pi$ }\label{algo:gradmcapprox}	
+	
+	\begin{algorithmic}[1]
+		\State $\mathbf{W} \gets $ random
+		
+		\Statex
+		
+		\Loop
+			\State generate $S_0,A_0,R_1,\dots,R_T,S_T$ using $\pi$
+			\For{$t \gets \Big[0, 1, \dots, T-1 \Big]$}
+				\State $\mathbf{W} \gets \mathbf{W} + \alpha \Big( G_t - \widehat{v}(S_t, \mathbf{W}) \Big) \nabla_{\mathbf{W}} \widehat{v}(S_t, \mathbf{W})$
+			\EndFor
+		\EndLoop
+	\end{algorithmic}
+\end{algorithm}
+ 
+ \subsection{Semi-gradient methods}
+ 
+ In formula (\ref{wstogradesc}) if $v_\pi(S_t)$ depends on $\mathbf{W}$, the formula is biased and will not converge as the true gradient descent methods. It is called \cindex{semi-gradient methods}.
+ 
+ Bootstrapping estimate belongs to this category.
+ 
+ 
+\subsection{Linear Methods}
+
+Suppose $\widehat{v}$ is linear: $\widehat{v}(s,\mathbf{W})= \mathbf{W}^\top \mathbf{X}(s) = \sum\limits_{i=1}^d w_i x_i(s)$. $\mathbf{X}(s)$ is called feature vector represents state $s$.  Formula (\ref{wstogradesc}) now becomes:
+
+\begin{equation}\label{lineargraddesc}
+	\mathbf{W}_{t+1} = \mathbf{W}_t+ \alpha \Big ( v_\pi(S_t) - \widehat{v}(S_t, \mathbf{W}_t) \Big ) \mathbf{X}(S_t)
+\end{equation}
+
+In linear case all local optimum is global optimum. 
+
+\subsubsection{Semi-gradient Linear Methods TD(0)}
+
+semi-gradient TD(0) algorithms also converges under linear function. But it converges to a point near the local optimum, rather than global minimum.
+
+\begin{equation}\label{wstosemigradesc}
+	\begin{aligned}
+		\mathbf{W}_{t+1} &= \mathbf{W}_t+ \alpha \Big ( R_{t+1} + \gamma \mathbf{W}_t^\top \mathbf{X}_{t+1} - \mathbf{W}_t^\top \mathbf{X}_t \Big ) \mathbf{X} \\
+		&= \mathbf{W}_t+ \alpha \Big ( R_{t+1}\mathbf{X}_t + \mathbf{X}_t ( \mathbf{X}_t - \gamma \mathbf{X}_{t+1})^\top \mathbf{W}_t  \Big ) 
+	\end{aligned}
+\end{equation}
+
+The expected next weight vector could be written as:
+
+\begin{equation}\label{convergesequence}
+	\mathbb{E}[\mathbf{W}_{t+1} | \mathbf{W}_t] = \mathbf{W}_t + \alpha (\textbf{b} - \mathbf{A} \mathbf{W}_t)
+\end{equation}
+
+where 
+
+\begin{equation}
+	\textbf{b} = \mathbb{E}[R_{t+1} \mathbf{X}_t] \in \mathcal{R}^d
+\end{equation}
+
+and 
+
+\begin{equation}
+	\mathbf{A} =  \mathbb{E}[\mathbf{X}_t ( \mathbf{X}_t - \gamma \mathbf{X}_{t+1})^\top]
+\end{equation}
+
+
+If formula (\ref{convergesequence}) converges and is unbiased, it will converge to $\mathbf{W}_{TD}$ at which:
+
+\begin{equation}\label{solvesemilr}
+	\begin{aligned}
+		\textbf{b} - \mathbf{A} \mathbf{W}_{TD} &= 0\\
+		\textbf{b} &= \mathbf{A} \mathbf{W}_{TD} \\
+		\mathbf{W}_{TD} &= \mathbf{A}^{-1} \textbf{b}
+	\end{aligned}
+\end{equation}
+
+
+The solution of formula (\ref{solvesemilr}) is around global minimum:
+
+\begin{equation}\label{semigradientlrerror}
+	\overline{\text{VE}}(\mathbf{W}_{TD}) \leq \frac{1}{1-\gamma} \underset{\mathbf{W}}{\min}\ \overline{\text{VE}}(\mathbf{W})
+\end{equation}
+
+formula (\ref{semigradientlrerror}) applies to other on-policy bootstrapping methods as well, such as semi-gradient DP, semi-gradient action value methods.
+
+\subsubsection{Least-Squares TD}
+
+In LSTD, the $A$ and $b$ in formula (\ref{solvesemilr}) is defined as:
+\begin{equation}
+	\widehat{A}_t = \sum_{k=0}^{t-1} \mathbf{X}_k (\mathbf{X}_k - \gamma \mathbf{X}_{k+1} )^\top + \varepsilon \mathbf{I}
+\end{equation}
+and
+\begin{equation}
+	\widehat{b}_t=\sum_{k=0}^{t-1}R_{t+1}\mathbf{X}_k
+\end{equation}
+
+A small $\varepsilon > 0$ is added to ensure $\widehat{A}_t$ is always invertible. 
+
+$w_t$ is now defined as $w_t=\widehat{A}_t^{-1} \widehat{b}_t$.
+
+There is a \cindex{Sherman-Morrison formula} that simplify the calculation of $\widehat{A}$:
+\begin{equation}
+	\begin{aligned}
+		\widehat{A}_t^{-1} &= \Big (\widehat{A}_{t-1} + \mathbf{X}_t (\mathbf{X}_t - \gamma \mathbf{X}_{t+1})^\top \Big)^{-1}\\
+		&= \widehat{A}_{t-1}^{-1} - \frac{\widehat{A}_{t-1}^{-1} \mathbf{X}_t (\mathbf{X}_t - \gamma \mathbf{X}_{t+1})^\top \widehat{A}_{t-1}^{-1} }{1 + (\mathbf{X}_t - \gamma \mathbf{X}_{t+1})^\top \widehat{A}_{t-1}^{-1} \mathbf{X}_t }
+	\end{aligned}
+\end{equation}
+
+with $\widehat{A}_0 = \varepsilon \mathbf{I}$
+
+LSTD does not require $\alpha$, but it needs $\varepsilon$ which has these problems: 
+\begin{itemize}
+	\item small $\varepsilon$: the inverse calculation will vary widly
+	\item big $\varepsilon$: the learning is slow
+	\item no $\alpha$: it never forgets
+\end{itemize}
+
+\subsection{On-policy Control}
+
+In approximate control, the $v$ in formula (\ref{wstogradesc}) is changed to $q$:
+\begin{equation}
+	\mathbf{W}_{t+1} = \mathbf{W}_t+ \alpha \Big ( U_t - \widehat{q}(S_t, A_t, \mathbf{W}_t) \Big ) \nabla_{\mathbf{W}}  \widehat{q}(S_t, A_t, \mathbf{W}_t) 
+\end{equation}
+
+As before, the $U_t$ could be : 
+\begin{itemize}
+	\item for MC, the target is the return $G_t$:
+	\item for TD(0), the target is $R_{t+1} + \gamma \widehat{q}(S_{t+1}, A_{t+1}, \mathbf{W} )$
+	\item for TD($\lambda$), the target is $G_t^\lambda$ with forward and backward view
+\end{itemize}

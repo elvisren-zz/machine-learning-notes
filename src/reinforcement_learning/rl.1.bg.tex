@@ -1,0 +1,104 @@
+
+\section{Background}
+
+
+\subsection{State}
+
+\cindex{environment} has state $S_t^e$, which receives action $A_t$ and emits observation $O_{t+1}$ and scalar reward $R_{t+1}$.
+
+
+\cindex{state} is a function of all history, so the reinforcement learning could be a Markov process:
+\begin{equation}
+	S_t = f([O_1, R_1, A_1, \dots, A_{t-1}, O_t, R_t])
+\end{equation}
+
+\subsection{Planning and Learning}
+
+\subsubsection{Planning}
+
+\cindex{planning} uses simulated experience from \cindex{model}. So the model is known.
+
+There are two different planning methods:
+\begin{description}
+	\item[\cindex{state-space planning}] searches through state space.
+	\item[\cindex{plan-space planning}] searches through plans. It uses evolutionary methods. Seldom used in reinforcement learning.
+
+\end{description}
+
+\subsubsection{Learning}
+\cindex{learning} uses real experience of environment. So the environment and policy are unknown.
+
+
+\subsection{Agent}
+
+\cindex{agent} has three important components:
+\begin{itemize}
+	\item policy
+	\item value function
+	\item model
+\end{itemize}
+
+\subsubsection{Policy}
+
+\cindex{policy} can be deterministic or statistics :
+\begin{description}
+	\item[deterministic] $a = \pi(s)$ 
+	\item[stochastic] $\pi(a|s) = \mathbb{P}[A_t=a|S_t=s]$
+\end{description}
+
+
+\subsubsection{Model}
+\cindex{model} is anything an agent can use to predict environment response. so a model simulate environment.
+
+\begin{description}
+	\item[distribution model] explores all possibility and all probability
+	\item[sample model] explores only one possibility
+\end{description}
+
+\cindex{distribution model} is stronger than \cindex{sample model} because it can always generate sample. However in practice it is much easier to obtain sample models.
+
+\subsection{Evaluation and Control}
+
+\begin{description}
+	\item[\cindex{evaluation}] tries to calculate $v(s)$ or $q(s,a)$.
+	\item[\cindex{control}] tries to calculate $v_*(s)$ , $q_*(s,a)$ or $\pi_*$.
+\end{description}
+
+
+\subsection{Exploration and Exploitation}
+
+\begin{description}
+	\item[\cindex{exploration}] find more information about environment.
+	\item[\cindex{exploitation}] exploit known information to maximize reward.
+\end{description}
+
+\subsection{Incremental Mean}
+
+If $Q_{n+1}$ is the mean of $R_i$: $Q_{n+1} = \frac{1}{n} \sum\limits_{i=1}^n R_i$. $Q_{n+1}$ could be rearrange as:
+\begin{equation}
+	Q_{n+1} = Q_n + \frac{1}{n} \Big( R_n - Q_n \Big)
+\end{equation}
+
+If we replace $\frac{1}{n}$ by $\alpha$, the formula becomes:
+\begin{equation}
+	\begin{aligned}
+		Q_{n+1} &= Q_n + \alpha \Big( R_n - Q_n \Big)\\
+		&= (1-\alpha )^n Q_1 + \sum_{i=1}^n \alpha (1 - \alpha )^{n-1}R_i
+	\end{aligned}
+\end{equation}
+
+$Q_n$ will be convergent if $\alpha$ follows the following formula:
+\begin{equation}\label{convergenceofsequence}
+	\begin{cases}
+		\sum\limits_{n=1}^\infty \alpha_n = \infty \\
+		\\
+		\sum\limits_{n=1}^\infty \alpha_n^2 < \infty
+	\end{cases}
+\end{equation}
+
+
+\subsection{Terminology}
+
+\cindex{backup} uses future return to update current value.
+
+

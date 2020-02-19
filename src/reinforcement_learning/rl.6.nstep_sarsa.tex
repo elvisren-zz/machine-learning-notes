@@ -1,0 +1,342 @@
+\section{$n$-step Bootstrapping}
+
+\subsection{$n$-step TD Prediction}
+
+$n$-step TD prediction is still TD because it changes earlier estimate.
+
+It did not update anything for the first $n-1$ steps. If $t + n \geq T$, the missing terms are treated as $0$. It is defined as:
+
+\begin{equation}
+	G_{t:t+n} = R_{t+1} + \gamma R_{t+2} + \dots + \gamma^{n-1} R_{t+n} + \gamma^n V_{t+n-1}(S_{t+n})
+\end{equation}
+
+
+The algorithm (\ref{algo:nsteptdpredition}) contains detail.
+
+
+\begin{algorithm}
+	\caption{$n$-step TD prediction, estimate $v_\pi$}\label{algo:nsteptdpredition}	
+	
+	\begin{algorithmic}[1]
+		\State $ \alpha \in (0,1]$
+		\State $V(s) \gets$ random
+		\State $t \gets 0$
+		
+		\Statex
+		
+		\Loop
+			\State choose $S_0$
+			\State $T \gets \infty$
+			\While{$\tau < T - 1$}
+				\If{$t < T$}
+					\State take action according to $\pi(\cdot|S_t)$
+					\State store $R_{t+1}$ and $S_{t+1}$
+					\If{$S_{t+1}$ is terminal}
+						\State $T \gets t+1$
+					\EndIf
+				\EndIf
+				
+				\State $\tau \gets t - n + 1$ \Comment $\tau$ is the pivot of update
+				
+				\If{$\tau \geq 0$}
+					\State $G \gets \sum\limits_{i=\tau+1}^{\min (\tau+n,T)} \gamma^{i-\tau-1} R_i$ \Comment $G_{\tau:\tau+n}$
+					\If{$\tau + n < T$}
+						\State $G \gets G + \gamma^n V(S_{\tau + n})$
+					\EndIf
+					
+					\State $V(S_\tau) \gets V(S_\tau) + \alpha \Big(G - V(S_\tau)\Big)$
+				\EndIf
+
+				\State $t \gets t+1$
+			\EndWhile
+		\EndLoop
+	\end{algorithmic}
+\end{algorithm}
+
+
+
+\subsection{$n$-step Sarsa}
+
+It is the same as $n$-step TD prediction with $q$ and $\varepsilon$-greedy. 
+
+\begin{equation}
+	G_{t:t+n} = R_{t+1} + \gamma R_{t+2} + \dots + \gamma^{n-1} R_{t+n} + \gamma^n Q_{t+n-1}(S_{t+n},A_{t+n})
+\end{equation}
+
+
+The algorithm (\ref{algo:nstepsarsa}) contains detail.
+
+
+\begin{algorithm}
+	\caption{$n$-step Sarsa, estimate $q_\pi$ or $q_*$}\label{algo:nstepsarsa}	
+	
+	\begin{algorithmic}[1]
+		\State $ \alpha \in (0,1]$
+		\State $Q(s,a) \gets$ random
+		\State $\pi \gets$ random $\varepsilon$-greedy policy or a given fixed policy
+		\State $t \gets 0$
+		
+		\Statex
+		
+		\Loop
+			\State choose $S_0$
+			\State choose action $A_0 \sim \pi (\cdot | S_0)$
+			\State $T \gets \infty$
+			\While{$\tau < T - 1$}
+				\If{$t < T$}
+					\State take action $A_t$ and store $R_{t+1}$ and $S_{t+1}$
+					\If{$S_{t+1}$ is terminal}
+						\State $T \gets t+1$
+					\Else
+						\State choose $A_{t+1} \sim \pi(\cdot|S_{t+1})$
+					\EndIf
+				\EndIf
+				
+				\State $\tau \gets t - n + 1$ \Comment $\tau$ is the pivot of update
+				
+				\If{$\tau \geq 0$}
+					\State $G \gets \sum\limits_{i=\tau+1}^{\min (\tau+n,T)} \gamma^{i-\tau-1} R_i$
+					\If{$\tau + n < T$}
+						\State $G \gets G + \gamma^n Q(S_{\tau + n}, A_{\tau + n})$ \Comment $G_{\tau:\tau+n}$
+					\EndIf
+					
+					\State $Q(S_{\tau}, A_{\tau}) \gets Q(S_{\tau}, A_{\tau}) + \alpha \Big(G - Q(S_{\tau}, A_{\tau})\Big)$
+					\State update $\pi_*$ \Comment update as a $\varepsilon$-greedy policy if calculating $q_*$
+				\EndIf
+
+				\State $t \gets t+1$ 
+			\EndWhile
+		\EndLoop
+	\end{algorithmic}
+\end{algorithm}
+
+
+
+\subsection{$n$-step Expected Sarsa}
+
+It is the same as $n$-step Sarsa except that it uses expectation at the last step:
+	
+\begin{equation}
+	G_{t:t+n} = R_{t+1} + \gamma R_{t+2} + \dots + \gamma^{n-1} R_{t+n} + \gamma^n \sum_a \pi(a|S_{t+n}) Q_{t+n-1}(S_{t+n},a)
+\end{equation}
+
+
+\subsection{$n$-step Off-policy Learning}
+
+note: $V_{t+n}$ and $Q_{t+n}$ are the result of ($t+n$)th iteration.
+
+\subsubsection{$n$-step Off-policy TD}
+
+for $0 \leq t < T$, the update formula is:
+
+\begin{equation}
+	V_{t+n}(S_t)=V_{t+n-1}(S_t)+\alpha \prod_{k=t}^{\min (h,T-1)} \frac{\pi(A_k|S_k)}{b(A_k|S_k)} [G_{t:t+n} - V_{t+n-1}(S_t)]
+\end{equation}
+
+
+
+\subsubsection{$n$-step Off-policy Sarsa}
+
+for $0 \leq t < T$, the update formula is:
+
+\begin{equation}
+\begin{split}
+	Q_{t+n}(S_t,A_t)=&Q_{t+n-1}(S_t,A_t) \\
+	&+\alpha \prod_{k=t}^{\min (h,T-1)} \frac{\pi(A_k|S_k)}{b(A_k|S_k)} [G_{t:t+n} - Q_{t+n-1}(S_t,A_t)]
+\end{split}
+\end{equation}
+
+See Algorithm (\ref{algo:nstepoffsarsa}) for detail.
+
+
+\begin{algorithm}
+	\caption{Off-policy $n$-step Sarsa, estimate $q_\pi$ or $q_*$}\label{algo:nstepoffsarsa}	
+	
+	\begin{algorithmic}[1]
+		\State $ \alpha \in (0,1]$
+		\State $Q(s,a) \gets$ random
+		\State $\pi \gets$ random $\varepsilon$-greedy policy
+		\State $t \gets 0$
+		
+		\Statex
+		
+		\Loop
+			\State choose $S_0$
+			\State choose action $A_0 \sim \pi (\cdot | S_0)$
+			\State $T \gets \infty$
+			\While{$\tau < T - 1$}
+				\If{$t < T$}
+					\State take action $A_t$ and store $R_{t+1}$ and $S_{t+1}$
+					\If{$S_{t+1}$ is terminal}
+						\State $T \gets t+1$
+					\Else
+						\State choose $A_{t+1} \sim \pi(\cdot|S_{t+1})$
+					\EndIf
+				\EndIf
+				
+				\State $\tau \gets t - n + 1$ \Comment $\tau$ is the pivot of update
+				
+				\If{$\tau \geq 0$}
+					\State $\rho \gets \prod\limits_{i=\tau+1}^{\min (\tau+n-1,T-1)} \frac{\pi(A_i|S_i)}{b(A_i|S_i)}$
+					\State $G \gets \sum\limits_{i=\tau+1}^{\min (\tau+n,T)} \gamma^{i-\tau-1} R_i$ 					
+					
+					\If{$\tau + n < T$}
+						\State $G \gets G + \gamma^n Q(S_{\tau + n}, A_{\tau + n})$ \Comment $G_{\tau:\tau+n}$
+					\EndIf
+					
+					\State $Q(S_{\tau}, A_{\tau}) \gets Q(S_{\tau}, A_{\tau}) + \alpha \rho \Big(G - Q(S_{\tau}, A_{\tau})\Big)$
+					\State update $\pi_*$ \Comment update as a $\varepsilon$-greedy policy if calculating $q_*$
+				\EndIf
+
+				\State $t \gets t+1$
+			\EndWhile
+		\EndLoop
+	\end{algorithmic}
+\end{algorithm}
+
+\subsection{$n$-step Tree Backup Algorithm}
+
+This is an \cindex{off-policy} learning algorithm without \cindex{importance sampling}. For each step along the sampling, the non-visited notes contribute probabilistic result according to the policy. The visited node will contribute the updated bootstrapping result.
+
+
+\begin{equation}
+	\begin{split}
+		G_{t:t+n}&=R_{t+1}\\
+		&+\gamma \sum_{a\neq A_{t+1}} \pi(a|S_{t+1}) Q_{t+n-1}(S_{t+1},a) \text{  \# other branches} \\
+		&+ \gamma \pi(A_{t+1}|S_{t+1})G_{t+1:t+n} \text{  \# main sample path}
+	\end{split}
+\end{equation}
+
+
+See Algorithm (\ref{algo:nsteptreebackup}) for detail.
+
+
+\begin{algorithm}
+	\caption{$n$-step tree backup, estimate $q_\pi$ or $q_*$}\label{algo:nsteptreebackup}	
+	
+	\begin{algorithmic}[1]
+		\State $ \alpha \in (0,1]$
+		\State $Q(s,a) \gets$ random
+		\State $\pi \gets$ random $\varepsilon$-greedy policy
+				
+		\Statex
+		
+		\Loop
+			\State choose $S_0$
+			\State choose action $A_0 \sim \pi (\cdot | S_0)$
+			\State $T \gets \infty$
+			\State $t \gets 0$
+			\While{$\tau < T - 1$}
+				\If{$t < T$}
+					\State take action $A_t$ and store $R_{t+1}$ and $S_{t+1}$
+					\If{$S_{t+1}$ is terminal}
+						\State $T \gets t+1$
+					\Else
+						\State choose $A_{t+1} \sim \pi(\cdot|S_{t+1})$
+					\EndIf
+				\EndIf
+				
+				\State $\tau \gets t - n + 1$ \Comment $\tau$ is the pivot of update
+				
+				\If{$\tau \geq 0$}
+					\If{$t+1 \geq T$}
+						\State $G \gets R_T$
+					\Else
+						\State $G \gets R_{t+1} + \gamma \sum\limits_a \pi(a|S_{t+1}) Q(S_{t+1},a)$
+					\EndIf
+					
+					\State \Comment update $G$ backward using tree-backup method
+					
+					\For{$k \gets [\tau+1,\dots,\min (t,T-1)]$} 
+						\State $G \gets R_k + \gamma \sum\limits_{a\neq A_k} \pi(a|S_k)Q(S_k,a) + \gamma \pi (A_k|S_k)G$
+					\EndFor
+					
+					\State $Q(S_{\tau}, A_{\tau}) \gets Q(S_{\tau}, A_{\tau}) + \alpha  \Big(G - Q(S_{\tau}, A_{\tau})\Big)$
+					\State update $\pi_*$ \Comment update as a $\varepsilon$-greedy policy if calculating $q_*$
+				\EndIf
+
+				\State $t \gets t+1$
+			\EndWhile
+		\EndLoop
+	\end{algorithmic}
+\end{algorithm}
+
+\subsection{$n$-step off-policy $Q(\sigma )$}
+
+Let random variable $\sigma_t \sim \text{Bern}(0,1)$ be the probability of sampling on step $t$, with $\sigma = 1$ means full sampling and $\sigma = 0$ means pure expectation. The formula is:
+
+\begin{equation}
+	\begin{split}
+		G_{t:h} =& R_{t+1}+\gamma \sum_{a\neq A_{t+1}} \pi(a|S_{t+1}) Q_{h-1}(S_{t+1},a) + \gamma \pi(A_{t+1}|S_{t+1})G_{t+1:h} \\
+		=& R_{t+1} + \left (\gamma \sum_a \pi(a|S_{t+1})Q_{h-1}(S_{t+1},a) - \gamma \pi(A_{t+1}|S_{t+1})Q_{h-1}(S_{t+1},A_{t+1}) \right)\\
+		&+ \gamma \pi(A_{t+1}|S_{t+1})G_{t+1:h} \\
+		=& R_{t+1} + \gamma \sum_a \pi(a|S_{t+1})Q(S_{t+1},a) \\
+		&+ \gamma \pi(A_{t+1}|S_{t+1})\Big (G_{t+1:h} -Q_{h-1}(S_{t+1},A_{t+1})  \Big)
+	\end{split}
+\end{equation}
+
+Replace $\pi(A_{t+1}|S_{t+1})$ by $\Big(\sigma_{t+1} \rho_{t+1} + (1-\rho_{t+1})\pi(A_{t+1}|S_{t+1}) \Big)$ ($\rho$ is the important sampling ratio defined in formula (\ref{importancsamplingratio})) we have:
+
+\begin{equation}
+	\begin{split}
+		G_{t:h} =& R_{t+1} + \gamma \sum_a \pi(a|S_{k+1})Q(S_{k+1},a) \\
+		&+ \gamma \Big ( \sigma_{t+1} \rho_{t+1} + (1-\rho_{t+1})\pi(A_{t+1}|S_{t+1}) \Big) \Big(G_{t+1:h} -Q_{h-1}(S_{t+1},A_{t+1}) \Big)
+	\end{split}
+\end{equation}
+
+
+$\sum\limits_a \pi(a|S_{t})Q(S_{t},a)$ is called \cindex{expected approximate value} of state $S_t$.
+
+
+See Algorithm (\ref{algo:nstepoffrho}) for detail.
+
+
+\begin{algorithm}
+	\caption{Off-policy $n$-step $Q(\sigma)$, estimate $q_\pi$ or $q_*$}\label{algo:nstepoffrho}	
+	
+	\begin{algorithmic}[1]
+		\State $ \alpha \in (0,1]$
+		\State $Q(s,a) \gets$ random
+		\State $\pi \gets$ random $\varepsilon$-greedy policy
+		\State random policy $b$ that $\forall a\in \mathcal{A}, s\in \mathcal{S}, b(a|s) > 0$
+		\State $t \gets 0$
+		
+		\Statex
+		
+		\Loop
+			\State choose $S_0$
+			\State choose action $A_0 \sim b (\cdot | S_0)$
+			\State $T \gets \infty$
+			\While{$\tau < T - 1$}
+				\If{$t < T$}
+					\State take action $A_t$ and store $R_{t+1}$ and $S_{t+1}$
+					\If{$S_{t+1}$ is terminal}
+						\State $T \gets t+1$
+					\Else
+						\State choose $A_{t+1} \sim b(\cdot|S_{t+1})$
+						\State choose $\sigma_{t+1} \in \{ 0, 1\}$ \Comment $\sigma$ is either $0$ or $1$
+						\State $\rho_{t+1} \gets \frac{\pi(A_{t+1}|S_{t+1})}{b(A_{t+1}|S_{t+1})}$
+					\EndIf
+				\EndIf
+				
+				\State $\tau \gets t - n + 1$ \Comment $\tau$ is the pivot of update
+				
+				\If{$\tau \geq 0$}
+					\For{$k \gets \Big [\min (t+1,T),\dots,\tau+1 \Big ]$}
+						\If{$k=T$}
+							\State $G \gets R_T$
+						\Else
+							\State $\overline{V} \gets \sum\limits_a \pi(a|S_{k})Q(S_{k},a)$
+							\State $G \gets R_{k} + \gamma \overline{V} + \gamma \Big ( \sigma_{k} \rho_{k} + \big(1-\rho_{k})\pi(A_{k}|S_{k}) \Big) \Big(G -Q(S_{k},A_{k}) \Big  )$
+						\EndIf
+					\EndFor
+					\State $G(S_\tau,A_\tau) \gets G(S_\tau,A_\tau) + \alpha \Big(G - G(S_\tau,A_\tau)\Big)$
+					\State update $\pi_*$ \Comment update as a $\varepsilon$-greedy policy if calculating $q_*$
+				\EndIf
+
+				\State $t \gets t+1$
+			\EndWhile
+		\EndLoop
+	\end{algorithmic}
+\end{algorithm}
+

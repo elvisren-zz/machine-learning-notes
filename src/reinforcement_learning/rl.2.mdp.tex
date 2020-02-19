@@ -1,0 +1,245 @@
+
+%
+% section for MDP
+%
+
+\section{Markov Decision Process}
+
+\subsection{Definition}
+
+A \cindex{Markov decision process} (MDP) is a Markov reward process with decisions. It is an environment in which all stated are Markov. It is a tuple $\langle \mathcal{S}, \mathcal{A}, \mathcal{R}, \mathcal{P}, \gamma \rangle$:
+
+\begin{itemize}
+	\item $\mathcal{S}$ is a finite set of states.
+	\item $\mathcal{A}$ is a finite set of actions.
+	\item $\mathcal{R}$ is a reward function.
+	\item $\mathcal{P}$ is a state transition probability matrix.
+	\item $\gamma \in [0,1]$ is a discount factor.
+\end{itemize}
+
+\subsection{Goals and Equations}
+
+\subsubsection{Environment}
+
+\cindex{environment} has \cindex{state} $S_t \in \mathcal{S}$ and generate \cindex{reward} $R_{t+1} \in \mathbb{R}$. Anything that cannot be changed arbitrarily by the agent is part of environment. The goal of reinforcement learning is to maximize expected value of cumulative sum of received scalar reward.
+
+The reward signal should be chosen so it will not affect how agent act.
+
+\subsubsection{Agent}
+
+\cindex{agent} has \cindex{action} $A_t \in \mathcal{A}(S_t)$ and \cindex{observation} $O_t$ of state $S_t$. Agent may know everything about how the environment works but still unable to solve problem, such as the Rubik cube puzzle.
+
+\subsubsection{State and Reward}
+
+The probability of next state and reward is :
+\begin{equation}
+	p(s^\prime,r|s,a) = \mathbb{P}\{S_t=s',R_t=r|S_{t-1}=s,A_{t-1}=a\}
+\end{equation}
+
+The \cindex{state-transition probabilities} is :
+\begin{equation}
+	p(s'|s,a)=P\{S_t=s'|S_{t-1}=s,A_{t-1} = a \}=\sum_{r \in \mathbb{R}} p(s',r|s,a)
+\end{equation}
+
+
+
+
+
+Usually the state and reward probability will be treated as independent, so their formulas are:
+
+\begin{equation}
+	\mathcal{P}_{s,s'}^a = \mathbb{P}[S_{t+1}=s' | S_t = s, A_t = a]
+\end{equation}
+
+
+\begin{equation}
+	\mathcal{P}_{s,s'}^{\pi} = \sum_{a \in A(s)} \pi(a|s) \mathcal{P}_{s,s'}^a
+\end{equation}
+
+
+\begin{equation}
+	\mathcal{R}_s^a = \mathbb{E}[R_{t+1}|S_t =s, A_t=a]
+\end{equation}
+
+
+\begin{equation}
+	\mathcal{R}_s^\pi = \sum_{a \in A(s)} \pi(a|s) \mathcal{R}_s^a
+\end{equation}
+
+
+
+The expected reward of state-action pair is:
+\begin{equation}
+	r(s,a) = \mathbb{E}[R_t|S_{t-1}=s,A_{t-1}=a]= \sum_{r \in \mathbb{R}} \sum_{s' \in \mathbf{S}} p(s',r|s,a)
+\end{equation}
+
+\subsubsection{Episode}
+An \cindex{episode} is an order sequence of $S_0, A_0,R_1,S_1,A_1, \dots, R_n, S_n$ in MDP. So an \cindex{episode} will always end.
+
+\cindex{continuing task} is a list of actions that never terminate.
+
+Episode task can be converted to continuing task by appending infinite \cindex{absorbing state}.
+
+
+\subsubsection{Goal}
+The \cindex{expected return} is the sum of rewards in the episode:
+\begin{equation}
+	G_t=R_{t+1}+R_{t+2} + R_{t+3} +\dots + R_T
+\end{equation}
+
+\begin{itemize}
+	\item \cindex{terminal state}: $R_T$ 
+	\item $S$: All non-terminal states
+	\item $S^+$: all terminal and non-terminal states
+\end{itemize}
+
+
+\cindex{discounted return} for continuing task is defined as:
+\begin{equation}
+	\begin{aligned}
+		G_t&=R_{t+1}+\gamma R_{t+2} + \gamma^2 R_{t+3} + \dots  \\
+		&= \sum_{k=0}^\infty \gamma^k R_{t+k_1} \\
+		&= R_{t+1} + \gamma G_{t+1}
+	\end{aligned}
+\end{equation}
+
+where $0 \leq \gamma \leq 1$.
+
+
+\subsubsection{Policy}
+
+A stochastic policy is a probability of selecting next possible action:
+
+\begin{equation}
+	\pi(a|s)=\mathbb{P}[A_t = a | S_t = s]
+\end{equation}
+
+\subsubsection{Value Function}
+
+The \cindex{state-value} function $V_\pi$ for policy $\pi$ is:
+
+\begin{equation}
+	\begin{aligned}
+		V_{\pi}(s) &= \mathbb{E}_{\pi}[G_t|S_t=s] \\
+		&=\mathbb{E}[R_{t+1} + \gamma V_{\pi}(S_{t+1})| S_t = s]
+	\end{aligned}
+\end{equation}
+
+The \cindex{action-value} function $q_\pi$ for policy $\pi$ is:
+
+\begin{equation}
+	\begin{aligned}
+		q_{\pi}(s,a) &= \mathbb{E}_{\pi}[G_t|S_t=s,A_t=a] \\
+					&= \mathbb{E}[R_{t+1} + \gamma q_{\pi}(S_{t+1}, A_{t+1})| S_t = s, A_t = a]
+	\end{aligned}
+\end{equation}
+
+\subsubsection{Bellman Equation}
+
+
+Bellman equation (\cindex{backup} process) is an expansion of value function:
+
+\begin{equation}\label{bellman:v}
+	\begin{aligned}
+		V_{\pi}(s) &= \sum_{a \in \mathcal{A}(s)} \pi(a|s) q_{\pi}(s,a) \\
+		&= \sum_{a \in \mathcal{A}(s)} \pi(a|s) \left( \mathcal{R}_s^a + \gamma \sum_{s' \in \mathcal{S}} \mathcal{P}_{s,s'}^a V(S') \right)
+	\end{aligned}
+\end{equation}
+
+\begin{equation}
+	\begin{aligned}
+		q_{\pi}(s,a) &= R_s^a + \gamma \sum_{s' \in \mathcal{S}} \mathcal{P}_{s,s'}^a V_{\pi}(s') \\
+		&= R_s^a + \gamma \sum_{s' \in \mathcal{S}} \mathcal{P}_{s,s'}^a \left( \sum_{a', s'} \pi(a'|s') q_{\pi}(s',a') \right )
+	\end{aligned}
+\end{equation}
+
+
+
+\subsubsection{Bellman Equation Solution}
+
+Formula (\ref{bellman:v}) is for a single state. Let 
+\begin{equation}
+	V_{\pi} = \left [\begin{matrix}
+ 	V_{\pi}(s_1) \\
+ 	\vdots \\
+ 	V_{\pi}(s_n)
+ \end{matrix} \right ]
+\end{equation}
+
+Formula (\ref{bellman:v}) now becomes:
+
+\begin{equation}
+	\mathbf{V}_{\pi}=\mathbf{R}^{\pi} + \gamma \mathbf{P}^{\pi} \mathbf{V}_{\pi} 
+\end{equation}
+
+So the solution to \cindex{Bellman Equation} is:
+
+\begin{equation}
+	\mathbf{V}_{\pi}=(\mathbf{I} - \gamma \mathbf{P}^{\pi})^{-1}\mathbf{R}^{\pi}
+\end{equation}
+
+It is a fixed point solution to formula (\ref{bellman:v}).
+
+\subsection{Optimal Policy}
+
+\subsubsection{Policy Partial Order}
+
+$\pi \geq \pi^{\prime}$ if $\forall s \in \mathcal{S}, V_{\pi} (s) \geq V_{\pi^{\prime}} (s)$ . 
+
+
+For MDP all optimal solution share the same value function $V_*$ and include at least one deterministic policy $\pi_*$. 
+
+
+\subsubsection{Optimal State-value Function}
+
+The optimal state-value function $V_*$ is defined as:
+
+
+\begin{equation}
+	\begin{aligned}
+		V_*(s) &= \underset{\pi}{\max} \ V_{\pi}(s) \\
+		&= \underset{a}{\max}\ q_* (s, a) \\
+		&= \underset{a}{\max}\ \left( \mathcal{R}_s^a + \gamma \sum_{s' \in \mathcal{S}} \mathcal{P}_{s,s'}^a V_*(s') \right )
+	\end{aligned}
+\end{equation}
+
+\subsubsection{Optimal Action-value Function}
+
+
+The optimal action-value function $q_*$ is defined as:
+
+\begin{equation}
+	\begin{aligned}
+		q_*(s,a)&=\underset{\pi}{\max}\ q_{\pi}(s,a)\\
+		&=\mathbb{E}[R_{t+1}+\gamma V_*(S_{t+1})|S_t=s, A_t=a]\\		
+		&=\mathcal{R}_s^a+\gamma \sum_{s' \in \mathcal{S}} \mathcal{P}_{s,s'}^a V_*(s')\\
+		&=\mathcal{R}_s^a+\gamma \sum_{s' \in \mathcal{S}} \mathcal{P}_{s,s'}^a \ \underset{a'}{\max}\  q_*(s',a')
+	\end{aligned}
+\end{equation}
+
+Here $\mathcal{R}_s^a$ is an expectation. In model-free learning and controlling it is the sample return from environment.
+
+\subsubsection{Optimal Policy from Action Value Function} Once the optimal action value function is known, we can calculate the optimal policy by:
+
+\begin{equation}\label{optimal:policy}
+	\pi_*(a|s) =
+	\begin{cases}
+		1& \text{, if $a = \underset{a \in \mathcal{A}(s)}{\text{argmax}}\ q_*(s,a)$}\\
+		0& \text{, else}
+	\end{cases}
+\end{equation}
+
+So the optimal policy is a greedy algorithm.
+
+Compared with $V_*$, $q_*$ is better because it does not need to do one step lookahead.
+
+\subsubsection{Reason for Complex Algorithms}
+
+There is no closed form for optimal Bellman policy equation, so many iterative solution exists:
+\begin{itemize}
+	\item value iteration
+	\item policy iteration
+	\item $Q$-learning
+	\item Sarsa
+\end{itemize}
+

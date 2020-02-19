@@ -1,0 +1,187 @@
+
+
+\section{Temporal Difference Learning}
+
+\subsection{Constant-$\alpha$ \cindex{TD(0)} Prediction}
+
+Suppose at time $t+1$, state becomes $S_{t+1}$ with reward $R_{t+1}$. The  \cindex{TD error} is defined as:
+\begin{equation}
+	\delta_t = R_{t+1} + \gamma V(S_{t+1}) - V(S_t)
+\end{equation}
+
+The simplest TD is:
+\begin{equation}
+	V(S_t) \gets V(S_t) + \alpha \delta_t
+\end{equation}
+
+Because TD use Markov property while MC is not, it is usually more efficient.
+
+It use $R_{t+1} + \gamma V(S_{t+1})$ to estimate $G_t$ in formula $V(S_t) \gets V(S_t) + \alpha \Big ( G_t - V(S_t) \Big )$ which is an average of all $G_t$.
+
+TD is \cindex{sample update} which explores just one condition while MC is \cindex{expected update} which explores all choices.
+
+The advantage of TD:
+\begin{description}
+	\item [over DP] TD does not require a model of environment.
+	\item [over MC] TD is an online, fully incremental fashion, more efficient.
+\end{description}  
+
+TD is sensitive to initial value (guess).
+
+
+Algorithm (\ref{algo:tdpe}) contains detail.
+
+\begin{algorithm}
+	\caption{TD(0) policy evaluation, estimate $v_\pi$}\label{algo:tdpe}	
+	
+	\begin{algorithmic}[1]
+		\State $ \alpha \in (0,1]$
+		\State $V(s) \gets$ random \Comment{bootstrap}
+		
+		\Statex
+		
+		\Loop
+			\State choose $S$
+			\Repeat
+				\State $A \gets$ action given by $\pi$ for $S$ \Comment following the given policy $\pi$
+				\State take action $A$, get $R$ and $S'$
+				\State $V(S) \gets V(S) + \alpha \Big (R + \gamma V(S') - V(S) \Big )$
+				\State $S \gets S'$
+			\Until{$S$ is terminal}
+		\EndLoop		
+	\end{algorithmic}
+\end{algorithm}
+
+\subsection{Sarsa: On-policy TD Algorithm}
+
+\subsubsection{Sarsa Prediction}
+
+\cindex{Sarsa} is a process of $S_t,A_t,R_{t+1},S_{t+1},A_{t+1}$, and its formula is:
+\begin{equation}
+	Q(S_t,A_t) \gets Q(S_t,A_t) + \alpha \Big ( R_{t+1} + \gamma Q(S_{t+1},A_{t+1}) - Q(S_t,A_t) \Big )
+\end{equation}
+
+If $S_{t+1}$ is terminal, then $Q(S_{t+1},A_{t+1})$ is $0$.
+
+\subsubsection{Sarsa Control}
+
+The algorithm is almost the same as Sarsa prediction. The difference is to update the policy on the fly using $\varepsilon$-soft or $\varepsilon$-greedy policy.
+
+Algorithm (\ref{algo:sarsa}) contains detail.
+
+\begin{algorithm}
+	\caption{on-policy Sarsa TD control, estimate $q_*$}\label{algo:sarsa}	
+	
+	\begin{algorithmic}[1]
+		\State $ \alpha \in (0,1]$
+		\State $Q(s,a) \gets$ random
+		
+		\Statex
+		
+		\Loop
+			\State choose $S$
+			\State $A \gets$ action from a policy derived from $Q$ (e.g., $\varepsilon$-greedy) \Comment {update policy}
+			\Repeat
+				\State take action $A$, get $R$ and $S'$
+				\State \Comment {update policy after each iteration}
+				\State $A' \gets$ action from a policy derived from $Q$ (e.g., $\varepsilon$-greedy) 
+				\State $Q(S,A) \gets Q(S,A) + \alpha \Big (R + \gamma Q(S',A') - Q(S,A) \Big )$
+				\State $S \gets S'$
+				\State $A \gets A'$
+			\Until{$S$ is terminal}
+		\EndLoop		
+	\end{algorithmic}
+\end{algorithm}
+
+
+
+\subsection{Expected Sarsa Learning Algorithm}
+
+\cindex{expected Sarsa} use expectation, rather than $\varepsilon$-greedy, to learn next $q$. It reduces variance by removing the random selection of $A_{t+1}$ during $\varepsilon$-soft policy :
+
+\begin{equation}
+	Q(S_t,A_t) \gets Q(S_t,A_t) + \alpha \left ( R_{t+1} + \gamma \sum_a \pi(a|S_{t+1}) Q(S_{t+1},a) - Q(S_t,A_t) \right )
+\end{equation}
+
+
+\subsection{\cindex{Q-learning}: Off-policy TD Control}
+
+\cindex{Q-learning} is defined as:
+\begin{equation}
+	Q(S_t,A_t) \gets Q(S_t,A_t) + \alpha \Big ( R_{t+1} + \gamma \max_a Q(S_{t+1},a) - Q(S_t,A_t) \Big )
+\end{equation}
+
+
+
+Algorithm (\ref{algo:qlearning}) contains detail.
+
+\begin{algorithm}
+	\caption{off-policy Q-learning TD control, estimate $\pi_*$}\label{algo:qlearning}	
+	
+	\begin{algorithmic}[1]
+		\State $ \alpha \in (0,1]$
+		\State $Q(s,a) \gets$ random
+		
+		\Statex
+		
+		\Loop
+			\State choose $S$
+			\Repeat
+				\State $A \gets$ action given by $Q$ for $S$ (e.g., $\varepsilon$-greedy)
+				\State take action $A$, get $R$ and $S'$
+				\State $Q(S,A) \gets Q(S,A) + \alpha \Big ( R + \gamma \underset{a}{\max}\ Q(S',a) - Q(S,A) \Big )$
+				\State $S \gets S'$
+			\Until{$S$ is terminal}
+		\EndLoop		
+	\end{algorithmic}
+\end{algorithm}
+
+\subsection{Double Learning}
+
+Maximization has \cindex{maximization bias}. For example, if $\mathbb{E}[q(s,a)] = 0$, then $\max q(s,a) > 0$. So the selection of $q$ is always a positive bias. One way of viewing the problem is that maximization use the same sample to determine action and estimate its value. \cindex{double learning} uses two $q$ for determination and estimation.
+
+
+Algorithm (\ref{algo:doublelearning}) contains detail of double q-learning TD control.
+
+\begin{algorithm}
+	\caption{double Q-learning TD control, estimate $q_*$}\label{algo:doublelearning}	
+	
+	\begin{algorithmic}[1]
+		\State $ \alpha \in (0,1]$
+		\State $Q_1(s,a) \gets$ random
+		\State $Q_2(s,a) \gets$ random		
+		
+		\Statex
+		
+		\Loop
+			\State choose $S$
+			\Repeat
+				\State $A \gets$ action given by $\varepsilon$-greedy policy of $Q_1+Q_2$ for $S$
+				\State take action $A$, get $R$ and $S'$
+				\State $p \gets \text{random}(0,1)$
+				\If{$p > 0.5$}
+					\State $Q_1(S,A) \gets Q_1(S,A) + \alpha \Big(R + \gamma Q_2(S',  \underset{a}{\max}\  Q_1(S',a)) - Q_1(S,A)\Big)$
+				\Else
+					\State $Q_2(S,A) \gets Q_2(S,A) + \alpha \Big(R + \gamma Q_1(S',\underset{a}{\max}\  Q_2(S',a)) - Q_2(S,A)\Big)$
+				\EndIf
+				\State $S \gets S'$
+			\Until{$S$ is terminal}
+		\EndLoop		
+	\end{algorithmic}
+\end{algorithm}
+
+There are double learning version for Sarsa and Expected-Sarsa as well.
+
+
+\subsection{Comments}
+
+Compared with MC, TD is sensitive to initial value. It explores Monte Carlo property and is more effective. 
+
+
+\begin{itemize}
+    \item TD: average $V$ using $R + \gamma V$.
+    \item Sarsa: from $V$ to $Q$.
+    \item Expect Sarsa: remove randomness of Sarsa by average.
+    \item Q: replace average by $\max$.
+    \item Double-Q: reduce $\max$ bias by using two queues.
+\end{itemize}
