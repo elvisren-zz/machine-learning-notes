@@ -1,0 +1,381 @@
+\section{Conditional Probability}
+
+\subsection{Conditional Probability}
+
+\begin{theorem}
+    \begin{equation}
+        \probability{E} = \begin{cases}
+            \displaystyle \sum_y \probability{E|Y = y} p(Y=y) \\
+            \displaystyle \int_{-\infty}^\infty f_Y(y) \dif{y}
+        \end{cases}
+    \end{equation}    
+\end{theorem}
+
+
+\subsection{Conditional Expectation}
+
+\begin{definition}
+    The \cindex{conditional probability mass function} of $X$ given $Y=y$ is 
+    \begin{equation}
+        \displaystyle p_{X|Y}(x|y) = \frac{p(x,y)}{p_Y (y)}
+    \end{equation}
+    
+    The \cindex{conditional probability density function} of $X$ given $Y=y$ ($f_Y (y) > 0$) is 
+    \begin{equation}
+        \displaystyle f_{X|Y}(x|y) = \frac{f(x,y)}{f_Y (y)} = \frac{f(x,y)}{\displaystyle \int_x f(x,y) \dif{x}}
+    \end{equation}
+\end{definition}
+
+
+
+
+
+\begin{definition}
+    The \cindex{conditional expectation} of $X$ given $Y=y$ is 
+    \begin{equation}
+        \displaystyle \expect{X|Y=y} = \begin{cases}
+            \displaystyle \sum_x x \cdot p_{X|Y}(x|y) \\
+            \displaystyle \int_{-\infty}^\infty x f_{X|Y} (x|y) \dif{s}
+        \end{cases} 
+    \end{equation}
+\end{definition}
+
+Note: $\expect{X|Y}$ is a random variable of $Y$. $Y$ here may be an expression of $X$ as the following example shows.
+
+\begin{example}
+    If $X$ and $Y$ are independent variable, calculate the conditional expectation of $X$ given $X+Y=n$.
+\end{example}
+
+
+\begin{theorem}
+    \begin{equation}
+        \begin{aligned}
+            \expect{X} &= \expect{ \expect{X|Y}} \\
+            &= \begin{cases}
+                \displaystyle \sum_y \expect{X|Y = y} \probability{Y=y} \\
+                \displaystyle \int_{-\infty}^\infty \expect{X|Y=y} f_Y (y) \dif{y}
+            \end{cases}
+        \end{aligned}
+    \end{equation}
+\end{theorem}
+
+
+
+
+
+% conditional variance
+\subsection{Conditional Variance}
+
+\begin{theorem}
+    \begin{equation}
+    \begin{aligned}
+        \variance{X|Y=y} &= \expect{(X - \expect{X|Y=y})^2 | Y=y} \\
+        &= \expect{X^2|Y=y}- \left(\expect{X|Y=y} \right)^2
+    \end{aligned}
+    \end{equation}
+\end{theorem}
+
+\begin{theorem}
+ \begin{equation}
+        \variance{X} = \expect{\variance{X|Y}} + \variance{\expect{X|Y}}
+    \end{equation}    
+\end{theorem}
+
+
+
+
+
+
+
+
+% example
+\subsection{Example}
+
+\begin{example}
+    A miner is trapped in a mine containing 3 doors. The first door needs to a tunnel that takes him to safety after 2 hours. The second door take him back after 3 hours and the third door takes him back after 5 hours. What is the expected length of time until the miner reaches out when he chooses the door equally?    
+    \qed
+\end{example}
+
+\begin{example}
+    $n$ men through their hat into the room and randomly select one. They will leave the game if they have selected their own hat.
+    \begin{enumerate}
+        \item \label{hatq1} what is the probability of no match in first round?
+        \item \label{hatq2} what is the probability of k match in first round?
+        \item \label{hatq3} what is the expected match in first round?
+        \item \label{hatq4} what is the variance of match in first round?
+        \item \label{hatq5} what is the expected number of rounds?
+        \item \label{hatq6} what is the variance of rounds?
+        \item \label{hatq7} what is the expected total number of selection?
+        \item \label{hatq8} what is the expected number of wrong selection for each man?
+    \end{enumerate}    
+\end{example}
+\begin{proof}
+    define these variables:
+    \begin{itemize}
+        \item $R_n$: the number of rounds necessary for $n$ men.
+        \item $S_n$: the total number of all selection.
+        \item $C_i$: the number of all wrong selection by $i$th man.
+        \item $X_n$: the number of matches in the first round.
+    \end{itemize}
+    
+    For question (\ref{hatq1}) let $E_n$ be the event that no match occurs in $n$ men scenario, $M$ be the event that the first man select its own hat. We have
+    \begin{equation*}
+        \probability{E_n} = \probability{E_n|M} \probability{M} + \probability{E_n|M^c} \probability{M^c}
+    \end{equation*}
+
+    Because $\probability{E|M} = 0$, $\displaystyle \probability{E_n} = \frac{n-1}{n} \probability{E_n|M^c} $.
+    
+    In $M^c$ case, the first man selected the hat of another person. there are two possibilities on whether the other person select the hat of the first man:
+    \begin{enumerate}
+        \item the "another" man did not select the hat of first man. In this case, $\probability{E_{n}|?} = \probability{E_{n-1}}$.
+        \item the "another" man did select the hat of the first man. In this case, $\probability{E_{n}|?} = \probability{E_{n-2}} \probability{?} = \displaystyle \frac{1}{n-1} \probability{E_{n-2}}$.
+    \end{enumerate}
+    
+    So 
+    \begin{equation*}
+        \probability{E_n} = \probability{E_{n-1}} + \frac{1}{n-1} \probability{E_{n-2}}
+    \end{equation*}
+    
+    and $\probability{E_n} = \displaystyle \sum_{i=2}^n \frac{(-1)^i}{n!}$
+    
+    
+    For question (\ref{hatq2}), for any fixed group of $k$ men that select their own hat, the probability is 
+    \begin{equation*}
+        \frac{1}{n} \frac{1}{n-1} \cdots \frac{1}{n-(k-1)} \probability{E_{n-k}} = \frac{(n-k)!}{n!} \probability{E_{n-k}}
+    \end{equation*}
+    
+    Because there are $\binom{n}{k}$ choices of $k$ men, the result is
+    \begin{equation*}
+        \frac{(n-k)!}{n!} \probability{E_{n-k}} \binom{n}{k} = \frac{1}{k!} \sum_{i=2}^{n-k} (-1)^{n-k} \frac{1}{i!}
+    \end{equation*}
+    
+    Another way is to calculate the length $C$ of the cycle that contains the first man. we have 
+    
+    \begin{equation*}
+    \begin{aligned}
+        \probability{E_n} &= \sum_{k=1}^n \probability{E_n|C=k} \probability{C=k} \\
+        &= \sum_{k=1}^n \probability{E_{n-k}} \probability{C=k}
+    \end{aligned}
+    \end{equation*}
+    
+    We have 
+    \begin{equation*}
+        \probability{C=k} = \frac{n-1}{n} \frac{n-2}{n-1} \cdots \frac{n-k+1}{c-k+2} \frac{1}{n-k+1} = \frac{1}{n}
+    \end{equation*}
+    
+    So $\displaystyle \probability{E_n} = \frac{1}{n} \sum_{k=2}^n \probability{E_{n-k}}$.
+    
+    
+    
+    For equestion question (\ref{hatq3}), the probability $i$th man select its hat is $\displaystyle \probability{H_i} = \frac{1}{n}$, so 
+    \begin{equation*}
+        \begin{aligned}
+            \expect{\sum_i H_i} &= \sum_i \expect{H_i} \\
+            &= \sum_i \frac{1}{n} \\
+            &= 1
+        \end{aligned}
+    \end{equation*}
+    
+    For question (\ref{hatq4}), the $\variance{ \sum_i H_i} = 1$
+    
+    For question (\ref{hatq5}), 
+    \begin{equation*}
+    \begin{aligned}
+        \expect{R_n} &= \sum_{i=0}^n \expect{R_n | X_n = i} \probability{X_n = i} \\
+        &= \sum_{i=0}^n (1 + \expect{R_{n - i}}) \probability{X_n = i} \\
+        &= 1 + \expect{R_n} \probability{X_n = 0} + \sum_{i=0}^n \expect{R_{n-i}} \probability{X_n=i} \\
+        &= \expect{R_n} \probability{X_n = 0} + n(1 - \probability{X_n = 0} )
+    \end{aligned}
+    \end{equation*}
+    
+    So the only solution is $\expect{R_n} = n$.
+    
+    For question (\ref{hatq6}), for the variance, we have
+    \begin{equation*}
+        \expect{R_n|X} = 1 + \expect{R_{n-X}} = 1 + n - X
+    \end{equation*}
+    
+    Also we have $\variance{R_n|X} = \variance{R_{n-X}}$. So we have
+    \begin{equation*}
+        \begin{aligned}
+            \variance{R_n} &= \expect{\variance{R_n|X}} + \variance{\expect{R_n|X}} \\
+            &= \expect{\variance{R_{n-X}}} + \variance{X} \\
+            &= \sum_{i=0}^n \variance{R_{n-j}} \probability{X=j} + \variance{X} \\
+            &= \variance{R_n}\probability{X = 0} + \sum_{j=1}^n \variance{R_{n-j}} \probability{X=j} + \variance{X}
+        \end{aligned}
+    \end{equation*}
+    
+    The solution is $\variance{R_n} = n$.
+    
+    
+    For question (\ref{hatq7}), for $S_n$, we have
+    \begin{equation*}
+        \expect{S_n} = n + \expect{S_{n - X_n}}
+    \end{equation*}
+    And the solution is $\expect{S_n} = n + \displaystyle \frac{n^2}{2}$.
+    
+    For question (\ref{hatq8}),
+    \begin{equation*}
+        \begin{aligned}
+            \sum_{j=1}^n (C_j + 1) & = S_n \\
+            \expect{C_j} &= \expect{C_j + 1} -1 \\
+            &= \displaystyle \frac{\expect{S_n}}{n}  -1\\
+            &= \left( 1 + \frac{n}{2} \right) - 1 \\
+            &= \frac{n}{2}
+        \end{aligned}
+    \end{equation*}
+\end{proof}
+
+\begin{example}
+what is the number of necessary trial to get $k$ consecutive success? Each trial has probability $p$ of being successful.
+\end{example}
+\begin{proof}
+    Let $N_k$ the number of $k$ consecutive success. $A_{k-1, k}$ be the additional trial from $k-1$ success to $k$ success, so
+    \begin{equation*}
+        \expect{N_k} = \expect{N_{k-1}} + \expect{A_{k-1, k}}
+    \end{equation*}
+    
+    We have 
+    \begin{equation*}
+        \expect{A_{k-1,k}} = 1 \times p + (1 + \expect{N_k}) (1-p) = 1 + (1-p) \expect{N_k}
+    \end{equation*}
+    So
+    \begin{equation*}
+        \expect{N_k} = \frac{1}{p} + \frac{\expect{N_{k-1}}}{p}
+    \end{equation*}
+    with 
+    \begin{equation*}
+        \expect{N_1} = \frac{1}{p}
+    \end{equation*}
+    So
+    \begin{equation*}
+        \expect{N_k} = \sum_{i=1}^k \frac{1}{p^i}
+    \end{equation*}
+\end{proof}
+
+
+\begin{example}
+    Analyse the quick sort algorithm    
+\end{example}
+\begin{proof}
+    Suppose there are $n$ numbers and all permutation are of equally likely. Let $M_n$ be the expected number of comparison needed for $n$ numbers. So
+    \begin{equation*}
+    \begin{aligned}
+        M_n &= \sum_{j=1}^n \expect{\text{number of comparison} | \text{pivot is the } i \text{th smallest}} \frac{1}{n} \\
+        &= \sum_{j=1}^n (n - 1 + M_{j-1} + M_{n - j}) \frac{1}{n} \\
+        &= n - 1 + \frac{2}{n} \sum_{k=1}^{n-1} M_k
+    \end{aligned}
+    \end{equation*}
+    
+    So
+    \begin{equation*}
+        \begin{aligned}
+            M_{n+1} &= 2(n+2) \sum_{i=1}^n \frac{i}{(i+1)(i+2)} \\
+            &\approx 2(n+2) \log{(n+2)}
+        \end{aligned}
+    \end{equation*}
+\end{proof}
+
+
+\begin{example}[compound random variable]
+    Let $X_i$ be identical independent random variable with mean $\mu$ and variance $\sigma^2$. Let $N$ be random variable. The random variable $\displaystyle \sum_{i=1}^N X_i$ is called \cindex{compound random variable}. Its expectation is $\displaystyle \expect{\sum_{i=1}^N X_i} = \expect{N} \expect{X}$, and the variance is $\variance{\sum_{i=1}^N X_i} = \sigma^2 \expect{N} + \mu^2 \variance{N}$
+\end{example}
+\begin{proof}
+    Let $\displaystyle S = \sum_{i=1}^N X_i $  be the random variable. 
+    \begin{equation*}
+        \begin{aligned}
+            \displaystyle \expect{S| N = n} &= \expect{\sum_{i=1}^n X_i | N = n} \\
+            &= \expect{\sum_{i=1}^n X_i} \\
+            &= n \expect{X}
+        \end{aligned}
+    \end{equation*}
+    Thus
+    \begin{equation*}
+        \expect{S} = \expect{N \expect{X}} = \expect{N} \expect{X}
+    \end{equation*}
+    
+    \begin{equation*}
+        \begin{aligned}
+            \displaystyle \variance{S|N=n} &= \variance{\sum_{i=1}^n X_i | N = n} \\
+            &= \variance{\sum_{i=1}^n X_i} \\
+            &= n \variance{X}
+        \end{aligned}
+    \end{equation*}
+    So $\variance{S|N} = N \variance{X}$, $\expect{S|N} = N \expect{X}$, and
+    \begin{equation*}
+        \begin{aligned}
+            \variance{S} &= \expect{\variance{S|N}} + \variance{\expect{S|N}} \\
+            &= \expect{N} \variance{S} + \variance{N}\left(\expect{S}\right)^2
+        \end{aligned}
+    \end{equation*}
+\end{proof}
+
+\begin{example}
+    For $n$ distinct value, select the biggest one using the following rules:
+    \begin{enumerate}
+        \item determine the maximum of first $k$ value. reject all of them.
+        \item select the first one that is larger than the maximum value just found.
+    \end{enumerate}
+    What is the probability that the rule select the maximum among all $n$ values?
+\end{example}
+\begin{proof}
+    Let $X$ be the position of largest value and $P_k(\text{best})$ be the probability that the best value is elected using the rule. We have
+    \begin{equation*}
+        \begin{aligned}
+            P_k (\text{best}) &= \sum_{i=1}^n P_k (\text{best} | X = i) p(X=i) \\
+            &= \frac{1}{n} \sum_{i=1}^n P_k (\text{best}|X=i)
+        \end{aligned}
+    \end{equation*}
+    Because the largest will be selected if the largest of first $k$ is also the largest of first $i-1$, we have
+    \begin{equation*}
+        P_k(\text{best} | X=i) = \frac{k}{i-1}
+    \end{equation*}
+    So
+    \begin{equation*}
+        \begin{aligned}
+            P_k(best) &= \frac{1}{n} \sum_{i=1}^n P_k (\text{best}|X=i) \\
+            &= \frac{k}{n} \sum_{i=k+1}^n \frac{1}{k-1} \\
+            &\approx \frac{k}{n} \int_k^{n-1} \frac{1}{x} \dif{x} \\
+            &= \frac{k}{n} \log{\frac{n-1}{k}}
+        \end{aligned}
+    \end{equation*}
+    The best $k$ is $\displaystyle \frac{1}{e} n$.
+\end{proof}
+
+\begin{example}[The Ballot Problem]
+    In an election candidate A received $n$ notes and B received $m$ notes where $n > m$. What is the probability that A is always ahead of B?
+\end{example}
+\begin{proof}
+    Let $P_{n,m}$ denote the probability. By conditioning on who receive the last vote, we have:
+    \begin{equation*}
+        P_{n,m} = \frac{n}{n+m} P_{n-1,m} + \frac{m}{n+m}P_{n,m-1}
+    \end{equation*}    
+    The solution is $\displaystyle P_{n,m} = \frac{n-m}{n+m}$
+\end{proof}
+
+
+\begin{example}
+    A coin has $p$ of being head. What is the probability that the total number of head equals tail after $2n$ flip?    
+\end{example}
+\begin{proof}
+    \begin{equation*}
+        \begin{aligned}
+            \probability{\text{first time } = 2n} &= \probability{\text{first time } = 2n | n \text{ heads in first } 2n} \binom{2n}{n} p^n (1-p)^n \\
+            &= P_{n,n-1} \binom{2n}{n} p^n (1-p)^n \\
+            &=  \frac{\displaystyle \binom{2n}{n} p^n (1-p)^n}{2n - 1}
+        \end{aligned}
+    \end{equation*}
+\end{proof}
+
+\begin{example}
+    What is the probability that the first time there are $i$ more heads than tails occurs after the $2n+i$   flip?
+\end{example}
+\begin{proof}
+    it occurs $\iff$ starting from the final flip and working backwards, the head is always in the lead.
+\end{proof}
+
+
+
+
+
+

@@ -49,13 +49,14 @@
 
 
 % set font
-\usepackage{fontspec}
-\usepackage{amsfonts}
-%\setmonofont{PragmataPro}
-%\usepackage{mathptmx}
-%\setmainfont{Verdana}
-%\usepackage{kpfonts}
 
+%\usepackage{amsfonts}
+
+%\setmonofont{PragmataPro}
+%\setmainfont{Verdana}
+
+\usepackage[T1]{fontenc}
+\usepackage{kpfonts}
 
 
 % no space in itemize
@@ -65,6 +66,9 @@
 \setenumerate{noitemsep}
 \setdescription{noitemsep}
 
+
+% set line space
+\usepackage{setspace}
 
 
 
@@ -82,11 +86,11 @@
 % customized commands
 \newcommand\cindex[1]{\textcolor{blue}{\textbf{#1}}\index{#1}}
 \newcommand\mathhilight[1]{\mathop{\bf #1\/}}
-\newcommand\probability[1]{\mathop{\bf P\/}\left\{#1\right\}}
-\newcommand\expect[1]{\mathop{\bf E\/} \left[ #1 \right]}
-\newcommand\variance[1]{\mathop{\bf Var\/}\left[ #1 \right]}
-\newcommand\covariance[2]{\mathop{\bf Cov\/}\left(#1,#2 \right)}
-\newcommand{\absolutevalue}[1]{\left\lvert #1 \right\rvert}
+\newcommand\probability[1]{\mathop{\bf P\/}\displaystyle \left\{#1\right\}}
+\newcommand\expect[1]{\mathop{\bf E\/}\displaystyle  \left[ #1 \right]}
+\newcommand\variance[1]{\mathop{\bf Var\/}\displaystyle \left[ #1 \right]}
+\newcommand\covariance[2]{\mathop{\bf Cov\/}\displaystyle \left(#1,#2 \right)}
+\newcommand{\absolutevalue}[1]{\displaystyle \left\lvert #1 \right\rvert}
 
 % start of the document  
 \begin{document}
@@ -118,7 +122,7 @@
 
 \chapter{Probability}
 \include{probability/p.1.random_variable}
-
+\include{probability/p.2.conditional_expectation}
 
 
 \chapter{Classic Machine Learning}

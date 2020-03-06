@@ -42,10 +42,14 @@ If the experiment is repeated over and over again, with probability $1$ the prop
 \end{theorem}
 
 \begin{definition}[conditional probability]
-    The \cindex{conditional probability} that $E$ occurs given that $F$ occurs is denoted by $P(E/F)$ and defined as:
+    The \cindex{conditional probability} that $E$ occurs given that $F$ occurs is denoted by $P(E|F)$ and defined as:
     \begin{equation}
-        P(E/F) = \frac{P(EF)}{P(F)}
+        P(E|F) = \frac{P(EF)}{P(F)}
     \end{equation}
+    
+    For conditional probability the sample space is changed.
+    
+    \qed
 \end{definition}
 
 \begin{definition}[independent]
@@ -66,15 +70,14 @@ If the experiment is repeated over and over again, with probability $1$ the prop
 \begin{definition}
     For mutually exclusive event $F_i$ that $\displaystyle \bigcup_{i=1}^n F_i = S$ .The \cindex{Bayes' formula} is defined as:
     \begin{equation}
-        P(F_j | F) = \frac{P(EF_j}{\sum\limits_{i=1}^n P(EF_i)} = \frac{P(E|F_j) P(F_j)}{\sum\limits_{i=1}^n P(E|F_i) P(F_i)}
+    \displaystyle P(F_j | F) = \frac{\probability{EF_j}}{\sum\limits_{i=1}^n \probability{EF_i}} = \frac{\probability{E|F_j} \probability{F_j}}{\sum\limits_{i=1}^n \probability{E|F_i} \probability{F_i}}
     \end{equation}
 \end{definition}
 
 
 
-\subsection{Random Variable}
 
-\subsubsection{Random Variable Definition}
+\subsection{Random Variable Definition}
 
 \begin{definition}[random variable]
     A real value function defined on sample space is called \cindex{random variable}.
@@ -97,47 +100,20 @@ If the experiment is repeated over and over again, with probability $1$ the prop
     Some properties of cdf are:
     \begin{enumerate}
         \item $F(b)$ is nondecreasing function of $b$.
+        \item $F(b)$ is continuous from the right.
         \item $\displaystyle \lim_{b \rightarrow \infty} F(b) = F(\infty) = 1$.
         \item $\displaystyle \lim_{b \rightarrow -\infty} F(b) = F(- \infty) = 0$.
     \end{enumerate}
 \end{theorem}
 
 \begin{definition}
-    $P\{ X < b \}$ is defined as $\probability{ X < b } = \displaystyle \lim_{h \rightarrow 0^+} \probability{ X \leq b - h } = \lim_{h \rightarrow 0^+} F(b-h)$.
+    $\probability{X < b}$ is defined as $\probability{ X < b } = \displaystyle \lim_{h \rightarrow 0^+} \probability{ X \leq b - h } = \lim_{h \rightarrow 0^+} F(b-h)$.
 \end{definition}
 
 $\probability{X < b} \neq F(b)$ because $F(b)$ also include the probability that $X$ equals $b$.
 
-\begin{definition}[Bernoulli random variable]
-    A trial of two outcome with probability $p$ of being true. Let $X=1$ if the outcome is true and $X=0$ if it is false, we have the probability mass function for \cindex{Bernoulli random variable}:
-    \begin{equation}
-        \begin{aligned}
-            p(0) &= 1 - p \\
-            p (1) &= p
-        \end{aligned}
-    \end{equation}
-\end{definition}
 
-\begin{definition}[Binomial random variable]
-    For $n$ successive independent Bernoulli trial. Let $X$ represent the total number of successes in the trial, $X$ is a \cindex{binomial random variable} with parameter $(n, p)$:
-    \begin{equation}
-        p(i) = \binom{n}{i} p^i (1-p)^{n - i}
-    \end{equation}
-\end{definition}
 
-\begin{definition}[geometric random variable]
-    A \cindex{geometric random variable} is a series of trial until a success occurs. The probability mass function is defined as:
-    \begin{equation}
-        p(n) = (1-p)^{n-1} p
-    \end{equation}
-\end{definition}
-
-\begin{definition}[Poisson random variable]
-    The \cindex{Poisson random variable} is defined as:
-    \begin{equation}
-        p(i) = e^{- \lambda} \frac{\lambda^i}{ i !}
-    \end{equation}
-\end{definition}
 
 Poisson random variable is a approximate of binomial random variable when $n$ is large and $p$ is small. Let $\lambda = np$, then:
 \begin{equation*}
@@ -154,63 +130,8 @@ Poisson random variable is a approximate of binomial random variable when $n$ is
 
 Because $\probability{ a - \frac{\varepsilon}{2} \leq X \leq a + \frac{\varepsilon}{2} } =\displaystyle \int_{a - \frac{\varepsilon}{2}}^{a + \frac{\varepsilon}{2}} f(x) \dif{x} \approx \varepsilon f(a)  $, $f(a)$ is a measure of how likely it is that the random variable will be near $a$ within interval $\varepsilon$.
 
-\begin{definition}[uniform random variable]
-    The \cindex{uniform random variable} defined over $(a,b)$ is 
-    \begin{equation}
-        f(x) = \begin{cases}
-             {\displaystyle \frac{1}{b - a}} & , \text{if } a < x < b \\
-            0 & , \text{otherwise}
-        \end{cases}
-    \end{equation}
-    with cumulative distribution function as
-    \begin{equation}
-        F(x) = \begin{cases}
-            0 & \text{, if } x \leq a \\
-            \displaystyle \frac{x - a}{b - a} & \text{, if } a < x < b \\
-            1 & \text{, if } b < x
-        \end{cases}
-    \end{equation}
-    \qed
-\end{definition}
 
-\begin{definition}[exponential random variable]
-    the \cindex{exponential random variable} is defined as
-    \begin{equation}
-        f(x) = \begin{cases}
-            \lambda e^{-\lambda x} & \text{, if } x \geq 0 \\
-            0 & \text{, if } x < 0
-        \end{cases}
-    \end{equation}
-    with cumulative distribution function as
-    \begin{equation}
-        F(x) = 1 - e^{-\lambda x} \text{, for } x \geq 0
-    \end{equation}
-    \qed
-\end{definition}
-
-\begin{definition}[gamma random variable]
-    The \cindex{gamma random variable} is defined as
-    \begin{equation}
-        f(x) = \begin{cases}
-           \displaystyle \frac{\lambda e^{- \lambda x} (\lambda x)^{\alpha - 1}}{\Gamma(\alpha)} & \text{, if } x \geq 0 \\
-            0 & \text{, if } x < 0
-        \end{cases}
-    \end{equation}
-    gamma function is defined as $\Gamma(\alpha) =\displaystyle \int_{0}^\infty e^{-x} x^{\alpha - 1} \dif{x}$ with $\Gamma(n) = (n-1)!$
-    \qed
-\end{definition}
-
-
-\begin{definition}
-    The \cindex{normal random variable} is defined as
-    \begin{equation}
-        f(x) = \frac{1}{\sqrt{2 \pi} \rho } e^{- \frac{(x - \mu )^2}{2 \rho^2}}
-    \end{equation}
-\end{definition}
-
-If $X$ is normally distributed with $\mu$ and $\rho^2$, then $Y =\displaystyle \frac{X - \mu}{\rho}$ is normally distributed with $0$ and $1$, which is called \cindex{standard normal distribution}.
-
-
+Sometimes when calculating the probability $\probability{X=a}$, we can first calculate $F(a)$ and then calculate $\probability{X=a} = \dod{F(a)}{a}$.
 
 \begin{definition}[expectation]
     The \cindex{expectation} of $X$ is defined as:
@@ -264,10 +185,90 @@ If $X$ is normally distributed with $\mu$ and $\rho^2$, then $Y =\displaystyle \
     \end{equation}
 \end{theorem}
 
+\begin{theorem}
+    Let $X_i$ be identically independent random variable. We need to notice that 
+    \begin{equation*}
+        \variance{\sum_{i=1}^n X_i} = n \variance{X} \neq \variance{n \times X_i} = n^2 \variance{X}
+    \end{equation*}    
+\end{theorem}
+
+
+
+\subsection{Common Distributions}
+
+
+\begin{center} 
+   \begin{tabular}{|c|c|c|c|c|}
+  \hline
+  name & density & $\phi(t)$ & mean & var \\
+  \hline
+  \cindex{binomial} & $\displaystyle \binom{n}{x} p^x (1-p)^{n-x}$  &$(p e^t + q)^n$ & np & npq \\
+  \hline
+  \cindex{poisson} & $\displaystyle e^{-\lambda} \frac{\lambda^x}{x!}$  & $\displaystyle e^{\lambda (e^t -1)}$& $\lambda$ & $\lambda$ \\
+  \hline
+  \cindex{geometric} & $p (1-p)^{x-1}$& $\displaystyle \frac{pe^t}{1-(1-p)e^t}$ & $\displaystyle \frac{1}{p}$ & $\displaystyle \frac{1-p}{p^2}$ \\
+  \hline
+  \cindex{uniform} &$\displaystyle \frac{1}{b-a}$ & $\displaystyle \frac{e^{tb} - e^{ta}}{t(b-a)}$ & $\displaystyle \frac{a + b}{2}$ & $\displaystyle \frac{(b-a)^2}{12}$ \\
+  \hline
+  \cindex{exponential} & $\lambda e^{-\lambda x}$ & $\displaystyle \frac{\lambda}{\lambda - t}$ & $\displaystyle \frac{1}{\lambda}$ & $\displaystyle \frac{1}{\lambda^2}$ \\
+  \hline
+  \cindex{gamma} & $\displaystyle \frac{\lambda e^{-\lambda x} (\lambda x)^{n - 1}}{(n-1)!}$ & $\displaystyle \left(\frac{\lambda }{\lambda - t} \right)^n$ & $\displaystyle \frac{n}{\lambda}$ & $\displaystyle \frac{n}{\lambda^2}$ \\
+  \hline
+  \cindex{normal} & $\displaystyle \frac{1}{\sqrt{2 \pi} \sigma} e^{\displaystyle - \frac{(x - \mu)^2}{2 \sigma^2}}$ & $e^{\displaystyle \mu t + \frac{\sigma^2 t^2}{2}}$&$\mu$& $\sigma^2$ \\
+  \hline
+\end{tabular} 
+\end{center}
+
+
+\begin{theorem}
+    If $X$ is normally distributed with $\mu$ and $\rho^2$, then $Y = aX + b$ is a normal distribution with $a\mu + b$ and $(a\rho)^2$. So $Y =\displaystyle \frac{X - \mu}{\rho}$ is normally distributed with $0$ and $1$, which is called \cindex{standard normal distribution}.
+\end{theorem}
+
+\begin{definition}
+    A random variable $X$ has \cindex{gamma distribution} with parameter $\alpha$ and $\beta$ if the pdf is:
+    \begin{equation*}
+        f(x|\alpha, \beta) = \frac{\beta e^{-\beta x} (\beta x)^{\alpha - 1}}{\Gamma(\alpha)}
+    \end{equation*}
+    while $\Gamma(\alpha)$  is defined as:
+    \begin{equation}
+        \Gamma(\alpha) = \int_0^\infty e^{-x} x^{\alpha - 1} \dif{x}
+    \end{equation}
+    exponential distribution is gamma distribution with $\alpha = 1$.
+    
+    \qed
+\end{definition}
+
+\begin{theorem}
+    If $X_i$ are independent gamma distribution with $\alpha_i$ and $\beta$, then the sum $\displaystyle \sum_{i=1}^n X_i$ has gamma distribution with $\displaystyle \sum \alpha_i$ and $\beta$.
+\end{theorem}
+
+
+\begin{theorem}
+    \begin{equation}
+        \Gamma \left(\frac{1}{1} \right) = \sqrt{\pi}
+    \end{equation}
+    
+    \begin{equation}
+        \Gamma (a + 1) = a \Gamma(a)
+    \end{equation}
+    \begin{equation}
+        \Gamma (n) = (n-1)!
+    \end{equation}
+    \qed
+\end{theorem}
+
+
+\begin{definition}
+    $X$ is a \cindex{beta distribution} if the pdf is:
+    \begin{equation}
+        f(x|\alpha, \beta) = \frac{\Gamma(\alpha + \beta)}{\Gamma(\alpha) \Gamma(\beta)} x^{\alpha - 1} (1-x)^{\beta - 1}
+    \end{equation}
+\end{definition}
+
 
 
 % joint distribution
-\subsubsection{Joint Distribution}
+\subsection{Joint Distribution}
 
 \begin{definition}
     The \cindex{joint cumulative probability distribution function} of two discrete random variable $X$ and $Y$ is defined as
@@ -319,29 +320,29 @@ We have
 \end{definition}
 
 For $n$ random variable $X_i$, we could construct $Y_i$ that
-\begin{equation}
+\begin{equation}\label{jointdenityequation}
     \begin{aligned}
-        Y_1 &= g_1 (X_1, X_2, \dots, X_n) \\
-        Y_2 &= g_2 (X_1, X_2, \dots, X_n) \\
+        Y_1 &= g_1 (X_1, X_2, \cdots, X_n) \\
+        Y_2 &= g_2 (X_1, X_2, \cdots, X_n) \\
         & \vdots \\
-        Y_n &= g_n (X_1, X_2, \dots, X_n) \\
+        Y_n &= g_n (X_1, X_2, \cdots, X_n) \\
     \end{aligned}
 \end{equation}
 
 Assume its \cindex{Jacobian} determinant $J(x_1, \dots, x_n) \neq 0$ for all $x_i$. Then the probability density function of $Y_i$ is 
 \begin{equation}
-    f_{Y_1, \dots, Y_n}(y_1, \dots, y_n) = f_{X_1, \dots, X_n}(x_1, \dots , x_n) \absolutevalue{J(x_1, \dots, x_n)}^{-1}
+    f_{Y_1, \cdots, Y_n}(y_1, \cdots, y_n) = \frac{1}{\absolutevalue{J(x_1, \cdots, x_n)}} f_{X_1, \cdots, X_n}(x_1, \cdots , x_n)
 \end{equation}
 
 So the process of calculating $f_{Y_i}$ are:
 \begin{enumerate}
-    \item solve $X_i = h(Y_i)$ from equation.
+    \item solve $X_i = h(Y_i)$ from equation (\ref{jointdenityequation} ).
     \item calculate $J(X_i)$.
-    \item replace $x_i$ by $y_i$ in $f(x_i)$ and multiplicate by $\absolutevalue{J}$.
+    \item replace $x_i$ by $y_i$ in $f(x_i)$ and multiplicate by $\displaystyle \frac{1}{\absolutevalue{J}}$.
 \end{enumerate}
 
 
-\subsubsection{Independence}
+\subsection{Independence}
 
 \begin{definition}
     Two random variable $X$ and $Y$ are \cindex{independent} if $\forall a,b \in \mathbf{R}$,
@@ -371,7 +372,7 @@ So the process of calculating $f_{Y_i}$ are:
     \end{equation}    
 \end{theorem}
 
-\subsubsection{Covariance}
+\subsection{Covariance}
 
 \begin{definition}[covariance]
     The \cindex{covariance} for $X$ and $Y$ is defined as 
@@ -478,8 +479,8 @@ So the process of calculating $f_{Y_i}$ are:
         \begin{aligned}
             \phi(x) &= \expect{e^{tX}} \\
             &= \begin{cases}
-                \sum_x e^{tx} p(x)\\
-                \int_{-\infty}^\infty e^{tx} f(x) \dif{x}
+                 \displaystyle \sum_x e^{tx} p(x)\\
+                 \displaystyle \int_{-\infty}^\infty e^{tx} f(x) \dif{x}
             \end{cases}
         \end{aligned}
     \end{equation}
@@ -504,10 +505,11 @@ The moment generating function uniquely determine the distribution.
 
 % sample mean and sample variance
 
-\subsubsection{Sample Mean and Sample Variance}
+\subsection{Sample Mean and Sample Variance}
 
 \begin{definition}[sample mean]
-    The \cindex{sample mean} is defined as $\bar{X} = \frac{\sum X_i}{n}$ \qed
+    The \cindex{sample mean} is defined as $\displaystyle \bar{X} = \frac{\sum X_i}{n}$.
+    \qed
 \end{definition}
 
 \begin{definition}[sample variance]
@@ -526,11 +528,16 @@ The moment generating function uniquely determine the distribution.
 
 
 \begin{definition}[chi-squared]
-    If $Z_i$ are $n$ independent standard normal random variables, the random variable $\displaystyle \sum_i Z_i^2$ is called \cindex{chi-squared} random variable with $n$ degrees of freedom.
+    If $Z_i$ are $n$ independent standard normal random variables, the random variable $\displaystyle \sum_{i=1}^n Z_i^2$ is called \cindex{chi-squared} random variable with $n$ degrees of freedom.
 \end{definition}
 
 \begin{theorem}
-If $X_i$ are independent and identically distributed normal random variable with mean $\mu$     and variance $\sigma^2$, then the sample mean $\bar{X}$ and sample variance $S^2$ are independent. $\bar{X}$ is a normal random variable with mean $\mu$ and variance $\displaystyle \frac{\sigma^2}{n}$. $\displaystyle \frac{(n-1)S^2}{\sigma^2}$ is a chi-squared random variable with $n-1$ degrees of freedom.
+If $X_i$ are independent and identically distributed normal random variable with mean $\mu$ and variance $\sigma^2$, then:
+    \begin{enumerate}
+        \item the sample mean $\bar{X}$ and sample variance $S^2$ are independent.
+        \item $\bar{X}$ is a normal random variable with mean $\mu$ and variance $\displaystyle \frac{\sigma^2}{n}$.
+        \item $\displaystyle \frac{(n-1)S^2}{\sigma^2}$ is a chi-squared random variable with $n-1$ degrees of freedom.
+    \end{enumerate}   
 \end{theorem}
 
 \begin{proof}
@@ -540,13 +547,13 @@ If $X_i$ are independent and identically distributed normal random variable with
     \begin{equation*}
         \frac{(n-1)S^2}{\sigma^2} + \left(\frac{\bar{X} - \mu}{\frac{\sigma}{\sqrt{n}}}\right)^2 = \sum_{i=1}^n \frac{(X_i - \mu)^2}{\sigma^2}
     \end{equation*}
-    generate the moment generating function of $\frac{(n-1)S^2}{\sigma^2}$ from above formula and we have $\expect{e^{t \frac{(n-1)S^2}{\sigma^2}}} =\displaystyle (1-2t)^{- \frac{n-1}{2}}$ which is an chi-squared distribution with freedom $n-1$.
+    generate the moment generating function of $\displaystyle \frac{(n-1)S^2}{\sigma^2}$ from above formula and we have $\expect{e^{t \frac{(n-1)S^2}{\sigma^2}}} = \left(1-2t \right)^{- \frac{n-1}{2}}$ which is an chi-squared distribution with freedom $n-1$.
 \end{proof}
 
 
 % inequality
 
-\subsubsection{Inequality}
+\subsection{Inequality}
 
 \begin{theorem}[\cindex{Markov's Inequality}]
 If $X$ is a random variable that is non-negative. Then for any $a > 0$ we have 
@@ -594,24 +601,10 @@ If $X$ is a random variable that is non-negative. Then for any $a > 0$ we have
 
 
 
+
+
 % examples
-\subsubsection{Examples}
-
-\begin{example}
-    In a party $N$ people throw their hat into the center of a room and randomly pick one. What is expected number of correct selection?
-\end{example}
-
-\begin{proof}
-    Let $X$ denote the number of men that selected his hat. We have $X = X_1 + X_2 + \dots + X_N$ where
-    \begin{equation*}
-        X_j = \begin{cases}
-            1 & \text{ , if the } i \text{th man selected his own hat} \\
-            0 & \text{ , otherwise}
-        \end{cases}
-    \end{equation*}
-    
-    So $P\{X_i=1\} = \frac{1}{N}$, $\expect{X_i} = \frac{1}{N}$, and $\expect{X} = \expect{X_1} + \dots + \expect{X_N} = N \times \frac{1}{N} = 1$
-\end{proof}
+\subsection{Examples}
 
 \begin{example}
     Suppose $m$ coupons are selected from $n$ different types of coupons. Each coupon is equally likely to be selected. What is the expected number of different types?
@@ -629,13 +622,13 @@ If $X$ is a random variable that is non-negative. Then for any $a > 0$ we have
     \begin{equation*}
         \expect{X_i} = 1 - \left(\frac{n - 1}{n} \right)^m
     \end{equation*}
-    So $\expect{X} = \expect{X_1} + \dots + \expect{X_n} = \displaystyle n \left(1 - (\frac{n - 1}{n})^m \right)$
+    So $\expect{X} = \expect{X_1} + \dots + \expect{X_n} = \displaystyle n \left(1 - \left(\frac{n - 1}{n} \right)^m \right)$
 \end{proof}
 
 \begin{example}
     Let $X_i$ be independent and identically distributed continuous random variable. Let $X_{(i)}$ denote the $i$th smallest of these random variables. Then $X_{(i)}$ is called \cindex{order statistics}. Note that $X_{(i)} \leq x$ if and only if at least $i$ of $X_j$ are not larger than $x$, so
     \begin{equation*}
-        \probability{X_{(i)} \leq x} = \sum_{k=i}^n \binom{n}{k} (F(x))^k (1 - F(x))^{n-k}
+        \probability{X_{(i)} \leq x} = \sum_{k=i}^n \binom{n}{k} \left(F(x) \right)^k \left(1 - F(x) \right)^{n-k}
     \end{equation*}
     
     So

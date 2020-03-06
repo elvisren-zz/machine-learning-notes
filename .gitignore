@@ -1,6 +1,8 @@
-
 ## ignore Mac directory
 .DS_Store
+
+## ignore the generated pdf file
+ml.pdf
 
 ## Core latex/pdflatex auxiliary files:
 *.aux
