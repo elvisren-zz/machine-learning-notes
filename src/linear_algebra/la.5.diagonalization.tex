@@ -1,18 +1,29 @@
 \section{Diagonalization}
 
+
+There are two questions for a linear operator $T$:
+\begin{enumerate}
+    \item Is there an ordered basis $\beta$ that $[T]_\beta$ is a diagonal matrix?
+    \item If such basis exists, how can it be found?
+\end{enumerate}
+
+
 \subsection{Eigenvalue and Eigenvectors}
 
 \begin{definition}
     A linear operator $T$ on $V$ is \cindex{diagonalizable} if there is an ordered basis $\beta$ of $V$ that $[T]_\beta$ is a diagonal matrix. A matrix is \cindex{diagonalizable} if $L_A$ is diagonalizable.
-\end{definition}
+
 
 If an operator $T$ is diagonalizable, for $\beta = \{v_i\}$, we have
 \begin{equation*}
     T(v_j) = \sum_{i=1}^n D_{ij} v_j = D_{jj} v_j = \lambda_j v_j
 \end{equation*}
+So to prove a  linear operator $T$ is diagnolizable is to find a basis $\beta = \{ v_i \}$ and $\{ \lambda_j \}$ that $T(v_i) = \lambda_i v_i$.
+\qed
+\end{definition}
 
 \begin{definition}
-    A vector $v \in V$ is called an \cindex{eigenvector} of linear operator $T$ if $\exists \lambda$ that $T(v) = \lambda v$. $\lambda$ is called \cindex{eigenvalue} corresponding to eigenvector $v$. So it is for matrix.
+    A non-zero vector $v \in V$ is called an \cindex{eigenvector} of linear operator $T$ if $\exists \lambda$ that $T(v) = \lambda v$. $\lambda$ is called \cindex{eigenvalue} corresponding to eigenvector $v$. So it is for matrix. A eigenvalue could be $0$, but eigenvector could not be $\vec{0}$.
 \end{definition}
 
 Eigenvector is also called \cindex{characteristic vector}. Eigenvalue is also called \cindex{characteristic value}.
@@ -26,12 +37,27 @@ Eigenvector is also called \cindex{characteristic vector}. Eigenvalue is also ca
 \end{theorem}
 
 \begin{proof}
-    If $\lambda$ is an eigenvalue of $A$, $\exists v \in F^n, v \neq 0$ that $A v = \lambda v$, which is $(A - \lambda I_n)(v)= 0$, which means $A - \lambda I_n$ is not invertible, so $|A - \lambda I_n| = 0$.
+    If $\lambda$ is an eigenvalue of $A$, $\exists v \in F^n, v \neq 0$ that $A v = \lambda v$, which is $(A - \lambda I_n)(v)= 0$, which means $A - \lambda I_n$ is not invertible because $v \neq 0$, so $|A - \lambda I_n| = 0$.
 \end{proof}
 
 \begin{definition}
-    the polynomial $f(t) = |A - t I_n|$ is called the \cindex{characteristic polynomial} of $A$. So is it for operator $T$.
+    For $A = [T]_\beta$ the polynomial $f(t) = |A - t I_n|$ is called the \cindex{characteristic polynomial} of $A$ and $T$. 
 \end{definition}
+
+\begin{theorem}
+    The choice of basis $\beta$ did not change the eigenvalue of $T$. 
+\end{theorem}
+\begin{proof}
+    \begin{equation*}
+        \absolutevalue{[T]_\beta - \lambda I} = \absolutevalue{Q^{-1} \left( [T]_\alpha - \lambda I \right) Q} = \absolutevalue{Q^{-1}} \times \absolutevalue{[T]_\alpha - \lambda I } \times \absolutevalue{Q} = \absolutevalue{[T]_\alpha - \lambda I } 
+    \end{equation*}
+\end{proof}
+
+\begin{theorem}
+Similar matrices have the same characteristic function.    
+\end{theorem}
+
+
 
 \begin{theorem}
     $v$ is an eigenvector of $T$ corresponding to $\lambda$ $\iff$ $v \neq 0$ and $v \in N(T - \lambda I)$.
@@ -60,7 +86,7 @@ Eigenvector is also called \cindex{characteristic vector}. Eigenvalue is also ca
         a_1(\lambda_1 - \lambda_k) v_1 + a_1(\lambda_2 - \lambda_k) v_2 +  \dots + a_1(\lambda_{k-1} - \lambda_k) v_{k-1} +  = 0
     \end{equation*}
     
-    because $\{v_1, v_2, \dots, v_{k-1}$ are linearly independent, we have 
+    because $\{v_1, v_2, \dots, v_{k-1} \}$ are linearly independent, we have 
     \begin{equation*}
         a_1(\lambda_1 - \lambda_k) = a_1(\lambda_2 - \lambda_k) =  a_1(\lambda_{k-1} - \lambda_k) = 0
     \end{equation*}
@@ -110,12 +136,12 @@ Be careful that the characteristic polynomial splits does not mean the matrix is
     \end{equation*}
     so \begin{equation*}
         \begin{aligned}
-            f(t) &= \text{det}(A - t I_n) \\
-            &= \text{det} \begin{pmatrix}
+            f(t) &= \absolutevalue{A - t I_n} \\
+            &= \absolutevalue{\begin{pmatrix}
                 (\lambda - t) I_p & B \\
                 0 & C - t I_{n-p}
-            \end{pmatrix} \\
-            &= \text{det}((\lambda - t)I_p) \text{det}(C - t I_{n-p}) \\
+            \end{pmatrix}} \\
+            &= \absolutevalue{(\lambda - t)I_p} \times \absolutevalue{C - t I_{n-p}} \\
             &= (\lambda - t)^p g(t)
         \end{aligned}
         \end{equation*}
@@ -129,7 +155,7 @@ Be careful that the characteristic polynomial splits does not mean the matrix is
 \begin{theorem}
     let $\lambda_1, \lambda_2, \dots, \lambda_k$ be distinct eigenvalue of $T$, then
     \begin{enumerate}
-        \item $T$ is diagonalizable $\iff$ the multiplicity of $\lambda_i$ is equal to $\text{dim}(E_{\lambda_i})$ for all $i$.
+        \item $T$ is diagonalizable $\iff$ the multiplicity of $\lambda_i$ is equal to $\dimension{E_{\lambda_i}}$ for all $i$.
         \item If $T$ is diagonalizable and $\beta_i$ is an ordered basis for $E_{\lambda_i}$ for each $i$, then $\beta = \beta_1 \cup \beta_2 \cup \dots \cup \beta_k$ is an ordered basis for $V$ consisting of eigenvectors of $T$.
     \end{enumerate}
 \end{theorem}
@@ -143,7 +169,7 @@ Be careful that the characteristic polynomial splits does not mean the matrix is
 \end{theorem}
 
 \begin{definition}
-    Let $W_i$ be subspaces of a vector space $V$. The sum of these subspaces $\sum\limits_{i=1}^k W_i = \{ v_1 + v_2 + \dots + v_k : v_i \in W_i \text{ for } 1 \leq i \leq k \}$
+    Let $W_i$ be subspaces of a vector space $V$. The \cindex{sum} of these subspaces is defined as $\displaystyle \sum_{i=1}^k W_i = \{ v_1 + v_2 + \dots + v_k : v_i \in W_i \text{ for } 1 \leq i \leq k \}$
 \end{definition}
 
 \begin{definition}
@@ -173,7 +199,7 @@ Common $T$-invariant subspaces are: $\emptyset$, $V$, $R(T)$, $N(T)$.
 
 
 \begin{definition}
-    A $T$-\cindex{cyclic subspace} of $V$ generated by $x$ is defined as $W=\text{span}(\{x, T(x), T^2(x), \dots \})$.
+    A $T$-\cindex{cyclic subspace} of $V$ generated by $x$ is defined as $W=\text{span} \left( \left \{x, T(x), T^2(x), \dots \right \}\right)$.
 \end{definition}
 
 \begin{theorem}
@@ -186,20 +212,20 @@ Common $T$-invariant subspaces are: $\emptyset$, $V$, $R(T)$, $N(T)$.
 
 
 \begin{theorem}
-    Let $T$ be a linear operator on finiate-dimensional vector space $V$, and let $W$ be a $T$-cyclic subspace of $V$ generated by nonzero vector $v \in V$. Let $k = \text{dim}(W)$. Then:
+    Let $T$ be a linear operator on finiate-dimensional vector space $V$, and let $W$ be a $T$-cyclic subspace of $V$ generated by nonzero vector $v \in V$. Let $k = \dimension{W}$. Then:
     \begin{enumerate}
-        \item $\{v, T(v), T^2(v), \dots, T^{k-1}(v)\}$ is a basis for $W$.
+        \item $\left\{ v, T(v), T^2(v), \dots, T^{k-1}(v) \right\}$ is a basis for $W$.
         \item If $a_0 v + a_1 T(v) + a_2 T^2(v) + \dots + a_{k-1} T^{k-1}(v) + T^k(v) = 0$, then the characteristic polynomial of $T_W$ is $f(t) = (-1)^k (a_0 + a_1 t + \dots + a_{k-1} t^{k-1} + t^k)$.
     \end{enumerate}
 \end{theorem}
 
 \begin{proof}
-    Let $\beta = \{v, T(v), T^2(v), \dots, T^{k-1}(v)\}$, and let $a_i$ be the scalars that 
+    Let $\beta = \left\{v, T(v), T^2(v), \dots, T^{k-1}(v) \right\}$, and let $a_i$ be the scalars that 
     \begin{equation*}
             a_0 v + a_1 T(v) + a_2 T^2(v) + \dots + a_{k-1} T^{k-1}(v) + T^k(v) = 0
     \end{equation*}
     
-    Since $[T(v)]_\beta = [0,1,\dots]$, $T(T(v))_\beta = [0,0,1,\dots]$, etc, we have:
+    For each basis $\left\{v, T(v), T^2(v), \dots, T^{k-1}(v) \right\}$, $[T(v)]_\beta = [0,1,\dots]$, $T(T(v))_\beta = [0,0,1,\dots]$, etc, we have:
     \begin{equation*}
         [T_W]_\beta = \begin{pmatrix}
             0 & 0 & \dots & 0 & - a_0 \\
@@ -229,7 +255,7 @@ Common $T$-invariant subspaces are: $\emptyset$, $V$, $R(T)$, $N(T)$.
     \end{equation*}
     We have
     \begin{equation*}
-        g(T)(v) = (-1)^k (a_0 I + a_1 T + \dots + a_{k-1} T^{k-1} + T^k) = 0
+        g(T)(v) = (-1)^k (a_0 I + a_1 T + \dots + a_{k-1} T^{k-1} + T^k)(v) = 0
     \end{equation*}
     Because $g(t)$ divides $f(t)$, $\exists q(t)$ that $f(t) = g(t) q(t)$. So
     \begin{equation*}
@@ -251,5 +277,5 @@ Common $T$-invariant subspaces are: $\emptyset$, $V$, $R(T)$, $N(T)$.
 
 
 \begin{theorem}
-    Suppose $V=W_1 \oplus W_2 \oplus \dots \oplus W_k$, where $W_i$ is a $T$-invariant subspace of $V$. Suppose $f_i(t)$ is the characteristic polynomial of $T_{W_i}$, Then $f_1(t) f_2(t) \dots f_k(t)$ is the characteristic polynomial of $T$. Let $\beta_i$ be an ordered basis for $W_i$, and let $\beta = \bigcup_{i=1}^k \beta_i$. Let $A=[T]_\beta$, and $B_i=[T_{W_i}]_\beta$. Then $A = B_1 \oplus B_2 \oplus \dots \oplus B_k$.
+    Suppose $V=W_1 \oplus W_2 \oplus \dots \oplus W_k$, where $W_i$ is a $T$-invariant subspace of $V$. Suppose $f_i(t)$ is the characteristic polynomial of $T_{W_i}$, Then $f_1(t) f_2(t) \dots f_k(t)$ is the characteristic polynomial of $T$. Let $\beta_i$ be an ordered basis for $W_i$, and let $\displaystyle \beta = \bigcup_{i=1}^k \beta_i$. Let $A=[T]_\beta$, and $B_i=[T_{W_i}]_\beta$. Then $A = B_1 \oplus B_2 \oplus \dots \oplus B_k$.
 \end{theorem}

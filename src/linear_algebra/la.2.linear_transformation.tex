@@ -239,7 +239,7 @@ Note: in the above proof, a vector could be treated as a linear transformation f
 \end{definition}
 
 \begin{theorem}
-	$V$ is isomorphic to $W$ if $\text{dim}(V) = \text{dim}(W)$.
+	$V$ is isomorphic to $W$ if $\dimension{V} = \dimension{W}$.
 \end{theorem}
 
 \begin{proof}
@@ -255,7 +255,7 @@ Note: in the above proof, a vector could be treated as a linear transformation f
 \begin{theorem}
 	The function $\Phi: \mathcal{L}(V,M) \rightarrow M_{m \times n}(F)$ defined by $\Phi (T) = [T]_\beta^\gamma$, is an isomorphism. The dimension has relation that 
 	\begin{equation}
-		\text{dim}(\mathcal{L}(V,M)) = \text{dim}(V) \times \text{dim}(W)
+		\dimension{\mathcal{L}(V,M)} = \dimension{V} \times \dimension{W}
 	\end{equation}
 \end{theorem}
 
@@ -270,7 +270,7 @@ Note: in the above proof, a vector could be treated as a linear transformation f
 		\item $\forall v \in V$, $[v]_\beta = Q [v]_{\beta^\prime} = [I_V]_{\beta^\prime}^\beta [v]_{\beta^\prime}$.
 	\end{enumerate}
 	
-	The $Q$ is called \cindex{change of coordinate matrix}.
+	$Q= [I_V]_{\beta^\prime}^\beta$ is called \cindex{change of coordinate matrix} that changes from $\beta^\prime$-coordinates to $\beta$-coordinates.
 \end{theorem}
 
 \begin{proof}
@@ -329,7 +329,10 @@ There is an example of the usage of change of coordinate matrix: do reflection o
 	$B$ is \cindex{similar} to $A$ if there is an invertible matrix $Q$ that $B = Q^{-1} A Q$.
 \end{definition}
 
-So if $\mathrm{T}$ is a linear operator on finite dimension vector space $V$, and if $\beta$ and $\beta^\prime$ are any ordered basis of $V$, then $[\mathrm{T}]_{\beta^\prime}$ is similar to $[\mathrm{T}]_\beta$.
+\begin{theorem}
+If $\mathrm{T}$ is a linear operator on finite dimension vector space $V$, and if $\beta$ and $\beta^\prime$ are any ordered basis of $V$, then $[\mathrm{T}]_{\beta^\prime}$ is similar to $[\mathrm{T}]_\beta$.    
+\end{theorem}
+
 
 
 
@@ -358,7 +361,7 @@ So if $\mathrm{T}$ is a linear operator on finite dimension vector space $V$, an
 
 \begin{theorem}
     \begin{equation}
-        \text{dim}(V/U) = \text{dim}(V) - \text{dim}(U)
+        \dimension{V/U} = \dimension{V} - \dimension{U}
     \end{equation}
 \end{theorem}
 
@@ -404,20 +407,31 @@ So if $\mathrm{T}$ is a linear operator on finite dimension vector space $V$, an
 
 
 \begin{definition}
-	The \cindex{dual space} of $V$ is the vector space $\mathcal{L}(V,F)$ which is denoted as $V^*$.
+	The \cindex{dual space} of $V$ is the vector space $V^* = \mathcal{L}(V,F)$. The \cindex{double dual space} $V^{**}$ is the dual space of $V^*$.
 \end{definition}
 
 
 The dimension of dual space is $\text{dim}(V^*)=\text{dim}(\mathcal{L}(V,F)) = \text{dim}(V) \times \text{dim}(F) = \text{dim}(V)$.
 
 \begin{definition}
-	Let $f_i$ be the $i$th coordinate function of $\beta$. let $\beta^*=\{f_i\}$. Then $\beta^*$ is an ordered basis for $V^*$, and $\forall f \in V^*$, we have
+	Let $\beta = \{ x_i\}$ be an ordered basis for finite dimentsional vector space $V$. Define $f_i (x) = a_i$ where
+	\begin{equation*}
+	    [x]_\beta = \begin{pmatrix}
+	        a_1 \\
+	        a_2 \\
+	        \vdots \\
+	        a_n
+	    \end{pmatrix}
+	\end{equation*}
+	
+	$f_i$ is the $i$th coordinate function with respect to basis $\beta$. let $\beta^*=\{f_i\}$. Then $\beta^*$ is an ordered basis for $V^*$, and $\forall f \in V^*$, we have
 	\begin{equation}
 		f = \sum_{i=1}^n f(x_i) f_i
 	\end{equation}
+	$\beta^*$ is called the \cindex{dual basis} of $\beta$.
 \end{definition}
 \begin{proof}
-	Let $g = \sum\limits_{i=1}^n f(x_i) f_i$, we have
+	Let $g =\displaystyle \sum_{i=1}^n f(x_i) f_i$, we have
 	\begin{equation*}
 		\begin{aligned}
 			g(x_j) &= \left( \sum_{i=1}^n f(x_i) f_i \right) (x_j) \\
@@ -430,7 +444,7 @@ The dimension of dual space is $\text{dim}(V^*)=\text{dim}(\mathcal{L}(V,F)) = \
 
 
 \begin{theorem}
-	Let $V$ and $W$ be vector space over $F$ with ordered basis $\beta$ and $\gamma$. For any linear transformation $T:V \rightarrow W$, the mapping $T^t: W^* \rightarrow V^*$ defined as $T^\top (g) = gT, \forall g \in W^*$ is a linear transformation with property that $[T^\top]_{\gamma^*}^{\beta^*} = ([T]_\beta^\gamma)^\top$
+	Let $V$ and $W$ be vector space over $F$ with ordered basis $\beta$ and $\gamma$. For any linear transformation $T:V \rightarrow W$, the mapping $T^t: W^* \rightarrow V^*$ defined as $T^\top (g) = gT, \forall g \in W^*$ is a linear transformation with property that $[T^\top]_{\gamma^*}^{\beta^*} = ([T]_\beta^\gamma)^\top$.
 \end{theorem}
 \begin{proof}
 	Let $\beta = \{x_i\}$ and $\gamma=\{y_i\}$ with dual basis $\beta^*=\{f_i\}$ and $\gamma^*=\{g_i\}$, $A=[T]_\beta^\gamma$. we have
@@ -462,14 +476,14 @@ The dimension of dual space is $\text{dim}(V^*)=\text{dim}(\mathcal{L}(V,F)) = \
 
 \begin{theorem}
     \begin{equation}
-        \text{dim}(U) + \text{dim}(U_V^0) = \text{dim}(V)
+        \dimension{U} + \text{dim}(U_V^0) = \text{dim}(V)
     \end{equation}
 \end{theorem}
 
 \begin{proof}
     Define $i \in \mathcal{L}(U,V)$ that $i(u) = u, \forall u \in U$. $i^* \in \mathcal{L}(V^*,U^*)$. So
     \begin{equation*}
-        \text{dim}(\text{range}(i^*)) + \text{dim}(\text{null } (i^*)) = \text{dim}(V^*)
+        \dimension{\text{range}(i^*)} + \text{dim}(\text{null } (i^*)) = \text{dim}(V^*)
     \end{equation*}
     By definition, $\text{null}(i^*) = U^0_V$. Also $\text{range}(i^*) = U^*$.
 \end{proof}
