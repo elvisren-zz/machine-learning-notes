@@ -74,7 +74,12 @@ A span set is useful because it allow one to describe all vectors in terms of a 
 	Let $S$ be linearly independent, $v$ is not in $S$. Then $S \cup {v} $ is linearly dependent if $v \in \text{span}(S)$.
 \end{theorem}
 
+
+
+% basis
 \subsection{Basis}
+
+A linearly independent generating set has a very useful property that every vector has one and only one representation using basis.
 
 \begin{definition}
 	A \cindex{basis} $\beta$ for $V$ is a linearly independent subset of $V$ that generate $V$. 
@@ -126,7 +131,7 @@ A vector space is usually infinite. It is desirable to describe this infinite se
 
 
 
-\begin{definition}[\cindex{Lagrange Interpolation Formula}]
+\begin{definition}[\cindex{Lagrange Interpolation Formula}]\label{lagrangeinterpolationformula}
 let ${c_0, c_1, \dots, c_n}$ be distinct scalars in field $F$. Define  $n+1$ function $\{f_i \}$ as:
 	\begin{equation}
 	f_i(x) = \prod_{k=0, k \neq i}^n \frac{x - c_k}{c_i - c_k}
@@ -164,18 +169,14 @@ for any two subspace $W_1$ and $W_2$ of $V$, their dimension has a relation:
 
 \begin{definition}
     here are the definition of common terms:
-    
-    \cindex{square matrix}: a matrix $M$ that $i = j$. It is usually denoted as $M$, not $A$.
-        
-    \cindex{zero vector}: $\vec{0}$.
-    
-    \cindex{transpose}: $(A^\top)_{ij} = A_{ji}$
-    
-    \cindex{symmetric matrix}: $A^\top = A$.
-
-    \cindex{diagonal matrix}: for a $n \times n$ square matrix $M$ that $M_{ij} = 0$ if $i \neq j$.
-    
-    \cindex{upper triangular}: $A_{ij} = 0$ if $i > j$.
+    \begin{enumerate}
+        \item \cindex{square matrix}: a matrix $M$ that $i = j$. It is usually denoted as $M$, not $A$.
+        \item \cindex{zero vector}: $\vec{0}$.
+        \item \cindex{transpose}: $(A^\top)_{ij} = A_{ji}$
+        \item \cindex{symmetric matrix}: $A^\top = A$.
+        \item \cindex{diagonal matrix}: for a $n \times n$ square matrix $M$ that $M_{ij} = 0$ if $i \neq j$.
+        \item \cindex{upper triangular}: $A_{ij} = 0$ if $i > j$.
+    \end{enumerate}
     \qed    
 \end{definition}
 

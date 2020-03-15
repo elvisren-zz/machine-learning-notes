@@ -23,7 +23,7 @@ So to prove a  linear operator $T$ is diagnolizable is to find a basis $\beta = 
 \end{definition}
 
 \begin{definition}
-    A non-zero vector $v \in V$ is called an \cindex{eigenvector} of linear operator $T$ if $\exists \lambda$ that $T(v) = \lambda v$. $\lambda$ is called \cindex{eigenvalue} corresponding to eigenvector $v$. So it is for matrix. A eigenvalue could be $0$, but eigenvector could not be $\vec{0}$.
+    A \emph{non-zero} vector $v \in V$ is called an \cindex{eigenvector} of linear operator $T$ if $\exists \lambda : T(v) = \lambda v$. $\lambda$ is called \cindex{eigenvalue} corresponding to eigenvector $v$. So it is for matrix. A eigenvalue could be $0$, but eigenvector could not be $\vec{0}$.
 \end{definition}
 
 Eigenvector is also called \cindex{characteristic vector}. Eigenvalue is also called \cindex{characteristic value}.
@@ -33,15 +33,24 @@ Eigenvector is also called \cindex{characteristic vector}. Eigenvalue is also ca
 \end{theorem}
 
 \begin{theorem}
-    $\lambda$ is an eigenvalue of $A$ $\iff$ $|A - \lambda I_n| = 0$.
+    $\lambda$ is an eigenvalue of $A$ $\iff$ $\determinate{A - \lambda I_n} = 0$.
 \end{theorem}
 
 \begin{proof}
-    If $\lambda$ is an eigenvalue of $A$, $\exists v \in F^n, v \neq 0$ that $A v = \lambda v$, which is $(A - \lambda I_n)(v)= 0$, which means $A - \lambda I_n$ is not invertible because $v \neq 0$, so $|A - \lambda I_n| = 0$.
+    If $\lambda$ is an eigenvalue of $A$, $\exists v \in F^n, v \neq 0$ that $A v = \lambda v$, which is $(A - \lambda I_n)(v)= 0$, which means $A - \lambda I_n$ is not invertible because $v \neq 0$, so $\determinate{A - \lambda I_n} = 0$.
 \end{proof}
 
+\begin{theorem}
+    Every eigenvalue has at least one eigenvector.    
+\end{theorem}
+\begin{proof}
+    Since $\determinate{A - \lambda I_n} = 0$, $(A - \lambda I_n) x = 0$ is a homogeneous equation with $\dimension{A - \lambda I_n} < n$.
+\end{proof}
+
+
+
 \begin{definition}
-    For $A = [T]_\beta$ the polynomial $f(t) = |A - t I_n|$ is called the \cindex{characteristic polynomial} of $A$ and $T$. 
+    For $A = [T]_\beta$ the polynomial $f(t) = \determinate{A - t I_n}$ is called the \cindex{characteristic polynomial} of $A$ and $T$. 
 \end{definition}
 
 \begin{theorem}
@@ -60,7 +69,7 @@ Similar matrices have the same characteristic function.
 
 
 \begin{theorem}
-    $v$ is an eigenvector of $T$ corresponding to $\lambda$ $\iff$ $v \neq 0$ and $v \in N(T - \lambda I)$.
+    $v$ is an eigenvector of $T$ corresponding to $\lambda$ $\iff$ $v \neq 0 \wedge v \in \nullspace{T - \lambda I}$.
 \end{theorem}
 
 \begin{theorem}
@@ -120,11 +129,11 @@ Be careful that the characteristic polynomial splits does not mean the matrix is
 \end{definition}
 
 \begin{definition}
-    let $\lambda$ be an eigenvalue of $T$. Let $E_\lambda = N(T - \lambda I_V)$. the set $E_\lambda$ is called the \cindex{eigenspace} of $T$ corresponding to eigenvalue $\lambda$. So is it for matrix.
+    let $\lambda$ be an eigenvalue of $T$. Let $E_\lambda = \nullspace{T - \lambda I_V}$. the set $E_\lambda$ is called the \cindex{eigenspace} of $T$ corresponding to eigenvalue $\lambda$. So is it for matrix.
 \end{definition}
 
 \begin{theorem}
-    let $\lambda$ be an eigenvalue of $T$ having multiplicity $m$. then $1 \leq \text{dim}(E_\lambda) \leq m$.
+    let $\lambda$ be an eigenvalue of $T$ having multiplicity $m$. then $1 \leq \dimension{E_\lambda} \leq m$.
 \end{theorem}
 \begin{proof}
     choose ordered basis $\{v_1, v_2, \dots, v_p\}$ for $E_\lambda$, and extend it to ordered basis $\beta = \{ v_1, v_2, \dots, v_p, v_{p+1}, \dots, v_n$ for $V$, and let $A = [T]_\beta$. let $v_i (1 \leq i \leq q)$ be an eigenvector of $T$ corresponding to $\lambda$, we have
@@ -164,12 +173,15 @@ Be careful that the characteristic polynomial splits does not mean the matrix is
     $T$ is diagonalizable $\iff$ both of the following holds:
     \begin{enumerate}
         \item the characteristic polynomial of $T$ splits.
-        \item for each eigenvalue $\lambda$ of $T$, the multiplicity of $\lambda$ equals $n - \text{rank}(T - \lambda I)$.
+        \item for each eigenvalue $\lambda$ of $T$, the multiplicity of $\lambda$ equals $n - \rank{T - \lambda I}$.
     \end{enumerate}
 \end{theorem}
 
 \begin{definition}
-    Let $W_i$ be subspaces of a vector space $V$. The \cindex{sum} of these subspaces is defined as $\displaystyle \sum_{i=1}^k W_i = \{ v_1 + v_2 + \dots + v_k : v_i \in W_i \text{ for } 1 \leq i \leq k \}$
+    Let $W_i$ be subspaces of a vector space $V$. The \cindex{sum} of these subspaces is defined as:
+    \begin{equation}
+        \sum_{i=1}^k W_i = \{ v_1 + v_2 + \dots + v_k : v_i \in W_i \text{ for } 1 \leq i \leq k \}
+    \end{equation}
 \end{definition}
 
 \begin{definition}
@@ -192,10 +204,10 @@ Be careful that the characteristic polynomial splits does not mean the matrix is
 
 \begin{definition}
     A subspace $W$ of $V$ is $T$-\cindex{invariant subspace} of $V$ if $T(W) \subseteq W$.
+    Common $T$-invariant subspaces are: $\emptyset$, $V$, $R(T)$, $N(T)$.
     \qed
 \end{definition}
 
-Common $T$-invariant subspaces are: $\emptyset$, $V$, $R(T)$, $N(T)$.
 
 
 \begin{definition}

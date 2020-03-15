@@ -1,40 +1,100 @@
 \section{Determinants}
 
 \begin{definition}
-	Let $A \in M_{n \times n} (F)$. If $n =1$, let $A=(A_{11})$ and we define $\text{det}(A) = A_{11}$. For $n \geq 2$, $\text{det}(A)$ (or $|A|$) is defined as
+	Let $A \in M_{n \times n} (F)$. If $n =1$, let $A=(A_{11})$ and we define $\text{det}(A) = A_{11}$. For $n \geq 2$, $\text{det}(A)$ (or $\determinate{A}$) is defined as
 	\begin{equation}
-		|A| = \sum_{j=1}^n (-1)^{i + j} A_{ij} \times |\tilde{A}_{ij} |
+		\determinate{A} = \sum_{j=1}^n (-1)^{i + j} A_{ij} \times \determinate{\tilde{A}_{ij}}
 	\end{equation}
 	
 	where $\tilde{A}_{ij}$ is obtained from $A$ by deleting row $i$ and column $j$.
 	
-	$(-1)^{i + j} A_{ij} \times |\tilde{A}_{ij} |$ is called the \cindex{cofactor} of $A$ in row $i$ and column $j$.
+	$(-1)^{i + j} A_{ij} \times \determinate{\tilde{A}_{ij}}$ is called the \cindex{cofactor} of $A$ in row $i$ and column $j$.
+	
+	If the determinate is calculated using cofactor operation, the performance is $n!$ multiplication. However if it is calculated using elementary row operation, the performance is $\displaystyle \frac{n^3 + 2n - 3}{3}$ multiplication.
+	\qed
 \end{definition}
 
 
-The effect of elementary row operation on the determinant of a matrix $A$ is:
-\begin{enumerate}
-    \item interchange any two rows: $|B| = - |A|$.
-    \item multiply a row: $|B| = k |A|$.
-    \item add a multiple of a row to another: $|B| = |A|$.
-\end{enumerate}
+\begin{theorem}
+    A function $\delta: M_{n \times n} (F) \rightarrow F \equiv \determinate{A}$ if it satisfies the following 3 properties:
+    \begin{enumerate}
+        \item It is \cindex{$n$-linear function}: for a scalar $k$, \begin{equation}
+        \determinate{\begin{pmatrix}
+            a_1\\
+            \vdots\\
+            u + kv \\
+            \vdots\\
+            a_n
+        \end{pmatrix}} = \determinate{\begin{pmatrix}
+            a_1\\
+            \vdots\\
+            u \\
+            \vdots\\
+            a_n
+        \end{pmatrix}} + k \determinate{\begin{pmatrix}
+            a_1\\
+            \vdots\\
+            v \\
+            \vdots\\
+            a_n
+        \end{pmatrix}}
+    \end{equation}
+    \item It is \cindex{alternating}: $\delta(A) = 0$ if any two adjacent rows are identical.
+    \item $\delta(I) = 1$.
+    \end{enumerate}
+    The determinate is linear on each row when the remaining rows are held fixed:
+    \qed
+\end{theorem}
 
-If the determinate is calculated using cofactor operation, the performance is $n!$ multiplication. However if it is calculated using elementary row operation, the performance is $(n^3 + 2n - 3)/3$ multiplication.
+
+
+\begin{theorem}
+    The effect of elementary row operation on the determinant of a matrix $A$ is:
+\begin{enumerate}
+    \item interchange any two rows: $\determinate{B} = - \determinate{A}$.
+    \item multiply a row: $\determinate{B} = k \determinate{A}$.
+    \item add a multiple of a row to another: $\determinate{B} = \determinate{A}$.
+\end{enumerate}
+\end{theorem}
+
+
+\begin{theorem}
+    If $\rank{A_{n \times n}} < n$, then $\determinate{A} = 0$.
+\end{theorem}
+\begin{proof}
+    If $\rank{A_{n \times n}} < n$, one row is a linear combination of all other rows.
+\end{proof}
+
+
 
 \begin{theorem}
 	\begin{equation}
-		|AB| = |A| \times |B|
+		\determinate{AB} = \determinate{A} \times \determinate{B}
 	\end{equation}
 \end{theorem}
 
 \begin{theorem}
-	A matrix $A \in M_{n \times n}(F)$ is invertible $\Leftrightarrow$ $\text{det}(A) \neq 0$. If it is invertible, $|A^{-1}| = \dfrac{1}{|A|}$
+	A matrix $A \in M_{n \times n}(F)$ is invertible $\Leftrightarrow$ $\determinate{A} \neq 0$. If it is invertible, $\determinate{A^{-1}} = \dfrac{1}{\determinate{A}}$
 \end{theorem}
 
+
+
+\begin{theorem}
+    The inverse of invertible square matrix A is:
+    \begin{equation*}
+        A^{-1} = C^\top 
+    \end{equation*}
+    where 
+    \begin{equation*}
+        C_{ij} = (-1)^{i+j} \determinate{\tilde{A}_{ij}}
+    \end{equation*}
+\end{theorem}
+
+
 \begin{theorem}[\cindex{Cramer's Rule}]
-	Let $Ax=b$ be a system of $n$ equation with $n$ unknowns. If $|A| \neq 0$, the system has a unique solution:
+	Let $Ax=b$ be a system of $n$ equation with $n$ unknowns. If $\determinate{A} \neq 0$, the system has a unique solution:
 	\begin{equation}
-		x_k = \frac{|M_k|}{|A|}
+		x_k = \frac{\determinate{M_k}}{\determinate{A}}
 	\end{equation}
 	
 	where $M_k$ is a $n\times n$ matrix obtained from $A$ by replacing column $k$ of $A$ by $b$.
@@ -52,8 +112,12 @@ If the determinate is calculated using cofactor operation, the performance is $n
 			&&& \vdots & \ddots \\
 			&&& x&   & 1 
 		\end{pmatrix} \\
-		&= [Ae_1, Ae_2, \dots, Ax, \dots, Ae_n] \\
-		& = [a_1, a_2, \dots, b, \dots, a_n] \\
+		&= \begin{pmatrix}
+		    Ae_1, Ae_2, \dots, Ax, \dots, Ae_n
+		\end{pmatrix} \\
+		& = \begin{pmatrix}
+		    a_1, a_2, \dots, b, \dots, a_n
+		\end{pmatrix} \\
 		&= M_k
 		\end{aligned}
     \end{equation*}
@@ -61,39 +125,24 @@ If the determinate is calculated using cofactor operation, the performance is $n
 	
 	Evaluate $X_k$ by cofactor expansion along row $k$ produces
 	\begin{equation*}
-		|X_k| = x_k \times |I_{n-1}| = x_k
+		\determinate{X_k} = x_k \times \determinate{I_{n-1}} = x_k
 	\end{equation*}
 	
 	Hence 
 	\begin{equation*}
-		|M_k| = |A X_k| = |A| \times |X_k| = |A| \times x_k
+		\determinate{M_k} = \determinate{A X_k} = \determinate{A} \times \determinate{X_k} = \determinate{A} \times x_k
 	\end{equation*}
 	
 	Therefore
 	\begin{equation*}
-		x_k = \frac{|M_k|}{|A|}
+		x_k = \frac{\determinate{M_k}}{\determinate{A}}
 	\end{equation*}
 \end{proof}
 
 Note: Cramer's Rule is too slow for real world calculation.
 
 \begin{theorem}
-	For a matrix $A \in M_{n\times n}(F)$, $||A||$ is the \cindex{n-dimensional volume} of the parallelepiped having vector $a_i$ as adjacent sides.
+	In geometry, for a square matrix $A \in M_{n\times n}(F)$, $\absolutevalue{\text{det}(A)}$ is the \cindex{n-dimensional volume} of the parallelepiped having vector $a_i$ as adjacent sides.
 \end{theorem}
 
-
-\begin{theorem}
-    A square matrix is invertible $\iff$ its determinant is non-zero.
-\end{theorem}
-
-\begin{theorem}
-    The inverse of invertible square matrix A is:
-    \begin{equation*}
-        A^{-1} = C^\top 
-    \end{equation*}
-    where 
-    \begin{equation*}
-        C_{ij} = (-1)^{i+j}|\tilde{A}_{ij}|
-    \end{equation*}
-\end{theorem}
 

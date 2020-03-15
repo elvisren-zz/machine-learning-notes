@@ -71,15 +71,18 @@
 \end{definition}
 
 \begin{theorem}
-	Let $K$ be the set of all solutions for $Ax=0$. Then $K=N(L_A)$ has dimension of $n-\text{rank}(L_A)=n-\text{rank}(A)$.
+	Let $K$ be the set of all solutions for $Ax=0$. Then $K=\nullspace{L_A}$ has dimension of $n- \rank{L_A}=n-\rank{A}$.
 \end{theorem}
 
 \begin{theorem}
 	if $m < n$, the system $Ax=0$ has nonzero solution.
 \end{theorem}
+\begin{proof}
+    $\rank{A} \leq m < n$, so $\nullspace{A} = n - \rank{A} > 0$.
+\end{proof}
 
 \begin{theorem}\label{equationfromoneandnullspace}
-	Let $K$ be the solution set of $Ax=b$, $K_H$ the solution set of $Ax=0$. Then for all solution $s$ to $Ax=b$,
+	Let $K$ be the solution set of $Ax=b$, $K_H$ be the solution set of $Ax=0$. Then for all solution $s$ to $Ax=b$,
 	\begin{equation}
 		K = \{ s \} + K_H = \{s+k: k \in K_H \}
 	\end{equation}
