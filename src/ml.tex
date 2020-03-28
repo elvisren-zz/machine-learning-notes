@@ -24,6 +24,8 @@
 \declaretheorem{theorem}
 \declaretheorem{definition}
 \declaretheorem{example}
+\declaretheorem{axiom}
+
 
 
 % for mathematical integratoin
@@ -87,14 +89,35 @@
 \newcommand\cindex[1]{\textcolor{blue}{\textbf{#1}}\index{#1}}
 \newcommand\mathhilight[1]{\mathop{\bf #1\/}}
 
+
+% set theory
+\newcommand\powerset[1]{\mathcal{P}\left( #1 \right)}
+\newcommand\range[1]{\mathbf{ran}(#1)}
+\newcommand\domain[1]{\mathbf{dom}(#1)}
+\newcommand\allordinals[0]{\mathbf{Ord}}
+\newcommand\transfinitesequence[1]{\left< #1 \right>}
+\newcommand\supremum[1]{\mathbf{sup} \set{#1}}
+\newcommand\infimum[1]{\mathbf{inf} \set{#1}}
+
+
+
 %linear algebra
 \newcommand\nullspace[1]{\mathcal{N}(#1)}
 \newcommand\rangespace[1]{\mathcal{R}(#1)}
-\newcommand\absolutevalue[1]{\displaystyle \left\lvert #1 \right\rvert}
-\newcommand\dimension[1]{\displaystyle \text{dim}\left( #1 \right)}
-\newcommand\rank[1]{\displaystyle \text{rank}( #1 )}
+\newcommand\absolutevalue[1]{\abs{#1}}
+\newcommand\determinate[1]{\absolutevalue{#1}}
+\newcommand\coordinate[1]{\sbr{#1}}
+\newcommand\projection[2]{\mathbf{proj}_{#2} #1}
+
+
+\newcommand\dimension[1]{\displaystyle \mathbf{dim}\left( #1 \right)}
+\newcommand\rank[1]{\displaystyle \mathbf{rank}( #1 )}
 \newcommand\innerproduct[2]{\left\langle \displaystyle #1, #2 \right\rangle}
-\newcommand\determinate[1]{\displaystyle \left| \displaystyle #1 \right|}
+\newcommand\trace[1]{\displaystyle \mathbf{tr}( #1 )}
+
+
+\newcommand\adjugate[1]{\displaystyle \mathbf{adj} \displaystyle #1 }
+\newcommand\cofactor[1]{\displaystyle \mathbf{cof} \displaystyle #1 }
 
 
 %probability
@@ -118,6 +141,10 @@
 %\setcounter{page}{1}
 
 
+\chapter{Set Theory}
+\include{set_theory/st.1.axioms}
+\include{set_theory/st.2.ordinalnumbers}
+\include{set_theory/st.3.cardinalnumbers}
 
 
 \chapter{Linear Algebra}
@@ -127,6 +154,8 @@
 \include{linear_algebra/la.4.determinants}
 \include{linear_algebra/la.5.diagonalization}
 \include{linear_algebra/la.6.inner_product_space}
+\include{linear_algebra/la.7.operator}
+
 
 
 \chapter{Matrix}

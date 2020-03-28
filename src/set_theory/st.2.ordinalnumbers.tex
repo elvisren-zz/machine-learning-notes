@@ -1,0 +1,318 @@
+\section{Ordinal Numbers}
+
+\subsection{Well Ordering}
+\begin{definition}
+    A binary relation $<$ is a \cindex{partial ordering} of $P$ if :
+    \begin{enumerate}
+        \item $\forall p \in P (p \nless p)$.
+        \item $p < q \wedge q < r \rightarrow p < r$.
+    \end{enumerate}
+\end{definition}
+
+\begin{definition}
+    A partial order $(P, <)$ is \cindex{linear ordering} if $\forall p \forall q (p < q \wedge p = q \wedge q < p )$.
+\end{definition}
+
+
+\begin{definition}
+    $\alpha$ is the \cindex{supremum} of $X$ if $\alpha$ is the \cindex{least upper bound} of $X$: $\alpha = \supremum{X}$.
+\end{definition}
+
+\begin{definition}
+    $\alpha$ is the \cindex{infimum} of $X$ if $\alpha$ is the \cindex{greatest lower bound} of $X$: $\alpha = \infimum {X}$.
+\end{definition}
+
+
+\begin{definition}
+    If $(P, <)$ and $(Q,<)$ are partially ordered sets and $f: P \rightarrow Q$, then $f$ is \cindex{order-preserving} if $x < y \rightarrow f(x) < f(y)$. If $P$ and $Q$ are linearly ordered, $f$ is called \cindex{increasing}.
+\end{definition}
+
+\begin{definition}
+    $f: P \rightarrow Q$  is \cindex{isomorphism} of $P$ and $Q$ if $f$ and $f^{01}$ are order-preserving. An isomorphism of $P$ onto itself is \cindex{automorphism}.
+\end{definition}
+
+
+\begin{definition}
+    A linear ordering $<$ is \cindex{well-ordering} if every nonempty subset of $P$ has a least element.
+\end{definition}
+
+\begin{theorem}\label{wellorderedsetisomorphismisbigger}
+    If $(W,<)$ is a well-ordered set and $f:W \rightarrow W$ is an increasing function, then $\forall x\in W \left( f(x) \geq x \right)$.
+\end{theorem}
+\begin{proof}
+    If the set $X = \set{x \in W: f(x) < x}$ is nonempty, let $z$ be its least element and $w = f(z)$. Then $f(w) = ff(z) < f(z) = w $. So $f(w) < w \rightarrow w \in X \wedge w < z$.
+\end{proof}
+
+\begin{theorem}
+    The only automorphism of a well-ordered set is the identity.    
+\end{theorem}
+\begin{proof}
+    $f(x) \geq x$ and $f^{-1} \geq x$.
+\end{proof}
+
+
+\begin{theorem}
+    If two well-ordered set $W_1$ and $W_2$ are isomorphic, then the isomorphism is unique.
+\end{theorem}
+\begin{proof}
+    construct a automorphism using two isomorphism.
+\end{proof}
+
+\begin{definition}
+    Let $(W,<)$ be an well-ordered set. $\alpha \in W$, the \cindex{initial segment} $W_\alpha$ of $W$ is defined as
+    \begin{equation}
+        W_\alpha = \set{x \in W: x < \alpha}
+    \end{equation}
+\end{definition}
+
+\begin{theorem}
+    no well-ordered set is isomorphic to an initial segment of itself.    
+\end{theorem}
+\begin{proof}
+    If $\range{f} = \set{x: x < u}$ is an initial segment, then $f(u) < u$, contrary to \thmref{wellorderedsetisomorphismisbigger}.
+\end{proof}
+
+\begin{theorem}
+    If $W$ and $V$ are well-ordered sets, then one of the following holds:
+    \begin{enumerate}
+        \item $W$ is isomorphic to $V$.
+        \item $W$ is isomorphic to an initial segment of $V$.
+        \item an initial segment of $W$ is isomorphic to $V$.
+    \end{enumerate}    
+\end{theorem}
+\begin{proof}
+    Define a set $f = \set{(x,y)\in W \times V: W_x \text{ is isomorphic to } V_y}$. Check the $\domain{f}$ and $\range{f}$.
+\end{proof}
+
+
+
+
+
+% Ordinal Numbers
+\subsection{Ordinal Numbers}
+
+\begin{definition}
+    A set $T$ is \cindex{transitive} if every element of $T$ is a subset of $T$:
+    \begin{equation}
+        a \in T \rightarrow a \subset T
+    \end{equation}
+    or $\cup T \subset T$.
+\end{definition}
+
+\begin{definition}
+    A set is an \cindex{ordinal number} if it is transitive and well-ordered by $\in$. The class of all ordinals is $\allordinals$.
+\end{definition}
+
+\begin{definition}
+    For two sets $\alpha$ and $\beta$, define a relation $<$ as $\alpha < \beta \leftrightarrow \alpha \in \beta$.
+\end{definition}
+
+\begin{theorem}
+    $\emptyset \in \allordinals$
+\end{theorem}
+\begin{proof}
+    by definition.
+\end{proof}
+
+\begin{theorem}
+    $\alpha \in \allordinals \wedge \beta \in \alpha \rightarrow \beta \in \allordinals$
+\end{theorem}
+\begin{proof}
+    $\forall x \in \beta$, $x \in \beta \wedge \beta \subset \alpha \rightarrow x \in \alpha \rightarrow x \subset \alpha \rightarrow x \subset \beta $.
+\end{proof}
+
+\begin{theorem}
+    $\alpha \in \allordinals \wedge \beta \in \allordinals \wedge \alpha \neq \beta \wedge \alpha \subset \beta  \rightarrow \alpha \in \beta$    
+\end{theorem}
+\begin{proof}
+    Let $\gamma$ be the least element of $\beta - \alpha$. Since $\alpha$ is transitive, $\alpha$ is an initial segment of $\beta_\gamma$. So $\alpha = \set{\epsilon \in \beta: \epsilon < \gamma} = \gamma$, so $\alpha \in \beta$.
+\end{proof}
+
+\begin{theorem} 
+    $\forall \alpha, \beta \in \allordinals \rightarrow \alpha \subset \beta \vee \beta \subset \alpha$
+\end{theorem}
+\begin{proof}
+    Let $\gamma = \alpha \cap \beta$. $\gamma$ is an ordinal. So $\gamma \subset \alpha \rightarrow \gamma \in \alpha$, and $\gamma \in \beta$, so $\gamma \in \alpha \cap \beta = \gamma$ and $\gamma \in \gamma$.
+\end{proof}
+
+\begin{theorem}
+    The facts about ordinal numbers are:
+    \begin{enumerate}
+        \item $\alpha = \set{\beta: \beta < \alpha}$
+        \item If $C$ is a nonempty class of ordinals, then $\cap C$ and $\cup C$ are ordinals.
+        \item $\forall \alpha \in \allordinals \left(\alpha \cup \set{\alpha} \in \allordinals \right)$ and $\alpha \cup \set{\alpha} = \mathbf{inf} \set{\beta: \beta > \alpha}$.
+    \end{enumerate}    
+\end{theorem}
+
+\begin{definition}
+    We define $\alpha + 1 = \alpha \cup \set{\alpha}$, the \cindex{successor} of $\alpha$.
+\end{definition}
+
+\begin{theorem}
+    Every well-ordered set is isomorphic to a unique ordinal number.    
+\end{theorem}
+
+\begin{definition}
+    If $\alpha = \beta + 1$, $\alpha$ is a \cindex{successor ordinal}. If $\alpha$ is not a successor ordinal, then $\alpha = \supremum{\beta: \beta < \alpha} = \cup \alpha$, and is a \cindex{limit ordinal}. $0$ is defined as a limit ordinal.
+\end{definition}
+
+\begin{definition}[natural numbers]
+    The least nonzero limit ordinal is denoted as $\omega$. The ordinals less than $\omega$ is called \cindex{finite ordinals}, or \cindex{natural numbers}.
+\end{definition}
+
+\begin{theorem}[\cindex{Transfinite Induction}]
+    Let $C$ be a class of ordinals and assume that:
+    \begin{enumerate}
+        \item $0 \in C$
+        \item $\alpha \in C \rightarrow \alpha + 1 \in C$
+        \item If $\alpha$ is a nonzero limit ordinal and $\forall \beta \in \alpha (\beta \in C) \rightarrow \alpha \in C$.
+    \end{enumerate}
+    Then $C = \allordinals$.
+\end{theorem}
+\begin{proof}
+    choose the least $\alpha \notin C$.
+\end{proof}
+
+\begin{definition}
+    A \cindex{transfinite sequence} is a function that the domain is an ordinal:
+    \begin{equation}
+        \transfinitesequence{\alpha_\xi : \xi < \alpha}
+    \end{equation}
+\end{definition}
+
+\begin{theorem}[\cindex{Transfinite Recursion}]
+    Let $G$ be a function on the class of transfinite sequence, then there is a unique function $F$ on $\allordinals$ that $\forall \alpha \in \allordinals$:
+    \begin{equation}
+        F(\alpha) = G(F\restriction_\alpha)
+    \end{equation}
+\end{theorem}
+
+\begin{definition}
+    Let $\alpha>0$ be a limit ordinal and $\transfinitesequence{\gamma_\xi : \xi < \alpha}$ be a nondecreasing sequence of ordinals. The \cindex{limit} of the sequence is
+    \begin{equation}
+        \lim_{\xi \rightarrow \alpha} \gamma_\xi = \supremum{\gamma_\xi : \xi < \alpha}
+    \end{equation}
+    It is possible that $\displaystyle \lim_{\xi \rightarrow \alpha} \gamma_\xi \notin \transfinitesequence{\gamma_\xi : \xi < \alpha}$.
+\end{definition}
+
+\begin{definition}
+    A sequence of ordinal $\transfinitesequence{\gamma_\alpha : \alpha \in \allordinals}$ is \cindex{normal} if it is increasing and \cindex{continuous}, that is for every limit ordinal $\alpha$, $\displaystyle \gamma_\alpha = \lim_{\beta \rightarrow \alpha} \gamma_\beta$.
+\end{definition}
+
+
+
+% Ordinal Arithmetic
+\subsection{Ordinal Arithmetic}
+
+\begin{theorem}
+    For all ordinal $\alpha$ and $\beta$, we have:
+    \begin{enumerate}
+        \item $\alpha + 0 = \alpha$
+        \item $\alpha + (\beta + 1) = (\alpha + \beta) + 1$
+        \item $\displaystyle \alpha + \beta = \lim_{\xi \rightarrow \beta} (\alpha + \xi)$ for all limit ordinal $\beta > 0$.
+        \item $\alpha \cdot 0 = 0$
+        \item $\alpha \cdot (\beta + 1) = \alpha \cdot \beta + \alpha$
+        \item $\displaystyle \alpha \cdot \beta = \lim_{\xi \rightarrow \beta} \alpha \cdot \beta$ for all limit ordinal $\beta > 0$
+        \item $\alpha^0 = 1$
+        \item $\alpha^{\beta + 1} = \alpha^\beta \cdot \alpha$
+        \item $\displaystyle \alpha^\beta = \lim_{\xi \rightarrow \beta} \alpha^\xi$ for all limit ordinal $\beta > 0$.
+    \end{enumerate}    
+    So $\alpha + \beta$, $\alpha \cdot \beta$, and $\alpha^\beta$ are normal function in second variable $\beta$. Note that neither $+$ nor $\cdot$ is commutative:
+    \begin{equation}
+        \begin{aligned}
+            1 + \omega = \omega &\neq \omega + 1 \\
+            2 \cdot \omega = \omega &\neq \omega \cdot 2 = \omega + \omega
+        \end{aligned}
+    \end{equation}
+\end{theorem}
+
+\begin{theorem}
+    For all ordinal $\alpha$ and $\beta$, we have:
+    \begin{enumerate}
+        \item $\beta < \gamma \rightarrow \alpha + \beta < \alpha + \gamma$
+        \item If $ \alpha < \beta$, there is a unique $\delta$ that $\alpha + \delta = \beta$.
+        \item $\beta < \gamma \wedge \alpha > 0 \rightarrow \alpha \cdot \beta < \alpha \cdot \gamma$
+        \item If $\alpha > 0$, there is a unique $\beta$ and $\rho < \alpha$ that $\gamma = \alpha \cdot \beta + \rho$.
+        \item $\beta < \gamma \wedge \alpha > 1 \rightarrow \alpha^\beta < \alpha^\gamma$
+    \end{enumerate}
+\end{theorem}
+
+\begin{theorem}[\cindex{Cantor's Normal Form Theorem}]
+    Every ordinal $\alpha > 0$ has a unique representation:
+    \begin{equation}
+        \alpha = \omega^{\beta_1} \cdot k_1 + \dots + \omega^{\beta_n} \cdot k_n
+    \end{equation}
+    where $n \geq 1$, $\alpha \geq \beta_1 > \dots > \beta_n$, and $k_i$ are nonzero natural numbers.
+\end{theorem}
+\begin{proof}
+    use induction. $\forall \alpha > 0$, let $\beta$ be the greatest ordinal number that $\omega^\beta \leq \alpha$. There is a unique $\delta$ and $\rho < \omega^\beta$ that $\alpha = \omega^\beta + \rho$. 
+\end{proof}
+
+
+
+
+% well-founded relations
+\subsection{Well-Founded Relations}
+
+\begin{definition}
+    A binary relation $E$ on a set $P$ is \cindex{well-founded} if every nonempty $X \subset P$ has a $E$-minimal element, that is $\forall a \in X$ there is no $x \in X$ that $x E a$.
+\end{definition}
+
+\begin{theorem}
+    If $E$ is a well-founded relation on $P$, there is a unique function $\rho : P \rightarrow \allordinals$ that $\forall x \in P$:
+    \begin{equation}
+        \rho(x) = \supremum{\rho (y) + 1: y E x}
+    \end{equation}
+    
+    The range of $\rho$ is an initial segment of ordinals and is an ordinal number, which is the \cindex{height} of $E$.
+\end{theorem}
+\begin{proof}
+    Define a $P$ that
+    \begin{equation}
+        \begin{aligned}
+            P_0 &= \emptyset \\
+            P_{\alpha + 1} &= \set{x \in P: \forall y (y E x \rightarrow y \in P_\alpha )} \\
+            P_\alpha &= \bigcup_{\xi < \alpha} P_\xi \text{ , if } \alpha \text{ is a limit ordinal}
+        \end{aligned}
+    \end{equation}
+    Let $\theta$ be the least ordinal that $P_{\theta +1} = P_\theta$.
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

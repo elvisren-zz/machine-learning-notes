@@ -1,0 +1,620 @@
+\section{Operator}
+
+% Normal
+\subsection{Normal}
+
+\begin{theorem}\label{eigenvectorforadjointoperator}
+    If $T$ has eigenvector, then $T^*$ has eigenvector.    
+\end{theorem}
+\begin{proof}
+    $0 = \innerproduct{0}{x} = \innerproduct{(T - \lambda I)(v)}{x} = \innerproduct{v}{(T - \lambda I)^* (x)} = \innerproduct{v}{(T^* - \overline{\lambda} I)(x)}$. Since $v \neq 0$ is reciprocal to the range of $T^* - \overline{\lambda} I$, $v \notin \rangespace{T^* - \overline{\lambda} I}$, so $\nullspace{T^* - \overline{\lambda} I} \neq \{ 0 \}$.
+\end{proof}
+
+\begin{theorem}[\cindex{Schur}]\label{schurincomplexfield}
+    Suppose the characteristic polynomial of $T$ splits. Then there exists an orthonormal basis $\beta$ for $V$ that the $[T]_\beta$ is upper trianglar. Note:
+    \begin{enumerate}
+        \item $\beta$ does \emph{not} need to be eigenvectors of $T$.
+        \item It works in $\mathcal{R}$ as long as $T$ splits.
+    \end{enumerate} 
+\end{theorem}
+\begin{proof}
+    Use induction. Since $T$ splits, it has a eigenvector. By \thmref{eigenvectorforadjointoperator} $T^*$ has eigenvector, and make it a unit eigenvector $z$. Let $W = \text{span}\{z\}$. Then prove $W^\bot$ is $T$-invariant: for $\forall y \in W^\bot$ and $x = cz \in W$:
+    \begin{equation*}
+        \begin{aligned}
+            \innerproduct{T(y)}{x} = \innerproduct{T(y)}{cz} = \innerproduct{y}{T^*(cz)} = \innerproduct{y}{cT^*(z)} = \innerproduct{y}{c \lambda z} = \overline{c\lambda} \innerproduct{y}{z} = 0
+        \end{aligned}
+    \end{equation*}
+    According to induction, $\dimension{W^\bot} = n - 1$ and there exists an orthonormal basis $\gamma$ that $[T_{W^\bot}]_\gamma$ is upper triangular. Take $\gamma \cup \{z \}$.
+\end{proof}
+
+\begin{theorem}
+    If $[T]_\beta$ is a diagonal matrix, $[T^*]_\beta = ([T]_\beta)^*$ is also a diagonal matrix.
+\end{theorem}
+
+
+
+\begin{definition}
+    $T$ is \cindex{normal} if $T T^* = T^* T$. A square matrix $A$ is \cindex{normal} if $AA^* = A^* A$.
+\end{definition}
+
+\begin{theorem}
+    $T$ is normal if and only of $[T]_\beta$ is normal under orthonormal basis $\beta$.
+\end{theorem}
+
+\begin{theorem}\label{propertyofnormaloperator}
+    Properties of normal operator $T$ on $V$:
+    \begin{enumerate}
+        \item $\forall x \in V$, $\norm{T(x)} = \norm{T^*(x)}$
+        \item $\forall c \in F$, $T - cI$ is normal.
+        \item If $x$ is a eigenvector of eigenvalue $\lambda$ for $T$, $T^*(x) = \overline{\lambda} x$, so $x$ is also an eigenvector of eigenvalue $\overline{\lambda}$ for $T^*$.
+        \item If $x_1$ and $x_2$ are for eigenvalues $\lambda_1$ and $\lambda_2$, $\innerproduct{x_1}{x_2} = 0$
+    \end{enumerate}    
+\end{theorem}
+\begin{proof}
+    \begin{equation*}
+        \norm{T(x)}^2 = \innerproduct{T(x)}{T(x)} = \innerproduct{T^* T (x)}{x} = \innerproduct{TT^*(x)}{x} = \innerproduct{T^*(x)}{T^*(x)} = \norm{T^*(x)^2}
+    \end{equation*}
+    
+    \begin{equation*}
+        0 = \norm{(T - \lambda I)(x)} = \norm{(T - \lambda I)^*(x)} = \norm{(T^* - \overline{\lambda} I)(x) }
+    \end{equation*}
+    
+    \begin{equation*}
+        \lambda_1 \innerproduct{x_1}{x_2} = \innerproduct{\lambda x_1}{x_2} = \innerproduct{T(x_1)}{x_2} = \innerproduct{x_1}{T^*(x_2)} = \innerproduct{x_1}{\overline{\lambda_2} x_2} = \lambda_2 \innerproduct{x_1}{x_2}
+    \end{equation*}
+    So $(\lambda_1 - \lambda_2) \innerproduct{x_1}{x_2} = 0$. Since $\lambda_1 \neq \lambda_2$, $\innerproduct{x_1}{x_2} = 0$
+\end{proof}
+
+
+\begin{theorem}
+    If $T$ is normal, $\nullspace{T} = \nullspace{T^*}$ and $\rangespace{T} = \rangespace{T^*}$. So being normal will refine \thmref{nullandreciprocaladjoint}.
+\end{theorem}
+\begin{proof}
+    If $x \in \nullspace{T}$, $\norm{T(x)} = \norm{T^*} = 0$, so $T^*(x) = 0$ and $x \in \nullspace{T^*}$.
+\end{proof}
+
+
+
+\begin{theorem}
+    In $\mathcal{C}$, let $V$ be finite dimensional inner product space. $T$ is normal if and only if there exists an orthonormal basis for $V$ consisting of eigenvectors of $T$.
+\end{theorem}
+\begin{proof}
+    in $C$ the polynomial always splits. According to \thmref{schurincomplexfield} there exists a orthonormal basis $\beta = \{v_1, v_2, \dots, v_n\}$ that $[T]_\beta = A$ is upper triangular. $v_1$ is an eigenvector because $T(v_1)=A_{1,1} v_1$. Assuming $v_1, v_2, \dots, v_{k-1}$ are eigenvector of $T$, we prove that $v_k$ is also an eigenvector of $T$. Because $A$ is upper triangular, 
+    \begin{equation*}
+        T(v_k) = A_{1,k} v_1 + A_{2,k} v_2 + \dots + A_{j,k} v_j + \dots + A_{k,k} v_k
+    \end{equation*}
+    Because $\forall j < k$, $A_{j,k} = \innerproduct{T(v_k}{v_j} = \innerproduct{v_k}{T^*(v_j)} = \innerproduct{v_k}{\overline{\lambda} v_j} = \lambda_j \innerproduct{v_k}{v_j} = 0$, we have $T(v_k) = A_{k,k} v_k$, so $v_k$ is an eigenvector of $T$.
+    
+    btw, it does not work in infinite dimensional complex inner product space.
+\end{proof}
+
+
+
+
+
+
+% self-adjoint
+\subsection{Hermitian}
+
+\begin{definition}
+    $T$ is \cindex{self-adjoint} (\cindex{Hermitian}) if $T = T^*$, or $A = A^*$. For real matrix, it means $A$ is symmetric.
+\end{definition}
+
+\begin{theorem}
+    Let $T$ be a linear operator on complex inner product space. Then $T$ is self-adjoint if and only if $\forall x \in V$,$\innerproduct{T(x)}{x} \in \mathcal{R}$.
+\end{theorem}
+\begin{proof}
+    If $T$ is self-adjoint, $\overline{\innerproduct{T(x)}{x}} = \innerproduct{x}{T(x)} = \innerproduct{T^*(x)}{x} = \innerproduct{T(x)}{x}$. So $\innerproduct{T(x)}{x} \in \mathcal{R}$.
+    
+    If $\innerproduct{T(x)}{x} \in \mathcal{R}$, $\innerproduct{T(x)}{x} = \overline{\innerproduct{T(x)}{x}} = \innerproduct{x}{T(x)} = \innerproduct{T^*(x)}{x}$. So $\forall x \in V$, $\innerproduct{(T - T^*)(x)}{x} = 0$. According to Theorem (\ref{zerotforalltx}), $T - T^* = 0$.
+\end{proof}
+
+
+\begin{theorem}
+    Let $T$ be a self-adjoint operator on finite dimensional inner product space $V$. Then:
+    \begin{enumerate}
+        \item every eigenvalue is real.
+        \item If $V$ is a real inner product space, the characteristic polynomial for $T$ splits.
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    Because $T$ is self-adjoint, $T$ is also normal. So according to \thmref{propertyofnormaloperator} if $\lambda$ is an eigenvalue of $T$,  $\overline{\lambda}$ is an eigenvalue of $T^*$. So:
+    \begin{equation*}
+        \lambda x = T(x) = T^*(x) = \overline{\lambda} x
+    \end{equation*}
+    So $\lambda = \overline{\lambda}$, and $\lambda$ is real.
+    
+    For a orthonormal basis $\beta$, $A = [T]_\beta$ is self-adjoint because $A^* = ([T]_\beta)^* = [T^*]_\beta = [T]_\beta = A$. Define $L_A(x) = Ax$ in $\mathcal{C}^n$. Here we create a function in $\mathcal{C}^n$ from a function in $\mathcal{R}^n$. Let $\gamma$ be the standard basis for $\mathcal{C}$ which is orthonormal. $[L_A]_\gamma = A$ is self-adjoint, so $L_A$ is self-adjoint in $\mathcal{C}^n$. The characteristic polynomial of $L_A$ splits. Since $L_A$ is self-adjoint, all eigenvalues are real, so the polynomial split in $\mathcal{R}$. But $L_A$, $A$ and $T$ has the same characteristic polynomial.
+\end{proof}
+
+\begin{theorem}\label{selfadjointmatrixhasorthonormalbasis}
+    Let $T$ be a linear operator on finite dimensional real inner product space. $T$ is self-adjoint if and only if there exists an orthonormal basis $\beta$ for $V$ consisting of eigenvectors of $T$.    
+\end{theorem}
+\begin{proof}
+    By \thmref{schurincomplexfield} there exists orthonormal basis $\beta$ for $V$ that $A = [T]_\beta$ is upper triangular. Because $A^* = ([T]_\beta)^* = [T^*]_\beta = [T]_\beta = A$, $A$ is diagonal matrix.
+\end{proof}
+
+
+\begin{theorem}
+    For the orthonormal basis of eigenvector $T$ problem we have:
+    \begin{enumerate}
+        \item If $T$ splits, we have orthonormal basis that make $T$ upper triangular in $\mathcal{R}$ or $\mathcal{C}$. This basis may not be eigenvectors, or $T$ may not have eigenvectors.
+        \item $T$ is complex normal.
+        \item $T$ is real symmetric.
+    \end{enumerate}
+\end{theorem}
+
+
+\begin{theorem}\label{zerotforalltxforselfadjoint}
+    Let $T$ be self-adjoint operator. If $\forall x \in V$,$\innerproduct{T(x)}{x} = 0$. Then $T = 0$.\footnote{Self-adjoint is not needed of $V=\mathcal{C}$. See \thmref{zerotforalltx} on page \pageref{zerotforalltx}.}
+\end{theorem}
+\begin{proof}
+    Choose orthonormal basis $\beta$ that consist of eigenvector of $T$. For $x\in \beta$, $T(x) =\lambda x$. So
+    \begin{equation*}
+        0 = \innerproduct{x}{T(x)} = \innerproduct{x}{\lambda x} = \overline{\lambda} \innerproduct{x}{x}
+    \end{equation*}
+    Hence $\overline{\lambda} = 0$ and $\forall x \in \beta,  T(x) = 0$.
+\end{proof}
+
+
+\subsection{Positive Operator}
+
+\begin{definition}
+    An operator $T$ is called \cindex{positive operator} if $T$ is self-adjoint and $\forall x \in V$:
+    \begin{equation}
+        \innerproduct{Tx}{x} \geq 0
+    \end{equation}
+\end{definition}
+
+\begin{definition}
+    An Operator $R$ is called a \cindex{square root} of an operator $T$ if
+    \begin{equation}
+        R^2 = T
+    \end{equation}
+\end{definition}
+
+\begin{theorem}\label{positiveoperatorproperty}
+    All the following are equivalent:
+    \begin{enumerate}
+        \item \label{positiveoperatorproperty1} $T$ is positive.
+        \item \label{positiveoperatorproperty2} $T$ is self-adjoint and all eigenvalue of $T$ are non-negative.
+        \item \label{positiveoperatorproperty3} $T$ has positive square root.
+        \item \label{positiveoperatorproperty4} $T$ has self-adjoint square root.
+        \item \label{positiveoperatorproperty5} $\exists R: T = R^* R$
+    \end{enumerate}    
+\end{theorem}
+\begin{proof}
+    For \ref{positiveoperatorproperty2}, if $T$ is positive, $0 \leq \innerproduct{Tv}{v} = \innerproduct{\lambda v}{v} = \lambda \innerproduct{v}{v}$, so $\lambda \geq 0$.
+    
+    For \ref{positiveoperatorproperty3}, if $T$ is self-adjoint, by \thmref{selfadjointmatrixhasorthonormalbasis} there are orthonormal basis $\beta=\set{v_i}$ with eigenvalue $\lambda_i$. Define $R(v_i) = \sqrt{\lambda_i} v_i$. Then $\forall v_i \in \beta,  R^2(v_i) = T(v_i)$.
+    
+    For \ref{positiveoperatorproperty1}, $\innerproduct{Tv}{v} = \innerproduct{R^*Rv}{v} = \innerproduct{Rv}{Rv} \geq 0$.    
+\end{proof}
+
+\begin{theorem}
+    A positive operator has a unique positive square root.    
+\end{theorem}
+
+\begin{definition}
+    If $T$ is a positive operator, $\sqrt{T}$ is its positive square root.
+\end{definition}
+
+
+
+% unitary and orthogonal operator
+\subsection{Isometry}
+
+\begin{definition}
+    Let $T$ be a linear operator on finite dimensional inner product space $V$ over $F$. If $\forall x \in V$, $\norm{T(x)} = \norm{x}$, we call $T$ \cindex{unitary operator} if $F = \mathcal{C}$ or \cindex{orthogonal operator} if $F=\mathcal{R}$. Unitary and orthogonal are also called \cindex{isometry}.
+\end{definition}
+
+\begin{definition}
+    A square matrix $A$ is called \cindex{unitary matrix} if $AA^* = A^*A = I$ and \cindex{orthogonal matrix} if $AA^\top = A^\top A = I$.
+\end{definition}
+
+\begin{theorem}\label{unitaryproperty}
+    Let $T$ be an linear operator. Then the following are equivalent:
+    \begin{enumerate}
+        \item $TT^* = T^* T = I$.\label{unitaryisnormal}
+        \item $\innerproduct{T(x)}{T(y)} = \innerproduct{x}{y}$.
+        \item If $\beta$ is an orthonormal basis for $V$. Then $T(\beta)$ is an orthonormal basis.
+        \item $\norm{T(x)} = \norm{x}$.
+    \end{enumerate}
+    
+    So unitary or orthogonal operator preserve inner product and norm.
+\end{theorem}
+\begin{proof}
+    $\innerproduct{x}{y} = \innerproduct{T^* T x}{y} = \innerproduct{T(x)}{T(y)}$.
+    
+    If $\beta = \{v_1,v_2,\dots,v_n \}$ is an orthonormal basis. $\innerproduct{T(v_i)}{T(v_j)} = \innerproduct{v_i}{v_j} = 0$.
+    
+    If $\beta$ and $T(\beta)$ are both orthonormal basis, expand $\norm{T(x)}$ and $\norm{x}$ to prove they are equal.
+    
+    $\innerproduct{x}{x} = \norm{x}^2 = \norm{T(x)}^2 = \innerproduct{T(x)}{T(x)} = \innerproduct{x}{T^*Tx}$. So $\forall x \in V, \innerproduct{x}{(I - T^*T)(x)} = 0$. $I - T^*T$ is normal, so according to \thmref{zerotforalltxforselfadjoint}, $I - T^* T = 0$.
+\end{proof}
+
+\begin{theorem}
+    Unitary operator is normal.    
+\end{theorem}
+\begin{proof}
+    See \thmref{unitaryproperty} property (\ref{unitaryisnormal}).
+\end{proof}
+
+
+
+\begin{theorem}
+    Let $T$ be a linear operator on \emph{real} inner product space $V$. $V$ has an orthonormal basis of eigenvectors of $T$ with absolute value of all eigenvalues equal to $1$ if and only if $T$ is self-adjoint and orthogonal.    
+\end{theorem}
+\begin{proof}
+    If $T$ is self-adjoint, there is orthonormal basis $\beta$ of eigenvectors. If $T$ is orthogonal, $\forall v_i \in \beta$, $\absolutevalue{\lambda_i} \times \norm{v_i} = \norm{\lambda_i v_i} = \norm{T(v_i)} = \norm{v_i}$, so $\absolutevalue{\lambda_i} = 1$.
+    
+    If $V$ has orthonormal basis $\beta$ of eigenvectors, $T$ is self-adjoint. $\forall v_i \in \beta$, we have $TT^* (v_i) = T(\lambda_i v_i ) = \lambda_i T(v_i) = \lambda_i^2 v_i$. If $\absolutevalue{\lambda_i} = 1$, $TT^* = I$.
+\end{proof}
+
+\begin{theorem}
+    Let $T$ be a linear operator on \emph{complex} inner product space $V$. $V$ has an orthonormal basis of eigenvectors of $T$ with absolute value of all eigenvalues equal to  $1$ if and only if $T$ is unitary.
+\end{theorem}
+\begin{proof}
+    If $T$ is unitary, it is normal, so there is orthonormal basis $\beta$ of eigenvectors. If $T$ is unitary, $\forall v_i \in \beta$, $\absolutevalue{\lambda_i} \times \norm{v_i} = \norm{\lambda_i v_i} = \norm{T(v_i)} = \norm{v_i}$, so $\absolutevalue{\lambda_i} = 1$.
+    
+    If $V$ has orthonormal basis $\beta$ of eigenvectors, $T$ is normal. If $\absolutevalue{\lambda_i} = 1$, $\forall v_i \in \beta$, $\absolutevalue{\lambda_i} \times \norm{v_i} = \norm{\lambda_i v_i} = \norm{T(v_i)} = \norm{v_i}$, so $\norm{T(v_i)} = \norm{v_i}$ and it is unitary.
+\end{proof}
+
+\begin{theorem}
+    $T$ is isometry if $[T]_\beta$ is isometry for a orthonormal basis $\beta$ of $V$.
+\end{theorem}
+
+\begin{definition}
+    $A$ is \cindex{unitarily equivalent} or \cindex{orthogonally equivalent} to $D$ if and only if there exists a unitary or orthogonal matrix $P$ that $A = P^* D P$.
+\end{definition}
+
+\begin{theorem}
+    Let $A$ be a complex square matrix. $A$ is normal if and only if it is unitarily equivalent to a diagonal matrix.    
+\end{theorem}
+
+\begin{theorem}
+    Let $A$ be a real square matrix. $A$ is symmetric if and only if it is orthogonally equivalent to a diagonal matrix.    
+\end{theorem}
+
+
+
+
+
+
+% rigid motion
+\subsection{Rigid motion}
+
+\begin{definition}
+    Let $V$ be real inner product space. $f: V \rightarrow V$ is a \cindex{rigid motion} if 
+    \begin{equation}
+        \norm{f(x) - f(y)} = \norm{x - y}
+    \end{equation}
+\end{definition}
+
+\begin{definition}
+    Let $V$ be real inner product space. $g: V \rightarrow V$ is a \cindex{translation} by $v_0 \in V$ if
+    \begin{equation}
+        \exists v_0 \forall x \in V \left( g(x) = x + v_0 \right)
+    \end{equation}
+\end{definition}
+
+\begin{theorem}
+    A translation is a rigid motion. And a composite of rigid motion is rigid motion.    
+\end{theorem}
+
+
+\begin{theorem}
+    Let $f$ be a rigid motion. Then there exists a unique orthogonal operator $T$ and unique translation $g$ that $f = g \circ T$.
+\end{theorem}
+\begin{proof}
+    Define $T(x) = f(x) - f(0)$. $T$ is a composite of rigid motion, so it is a rigid motion. Therefore $\norm{T(x)} = \norm{f(x) - f(0)} = \norm{x - 0} = \norm{x}$. Since
+    \begin{equation*}
+        \begin{aligned}
+            \norm{T(x) - T(y)}^2 &= \norm{x}^2 - 2 \innerproduct{T(x)}{T(y)} + \norm{y}^2 \\
+            \norm{x - y}^2 &= \norm{x}^2 - 2 \innerproduct{x}{y} + \norm{y}^2 \\
+            \norm{T(x) - T(y)}^2 &= \norm{x - y}^2
+        \end{aligned}
+    \end{equation*}
+    We have $\innerproduct{T(x)}{T(y)} = \innerproduct{x}{y}$.
+    
+    Then $\norm{T(ax + y) - aT(x) - T(y)}^2 = 0$ after expansion, $T$ is linear. So $T$ is an orthogonal operator. So we have unique $T$ and $g$ that
+    \begin{equation}
+        \begin{aligned}
+            T(x) &= f(x) &- f(0) \\
+            g(x) &= x &+ f(0)
+        \end{aligned}
+    \end{equation}
+\end{proof}
+
+\begin{theorem}
+    Let $T$ be an orthogonal operator on $R^2$, and let $A = \coordinate{T}_\beta$ where $\beta$ is the standard basis of $R^2$. Then one of the following is satisfied:
+    \begin{enumerate}
+        \item $T$ is a rotation, so $\determinate{T} = 1$.
+        \item $T$ is a reflection about a line through the origin, so $\determinate{T} = -1$.
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    Because $T$ is orthogonal, $T(\beta) = \set{T(e_1), T(e_2)}$ is an orthonormal basis of $R^1$. Since $T(e_1)$ is an unit vector, it has the form $T(e_1) = (\cos{\theta}, \sin{\theta})$. Since $T(e_2)$ is orthogonal to $T(e_1)$, it has the form $T(e_2) = (-\sin{\theta}, \cos{\theta})$ or $T(e_2) = (\sin{\theta}, -\cos{\theta})$.
+\end{proof}
+
+\begin{theorem}
+    For expression $f(x,y) = a x^2 + 2b xy + c y^2$, let $A = \begin{pmatrix}
+        a & b \\
+        b & c
+    \end{pmatrix}$ and $X = \begin{pmatrix}
+        x \\
+        y
+    \end{pmatrix}$, the formula is $f(X) = X^\top A X = \innerproduct{AX}{X}$. Since $A$ is symmetric, there is an orthogonal matrix $P$ and diagonal matrix $D$ that $A = P^\top D P$. Define $X_0 = \begin{pmatrix}
+        x_0 \\
+        y_0
+    \end{pmatrix}$ that $X = PX_0$. We have $f(X) = X^\top A X = (P X_0)^\top A (P X_0) = X_0^\top D X_0 = \lambda_1 x_1^2 + \lambda_2 x_2^2$. So the $xy$ term could be removed by rotation.
+\end{theorem}
+
+
+
+
+
+
+
+% spectral theorem
+\subsection{Spectral Theorem}
+
+\begin{definition}
+    Let $V = W_1 \oplus W_2$. $T$ is a \cindex{projection} on $W_1$ along $W_2$ if $\forall x = x_1 + x_2$ that $x_1 \in W_1$ and $x_2 \in W_2$, $T(x) = x_1$.
+\end{definition}
+
+\begin{theorem}
+    $T$ is a projection if and only if $T^2 = T$.
+\end{theorem}
+
+\begin{definition}
+    $T$ is an \cindex{orthogonal projection} if $\rangespace{T}^\bot = \nullspace{T}$ and $\rangespace{T}= \nullspace{T}^\bot$\footnote{In finite dimensional space $V$, $\rangespace{T}^\bot = \nullspace{T} \leftrightarrow \rangespace{T}= \nullspace{T}^\bot$}. 
+\end{definition}
+
+
+
+\begin{theorem}
+    $T$ is an orthogonal projection if and only if $T$ has an adjoint $T^*$ that $T^2 = T = T^*$.
+\end{theorem}
+\begin{proof}
+    $T^2 = T$ because $T$ is a projection. Let $x=x_1+x+2$ and $y=y_1+y_2$ where $x_1,y_1 \in \rangespace{T}$ and $x_2,y_2 \in \nullspace{T}$. So
+    \begin{equation*}
+        \begin{aligned}
+            \innerproduct{x}{T(y)} &= \innerproduct{x_1 + x_2}{y_1} = \innerproduct{x_1}{y_1} \\
+            \innerproduct{T(x)}{y} &= \innerproduct{x_1}{y_1 + y_2} = \innerproduct{x_1}{y_1}
+        \end{aligned}
+    \end{equation*}
+    So $T = T^*$ and $T^2 = T = T^*$.
+    
+    For the reverse side, prove that $\rangespace{T}^\bot = \nullspace{T}$ and $\rangespace{T}= \nullspace{T}^\bot$.
+\end{proof}
+
+\begin{theorem}[\cindex{Spectral Theorem}]
+    Let $T$ be real symmetric or complex normal with distinct eigenvalue $\lambda_i$ and its corresponding eigenspace $W_i$. Let $T_i$ be the orthogonal projection on $W_i$. We have:
+    \begin{enumerate}
+        \item $T_i T_j = \delta_{ij} T_i$
+        \item $\displaystyle I = \sum_{i=1}^k T_i$
+        \item $\displaystyle T = \sum_{i=1}^k \lambda_i T_i$
+    \end{enumerate}
+    
+    $\lambda_i$ is the \cindex{spectrum} of $T$. $I$ is the resolution of the identity operator induced by T. $\displaystyle T = \sum_{i=1}^k \lambda_i T_i$ is the \cindex{spectral decomposition} of $T$.
+\end{theorem}
+\begin{proof}
+    Let $\displaystyle x= \sum_{i=1}^k x_i$ where $x_i \in W_i$. Then
+    \begin{equation*}
+        T(x) = \sum_{i=1}^k T(x_i) = \sum_{i=1}^k \lambda_i x_i= \sum_{i=1}^k \lambda_i T_i (x_i) = \sum_{i=1}^k \lambda_i T_i (x) = \left(\sum_{i=1}^k \lambda_i T_i \right) x
+    \end{equation*}
+\end{proof}
+
+\begin{theorem}
+    Let $F=\mathcal{C}$. $T$ is normal if and only if $\exists g \in P$, $T^* = g(T)$.
+\end{theorem}
+\begin{proof}
+    Let $\displaystyle T = \sum_{i=1}^k \lambda_i T_i$ be the spectral decomposition of $T$. Take the adjoint of both side and we have
+    \begin{equation}
+        T^* = \sum_{i=1}^k \overline{\lambda_i} T_i^*
+    \end{equation}
+    According to Lagrange formula\footnote{Theorem (\ref{lagrangeinterpolationformula}) on page \pageref{lagrangeinterpolationformula}.} , $\exists g$, $g(\lambda_i) = \overline{\lambda_i}$. So $g(T) = T^*$. The reverse is easy to prove.
+\end{proof}
+
+\begin{theorem}
+    Let $F=\mathcal{C}$. $T$ is unitary if and only if $T$ is normal and $\absolutevalue{\lambda} = 1$ for all eigenvalue $\lambda$ of $T$.
+\end{theorem}
+\begin{proof}
+    Let $\displaystyle T = \sum_{i=1}^k \lambda_i T_i$ be the spectral decomposition of $T$. We have
+    \begin{equation*}
+    TT^* = \left( \sum_{i=1}^k \lambda_i T_i  \right) \times \left( \sum_{i=1}^k \overline{\lambda_i} T_i \right) = \sum_{i=1}^k \absolutevalue{\lambda_i}^2 T_i^2 = \sum_{i=1}^k \absolutevalue{\lambda_i}^2 T_i = \sum_{i=1}^k T_i  = I    
+    \end{equation*}
+\end{proof}
+
+
+\begin{theorem}
+    Let $F=\mathcal{C}$ and $T$ normal. $T$ is self-adjoint if and only if every eigenvalue of $T$ is real.    
+\end{theorem}
+\begin{proof}
+    $\displaystyle T^* = \sum_{i=1}^k \overline{\lambda_i} T_i = \sum_{i=1}^k \lambda_i T_i = T$, so $\overline{\lambda_i} = \lambda_i$.
+\end{proof}
+
+
+
+% single value decomposition
+\subsection{Single Value Decomposition}
+
+\begin{theorem}
+    Let $T:V \rightarrow W$ be a linear transformation with rank $r$. Then there exists orthonormal basis $\beta = \{v_1, v_2, \dots, v_n \}$ for $V$ and $\gamma = \{ u_1, u_2, \dots, u_m \}$ for $W$ and positive scalars \cindex{singular values} $\sigma_1 \geq \sigma_2 \geq \dots \geq \sigma_r$ such that
+    \begin{equation}
+        T(v_i) = \begin{cases}
+            \sigma_i u_i & \text{if } 1 \leq i \leq r \\
+            0 & \text{if } i > r
+        \end{cases}
+    \end{equation}
+    
+    Conversely, for $1 \leq i \leq n$, $v_i$ is an eigenvector of $T^*T$ with corresponding eigenvalue $\sigma_i^2$ if $1 \leq i \leq r$ and $0$ if $i > r$. 
+\end{theorem}
+\begin{proof}
+    $T^*T$ has rank $r$ according to \thmref{rankofadjoint}, and positive semidefinite by \thmref{positiveoperatorproperty}. So there is an orthonormal basis $v_i$ for $V$ consisting of eigenvectors of $T^*T$ with corresponding eigenvalues $\lambda_i$ where $\lambda_1 \geq \lambda_2 \geq \dots \geq \lambda_r > 0$ and $\lambda_i = 0$ for $i > r$. For $1 \leq i \leq r$, define $\sigma_i = \sqrt{\lambda_i}$ and $\displaystyle u_i = \frac{1}{\sigma_i} T(v_i)$. We have:
+    \begin{equation*}
+    \innerproduct{u_i}{u_j} = \innerproduct{\frac{1}{\sigma_i} T(v_i)}{\frac{1}{\sigma_j} T(v_j)} = \frac{1}{\sigma_i \sigma_j} \innerproduct{T^*T(v_i)}{v_j} = \frac{1}{\sigma_i \sigma_j} \innerproduct{\lambda_i v_i}{v_j} = \frac{\sigma_i^2}{\sigma_i \sigma_j} \innerproduct{v_i}{v_j} = \delta_{ij}
+    \end{equation*}
+    
+    So $\{u_1, u_2, \dots, u_r \}$ are orthogonal. Because the choice of $\sqrt{\lambda_i}$, they are unitary and therefore orthonormal. Extend it to an orthonormal basis $\{u_1, u_2, \dots, u_m \}$.
+\end{proof}
+
+\begin{definition}
+    The \cindex{singular values} of $A$ is the singular value of $L_A$.
+\end{definition}
+
+\begin{theorem}[Singular Value Decomposition Theorem]
+    Let $A_{m \times n}$ be of rank $r$ with positive singular values $\sigma_1 \geq \sigma_2 \geq \dots \geq \sigma_r$, and let $\Sigma_{m \times n}$ be
+    \begin{equation}
+        \Sigma_{ij} = \begin{cases}
+            \sigma_i & \text{if } i = j \leq r \\
+            0
+        \end{cases}
+    \end{equation}
+    Then there exists \cindex{singular value decomposition} that with $U_{m \times m}$ and $V_{n \times n}$, we have
+    \begin{equation}
+        A = U \Sigma V^*
+    \end{equation}
+    
+    The process to find singular value decomposition is:
+    \begin{enumerate}
+        \item find singular value of $A$ by calculating the eigenvalue of $A^*A$.
+        \item sort the singular value from big to small.
+        \item for non-zero singular value $\sigma_i$, put $\sqrt{\sigma_i}$ to the $i$-th diagonal of $\Sigma$.
+        \item form $U$ of normalized eigenvector of $A^*A$.
+        \item for non-zero singular value $\sigma_i$, calculate orthonormal vector $\displaystyle u_i = \frac{1}{\sigma_i} L_A(v_i)$.
+        \item expand the $u_i$ to orthonormal basis and form $V$.
+    \end{enumerate}
+\end{theorem}
+
+
+
+% Polar Decomposition
+\subsection{Polar Decomposition}
+
+\begin{theorem}[Polar Decomposition]
+    Any square matrix $A$, there exists a \cindex{Polar Decomposition} using unitary matrix $W$ and a positive semidefinite matrix $P$ that 
+    \begin{equation}
+        A = WP
+    \end{equation}
+    If $A$ is invertible, the Polar Decomposition is unique.
+\end{theorem}
+\begin{proof}
+    Use singular value decomposition on $A$ and we get $A = U \Sigma V^* = U V^* V \Sigma V^* = ( U V^*) ( V \Sigma V^*) =  WP$.
+    So let $W = U V^*$ and $P = V \Sigma V^*$.
+\end{proof}
+
+
+
+% Pseudoinverse
+\subsection{Pseudoinverse}
+
+\begin{definition}
+    Let $T: V \rightarrow W$ be a linear transformation. Let $L: \nullspace{T}^\bot \rightarrow \rangespace{T}$ be a linear transformation that $\forall x \in \nullspace{T}^\bot$, $L(x) = T(x)$. The \cindex{pseudoinverse} (or \cindex{Moore-Penrose generalised inverse}) of $T$ is a unique linear transformation from $W$ to $V$ that
+    \begin{equation}
+        T^\dag (y) = \begin{cases}
+            L^{-1}(y) & \text{for } y \in \rangespace{T} \\
+            0 & \text{for } y \in \rangespace{T}^\bot
+        \end{cases}
+    \end{equation}
+    
+    So although not all $T$ has inverse, the restriction $\left. T \right|_{\nullspace{T}^\bot}$ could have proper inverse.
+\end{definition}
+
+\begin{theorem}
+    Let $A_{m \times n}$ be a square matrix of rank $r$ with singular value decomposition $A = U \Sigma V^*$ and non-zero singular values $\sigma_1 \geq \sigma_2 \geq \dots \geq \sigma_r$. Let $\Sigma^\dag_{m \times n}$  be a matrix that 
+    \begin{equation}
+        \Sigma^\dag_{ij} = \begin{cases}
+            \frac{1}{\sigma_i} & \text{if } i = i \leq r \\
+            0 
+        \end{cases}
+    \end{equation}
+    Then $A^\dag = V \Sigma^\dag U^*$ is a singular value decomposition of $A$.
+\end{theorem}
+
+
+\begin{theorem}
+    Let $T: V \rightarrow W$ be a linear transformation, then
+    \begin{enumerate}
+        \item $T^\dag T$ is the orthogonal projection of $V$ on $\nullspace{T}^\bot$.
+        \item $TT^\dag$ is the orthogonal projection of $W$ on $\rangespace{T}$.
+    \end{enumerate}    
+\end{theorem}
+
+
+\begin{theorem}
+    For a system of linear equations $Ax = b$. If $z = A^\dag b$, then
+    \begin{enumerate}
+        \item If $Ax=b$ is consistent, then $z$ is the unique solution with minimal norm.
+        \item If $Ax=b$ is inconsistent, then $z$ is the best approximation: $\forall y$, $\norm{Ax-b} \leq \norm{Ay-b}$. Also if $Az = Ay$, then $\norm{z} \leq \norm{y}$.
+    \end{enumerate}
+\end{theorem}
+
+
+
+
+
+% conditioning
+\subsection{Conditioning}
+
+\begin{definition}
+    For $Ax=b$, if a small change to $A$ and $b$ cause small change to $x$, the property is called \cindex{well-conditioned}. Otherwise the system is \cindex{ill-conditioned}.
+\end{definition}
+
+\begin{definition}
+    The \cindex{relative change} in $b$ is $\displaystyle \frac{\norm{\dif{b}}}{\norm{b}}$ with $\norm{\cdot}$ be the standard norm on $\mathcal{C}^n$.
+\end{definition}
+
+\begin{definition}
+    The \cindex{Euclidean norm} of square matrix $A$ is 
+    \begin{equation}
+        \norm{A} = \max_{x \neq 0} \frac{\norm{Ax}}{\norm{x}}
+    \end{equation}
+\end{definition}
+
+
+\begin{definition}
+    Let $B$ be a self-adjoint matrix. The \cindex{Rayleigh quotient} for $x \neq 0$ is $\displaystyle R(x) = \frac{\innerproduct{Bx}{x}}{\norm{x}^2}$
+\end{definition}
+
+
+\begin{theorem}
+For a self-adjoint matrix $B$, the $\displaystyle \max_{x \neq 0} R(x)$ is the largest eigenvalue of $B$ and $\displaystyle \min_{x \neq 0} R(x)$ is the smallest eigenvalue of $B$.
+\end{theorem}
+\begin{proof}
+    Choose the orthonormal basis $v_i$ of $B$ such that $Bv_i = \lambda_i v_i$ where $\lambda_1 \geq \lambda_2 \geq \lambda_n$. $\forall x \in F^n$, $\exists a_i$ that $\displaystyle x = \sum_{i=1}^n a_i v_i$. So
+    \begin{equation*}
+        R(x) = \frac{\innerproduct{Bx}{x}}{\norm{x}^2} = \frac{\innerproduct{\sum_{i=1}^n a_i \lambda_i v_i}{\sum_{j=1}^n a_j v_j}}{\norm{x}^2} = \frac{\sum_{i=1}^n \lambda_i \absolutevalue{a_i}^2}{\norm{x}^2} \leq \frac{\lambda_1 \sum_{i=1}^n \absolutevalue{a_i}^2}{\norm{x}^2} = \frac{\lambda_1 \norm{x}^2}{\norm{x}^2} = \lambda_1
+    \end{equation*}
+\end{proof}
+
+\begin{theorem}
+    $\norm{A} = \sqrt{\lambda}$ where $\lambda$ is the largest eigenvalue of $A^* A$.
+\end{theorem}
+
+\begin{theorem}
+    $\lambda$ is an eigenvalue of $A^* A$ if and only if $\lambda$ is an eigenvalue of $AA^*$.
+\end{theorem}
+
+\begin{theorem}
+    Let $A$ be invertible matrix. Then $\displaystyle \norm{A^{-1}} = \frac{1}{\sqrt{\lambda}}$ where $\lambda$ is the smallest eigenvalue of $A^*A$.
+\end{theorem}
+
+\begin{definition}
+    $\norm{A} \times \norm{A^{-1}}$ is the \cindex{condition number} of $A$ and denoted as $\text{cond}(A)$.
+\end{definition}
+
+\begin{theorem}
+    For system $Ax=b$ where $A$ is invertible and $b \neq 0$, we have:
+    \begin{enumerate}
+        \item For any norm $\norm{\cdot}$, we have $\displaystyle \frac{1}{\text{cond}(A)} \frac{\norm{\dif b}}{\norm{b}} \leq \frac{\norm{\dif x}}{\norm{x}} \leq \text{cond}(A) \frac{\norm{\dif b}}{\norm{b}}$.
+        \item If $\norm{\cdot}$ is the Euclidean norm, then $\displaystyle \text{cond}(A) = \sqrt{\frac{\lambda_1}{\lambda_n}}$ where $\lambda_1$ and $\lambda_n$ are the largest and smallest eigenvalue of $A^*A$.
+    \end{enumerate}
+    
+    So when $\text{cond} (b) \geq 1$. If $\text{cond}(b)$ is close to $1$, the relative error in $x$ is small when relative error of $b$ is small. However when $\text{cond}(b)$ is large, the relative error in $x$ could be large or small. 
+    
+    $\text{cond}(x)$ is seldom calculated because when calculating $A^{-1}$ in computer, there are rounding errors which is related to $\text{cond}(A)$.
+\end{theorem}
+
+

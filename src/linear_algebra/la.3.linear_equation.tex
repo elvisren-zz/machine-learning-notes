@@ -113,8 +113,37 @@
 	\end{enumerate}
 \end{definition}
 
+\begin{theorem}\label{rankoftwomatrix}
+    For $A_{m \times n}$ and $B_{n \times p}$, we have:
+    \begin{equation}
+        \rank{AB} = \rank{B} - \dimension{\nullspace{A} \cap \rangespace{B}}
+    \end{equation}
+\end{theorem}
+\begin{proof}
+    Let $\beta_i$ be the basis of $\nullspace{A} \cap \rangespace{B}$, expand to the basis $\beta \cup \alpha$ of $B$. Prove $\alpha$ is a basis of $\rangespace{AB}$.
+\end{proof}
 
+\begin{theorem}\label{rankofadjoint}
+    For $A_{m \times n}$, we have
+    \begin{enumerate}
+        \item $\rank{A^\top A} = \rank{A} = \rank{A A^\top}$.
+        \item $\rangespace{A^\top A} = \rangespace{A^\top}$.
+        \item $\nullspace{A^\top A} = \nullspace{A}$.
+    \end{enumerate}
+    $A^\top$ could be replaced by $A^*$ in $C$.
+\end{theorem}
+\begin{proof}
+    If $\exists x \neq 0 \left(x \in \nullspace{A^\top} \cap \rangespace{A} \right)$. Then $(A^\top x = 0) \wedge \left(\exists y(x = A y) \right)$. So $x^\top x = y^\top A^\top x = y^\top ( A^\top x) = 0 $ and then $x =0$. According to \thmref{rankoftwomatrix}, $\rank{A^\top A} = \rank{A^\top} - \dimension{\nullspace{A^\top} \cap \rangespace{A}} = \rank{A}$.
+\end{proof}
 
+\begin{theorem}
+    For a system of linear equation $Ax = b$, the associated system of \cindex{normal equations} is defined as $n \times n$ system
+    \begin{equation}
+        A^\top A x = A^\top b
+    \end{equation}
+    
+    $A^\top A x = A^\top b$ is always consistent and has unique solution when $\rank{A} = n$. If $Ax=b$ is consistent, two solutions are the same.
+\end{theorem}
 
 
 

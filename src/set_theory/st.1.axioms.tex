@@ -1,0 +1,92 @@
+\section{Axioms}
+
+\begin{axiom}[\cindex{Axiom of Extensionality}]\label{axiomofextensionality}
+    If $X$ and $Y$ have the same elements, then $X=Y$.
+    \begin{equation}
+        \forall u (u \in X \leftrightarrow u \in Y ) \rightarrow X = Y
+    \end{equation}
+\end{axiom}
+
+\begin{axiom}[\cindex{Axiom of Pairing}]
+    For any $a$ and $b$ there exists a set $\set{a,b}$ that contains exactly $a$ and $b$.
+    \begin{equation}
+        \forall a \forall b \exists c \forall x (x \in c \leftrightarrow x = a \vee x = b )
+    \end{equation}
+    A \cindex{singleton} $\set{a}$ is the set $\set{a} = \set{a, a}$. An \cindex{ordered pair} $(a,b)$ is the set $(a,b) = \set{\set{a}, \set{a,b}}$.
+\end{axiom}
+
+\begin{axiom}[\cindex{Axiom Schema of Seperation}]
+    If $P$ is a property with parameter $p$, then for any $X$ and $p$ there exists a set $Y = \set{u \in X: P(u,p)}$ that contains all those $u \in X$ that have property $P$.
+    \begin{equation}
+        \forall X \forall p \exists Y \forall u \left(u \in Y \leftrightarrow u \in X \wedge \varphi(u, p) \right)
+    \end{equation}
+    If define class $C = \varphi(u, p)$, then $\forall X \exists Y (C \wedge X )= Y$, so a subclass of a set is a set. The empty class $\emptyset = \set{u: u \neq u} $ is a \cindex{empty set}.
+\end{axiom}
+
+\begin{axiom}[\cindex{Axiom of Union}]
+    For any $X$ there exists a set $Y = \cup X$, the union of all elements of $X$.
+    \begin{equation}
+        \forall X \exists Y \forall u \left(u \in Y \leftrightarrow \exists z (z \in X \wedge u \in z ) \right)
+    \end{equation}
+\end{axiom}
+
+\begin{axiom}[\cindex{Axiom of Power Set}]
+    For any $X$ there exists a set $Y = P(X)$, the set of all subset of $X$.
+    \begin{equation}
+        \forall X \exists Y \forall u (u \in Y \leftrightarrow u \subset X )
+    \end{equation}
+\end{axiom}
+
+\begin{axiom}[\cindex{Axiom of Infinity}]
+    There exists an infinite set.
+    \begin{equation}
+        \exists S \left( \emptyset \in S \wedge (\forall x \in S ) x \cup \set{x} \in S \right)
+    \end{equation}
+    A set $S$ with above property is called \cindex{inductive}.
+\end{axiom}
+
+\begin{axiom}[\cindex{Axiom Schema of Replacement}]
+    If a class $F$ is a function, then for any $X$ there exists a set $Y = F(X) = \set{F(x): x \in X}$.
+    \begin{equation}
+        \forall x \forall y \forall z \left( \varphi(x,y,p) \wedge \varphi(x,z,p) \rightarrow y = z \right) \rightarrow \forall X \exists Y \forall y \left( y \in Y \rightarrow (\exists x \in X ) \varphi(x,y,p) \right)
+    \end{equation}
+    So if a class $F$ is a function and $\domain{f}$ is a set, then $\range{f}$ is a set.
+\end{axiom}
+
+\begin{axiom}[\cindex{Axiom of Regularity}]\label{axiomofregularation}
+    Every nonempty set has an $\in$-minimal element.
+\end{axiom}
+
+\begin{axiom}[\cindex{Axiom of Choice}]\label{axiomofchoice}
+    Every family of nonempty set has a choice function.
+\end{axiom}
+
+The \thmref{axiomofextensionality} to \thmref{axiomofregularation} is the \cindex{Zermelo-Fraenkel} axiomatic set theory \cindex{ZF}. \cindex{ZFC} denote the ZF + \cindex{AC}, the axiom of choice.
+
+\begin{theorem}[\cindex{Russell's Paradox}]
+    There is no set whose elements are all those sets that are not member of themselves: $S = \set{X : X \notin X}$. So the set of all set does not exist.
+\end{theorem}
+
+
+\begin{definition}
+    A binary relation $f$ is a \cindex{function} if $(x,y) \in f$ and $(x, z) \in f$ implies $y = z$. For a function $f$ from $X$ to $Y$ $f : X \rightarrow Y$, if $Y = \range{f}$, $f$ is \cindex{onto}. If $f(x) = f(y)$ implies $x=y$, $f$ is \cindex{one-to-one}. The \cindex{inverse image} $f_{-1} (Y) = \set{x: f(x) \in Y}$. If $f$ is one-to-one, then the \cindex{inverse} is $f^{-1} (y) = x$.
+\end{definition}
+
+\begin{definition}
+    The \cindex{restriction} of a function $f$ to a set $X$ is:
+    \begin{equation}
+        f\restriction_X = \set{(x,y) \in f : x \in X}
+    \end{equation}
+\end{definition}
+
+\begin{definition}[class]
+    if $\varphi(x, p_1, \dots, p_n)$ is a formula, then $C = \set{x: \varphi(x, p_1, \dots, p_n)}$ is a \cindex{class}. So a formula defines a class.
+\end{definition}
+
+\begin{definition}[universe]
+    The \cindex{universe} is the class of all sets: $V = \set{x: x = x}$.
+\end{definition}
+
+\begin{definition}
+    A class that is not a set is a \cindex{proper class}.
+\end{definition}

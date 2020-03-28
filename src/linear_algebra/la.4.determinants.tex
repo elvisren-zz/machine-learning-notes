@@ -6,7 +6,7 @@
 		\determinate{A} = \sum_{j=1}^n (-1)^{i + j} A_{ij} \times \determinate{\tilde{A}_{ij}}
 	\end{equation}
 	
-	where $\tilde{A}_{ij}$ is obtained from $A$ by deleting row $i$ and column $j$.
+	where $\tilde{A}_{ij}$ is obtained from $A$ by deleting row $i$ and column $j$. This is called \cindex{Laplace expansion}.
 	
 	$(-1)^{i + j} A_{ij} \times \determinate{\tilde{A}_{ij}}$ is called the \cindex{cofactor} of $A$ in row $i$ and column $j$.
 	
@@ -77,16 +77,25 @@
 	A matrix $A \in M_{n \times n}(F)$ is invertible $\Leftrightarrow$ $\determinate{A} \neq 0$. If it is invertible, $\determinate{A^{-1}} = \dfrac{1}{\determinate{A}}$
 \end{theorem}
 
+\begin{definition}
+    The \cindex{cofactor} of $A$ is defined as 
+    \begin{equation}
+        \cofactor{A}_{ij} = (-1)^{i+j} \determinate{\tilde{A}_{ij}}
+    \end{equation}
+\end{definition}
 
+
+\begin{definition}
+    The \cindex{adjugate} of $A$ is defined as
+    \begin{equation}
+        \adjugate{A} = (\cofactor{A})^\top
+    \end{equation}
+\end{definition}
 
 \begin{theorem}
     The inverse of invertible square matrix A is:
     \begin{equation*}
-        A^{-1} = C^\top 
-    \end{equation*}
-    where 
-    \begin{equation*}
-        C_{ij} = (-1)^{i+j} \determinate{\tilde{A}_{ij}}
+        A^{-1} = \frac{1}{\determinate{A}} \adjugate{A}
     \end{equation*}
 \end{theorem}
 

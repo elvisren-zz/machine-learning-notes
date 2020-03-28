@@ -59,7 +59,7 @@ The \cindex{zero transformation}  $T_0: V \rightarrow W$ is defined as $T_0 = 0$
     For $\displaystyle x = \sum_{i=1}^{n} a_i v_i$, define $T:V \rightarrow W$ that $\displaystyle T(x) = \sum_{i=1}^n a_i w_i$.
 \end{proof}
 
-Theorem (\ref{uniquelineartransformation}) is useful when proving two functions are the same.
+\thmref{uniquelineartransformation} is useful when proving two functions are the same.
 
 
 \begin{theorem}
@@ -253,7 +253,7 @@ Note: in the above proof, a vector could be treated as a linear transformation f
 \end{theorem}
 
 \begin{proof}
-	If the dimensions are the same, choose basis $\beta$ of $V$ and $\gamma$ of $W$ and create a linear mapping $T:\beta \rightarrow \gamma$ by theorem (\ref{uniquelineartransformation}).
+	If the dimensions are the same, choose basis $\beta$ of $V$ and $\gamma$ of $W$ and create a linear mapping $T:\beta \rightarrow \gamma$ by \thmref{uniquelineartransformation}.
 \end{proof}
 
 
@@ -274,7 +274,7 @@ Note: in the above proof, a vector could be treated as a linear transformation f
 
 
 \begin{theorem}
-	Let $\beta$ and $\beta^\prime$ be two ordered basis of $V$. Let $Q = [I_V]_{\beta^\prime}^\beta$, then
+	Let $\beta$ and $\beta^\prime$ be two ordered basis of $V$. Let $Q = \coordinate{I_V}_{\beta^\prime}^\beta$, then
 	\begin{enumerate}
 		\item $Q$ is invertable.
 		\item $\forall v \in V$, $[v]_\beta = Q [v]_{\beta^\prime} = [I_V]_{\beta^\prime}^\beta [v]_{\beta^\prime}$.
@@ -296,7 +296,7 @@ If $Q$ changes $\beta^\prime$-coordinate into $\beta$-coordinate, $Q^{-1}$ chang
 \begin{theorem}\label{twoindextransform}
 	If $T$ is a linear operator on $V$, then
 	\begin{equation}
-		[T]_{\beta^\prime} = [I_V]_{\beta}^{\beta^\prime} [T]_\beta [I_V]_{\beta^\prime}^\beta= Q^{-1} [T]_\beta Q 
+		\coordinate{T}_{\beta^\prime} = [I_V]_{\beta}^{\beta^\prime} [T]_\beta [I_V]_{\beta^\prime}^\beta= Q^{-1} [T]_\beta Q 
 	\end{equation}
 \end{theorem}
 

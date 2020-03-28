@@ -23,7 +23,7 @@ So to prove a  linear operator $T$ is diagnolizable is to find a basis $\beta = 
 \end{definition}
 
 \begin{definition}
-    A \emph{non-zero} vector $v \in V$ is called an \cindex{eigenvector} of linear operator $T$ if $\exists \lambda : T(v) = \lambda v$. $\lambda$ is called \cindex{eigenvalue} corresponding to eigenvector $v$. So it is for matrix. A eigenvalue could be $0$, but eigenvector could not be $\vec{0}$.
+    A \emph{non-zero} vector $v \in V$ is called an \cindex{eigenvector} of linear operator $T$ if $\exists \lambda : T(v) = \lambda v$. $\lambda$ is called \cindex{eigenvalue} corresponding to eigenvector $v$. So it is for matrix. A eigenvalue could be $0$, but eigenvector could not be $\vec{0}$. Eigenvector will for an invariant subspace of dimension $1$.
 \end{definition}
 
 Eigenvector is also called \cindex{characteristic vector}. Eigenvalue is also called \cindex{characteristic value}.
@@ -50,8 +50,36 @@ Eigenvector is also called \cindex{characteristic vector}. Eigenvalue is also ca
 
 
 \begin{definition}
-    For $A = [T]_\beta$ the polynomial $f(t) = \determinate{A - t I_n}$ is called the \cindex{characteristic polynomial} of $A$ and $T$. 
+    For $A = [T]_\beta$ the polynomial $f_A(t) = \determinate{A - t I_n}$ is called the \cindex{characteristic polynomial} of $A$ and $T$. 
 \end{definition}
+
+\begin{theorem}
+    For all eigenvalues $\lambda_i$ of $A$, define 
+    \begin{equation}
+        S_k(A) = \sum_{1\leq j_1 \leq j_2 \leq \dots \leq j_k} \prod_{j=1}^k \lambda_{i_j}
+    \end{equation}
+    that is $S_k(A)$ is the sum of the product of all $k$ eigenvalues, which is the coefficient of characteristic polynomial of $f_A(t)$:
+    \begin{equation}
+        f_A(t) = (-1)^n t^n + (-1)^{n-1} S_{1}(\lambda)t^{n-1} + \dots + (-1)^{n-k} S_{k} t^{n-1} + \dots + S_{n}
+    \end{equation}
+    Define the sum of all\footnote{There are $\binom{n}{k}$ of them.} principal minor of size $k$ of $A$ as $E_k(A)$. We have
+    \begin{equation}
+        E_k(A) = S_k(A)
+    \end{equation}
+    So 
+    \begin{equation}
+        \text{tr} A = \sum \lambda_i
+    \end{equation}
+    and 
+    \begin{equation}
+        \determinate{A} = \prod \lambda_i
+    \end{equation}
+\end{theorem}
+\begin{proof}
+    calculate the coefficient by $\displaystyle \frac{1}{k!} \eval{\dod[k]{f_A(t)}{t}}_{t = 0}$
+\end{proof}
+
+
 
 \begin{theorem}
     The choice of basis $\beta$ did not change the eigenvalue of $T$. 
@@ -65,12 +93,15 @@ Eigenvector is also called \cindex{characteristic vector}. Eigenvalue is also ca
 \begin{theorem}
 Similar matrices have the same characteristic function.    
 \end{theorem}
+\begin{proof}
+    Assume $A$ is similar to $B$: $A = P^{-1} B P$. We have
+    \begin{equation*}
+    f_A(\lambda) = \determinate{Ax - \lambda I} = \determinate{P^{-1} B P - \lambda P^{-1} P} = \determinate{P^{-1}} \times \determinate{B - \lambda I } \times \determinate{P} = \determinate{B - \lambda I } = f_B(\lambda)
+    \end{equation*}
+\end{proof}
 
 
 
-\begin{theorem}
-    $v$ is an eigenvector of $T$ corresponding to $\lambda$ $\iff$ $v \neq 0 \wedge v \in \nullspace{T - \lambda I}$.
-\end{theorem}
 
 \begin{theorem}
     if $Q$ is a matrix with columns of eigenvectors of $\beta$, then according to theorem (\ref{specialchangeofcoordinates}), $Q^{-1} A Q$ is a diagonal matrix with eigenvalue.
@@ -136,7 +167,7 @@ Be careful that the characteristic polynomial splits does not mean the matrix is
     let $\lambda$ be an eigenvalue of $T$ having multiplicity $m$. then $1 \leq \dimension{E_\lambda} \leq m$.
 \end{theorem}
 \begin{proof}
-    choose ordered basis $\{v_1, v_2, \dots, v_p\}$ for $E_\lambda$, and extend it to ordered basis $\beta = \{ v_1, v_2, \dots, v_p, v_{p+1}, \dots, v_n$ for $V$, and let $A = [T]_\beta$. let $v_i (1 \leq i \leq q)$ be an eigenvector of $T$ corresponding to $\lambda$, we have
+    choose ordered basis $\set{v_1, v_2, \dots, v_p}$ for $E_\lambda$, and extend it to ordered basis $\beta =\set{v_1, v_2, \dots, v_p, v_{p+1}, \dots, v_n}$ for $V$, and let $A = [T]_\beta$. let $v_i (1 \leq i \leq q)$ be an eigenvector of $T$ corresponding to $\lambda$, we have
     \begin{equation*}
         A = \begin{pmatrix}
             \lambda I_p & B \\
@@ -158,7 +189,7 @@ Be careful that the characteristic polynomial splits does not mean the matrix is
 \end{proof}
 
 \begin{theorem}
-    let $\lambda_1, \lambda_2, \dots, \lambda_k$ be distinct eigenvalue of $T$. let $S_i$ be a finite linearly independent subset of eigenspace $E_{\lambda_i}$. then $S_1 \cup S_2 \cup \dots \cup S_k$ is a linearly independent subset of $V$.
+    let $\set{\lambda_1, \lambda_2, \dots, \lambda_k}$ be distinct eigenvalue of $T$. let $S_i$ be a finite linearly independent subset of eigenspace $E_{\lambda_i}$. then $S_1 \cup S_2 \cup \dots \cup S_k$ is a linearly independent subset of $V$.
 \end{theorem}
 
 \begin{theorem}
@@ -180,12 +211,12 @@ Be careful that the characteristic polynomial splits does not mean the matrix is
 \begin{definition}
     Let $W_i$ be subspaces of a vector space $V$. The \cindex{sum} of these subspaces is defined as:
     \begin{equation}
-        \sum_{i=1}^k W_i = \{ v_1 + v_2 + \dots + v_k : v_i \in W_i \text{ for } 1 \leq i \leq k \}
+        \sum_{i=1}^k W_i = \set{v_1 + v_2 + \dots + v_k : v_i \in W_i \text{ for } 1 \leq i \leq k }
     \end{equation}
 \end{definition}
 
 \begin{definition}
-    let $W_i$ be subspace of $V$. $V$ is the \cindex{direct sum} of subspace $W_1, W_2, \dots, W_k$, or $V = W_1 \oplus W_2 \oplus \dots \oplus W_k$ if
+    let $W_i$ be subspace of $V$. $V$ is the \cindex{direct sum} of subspace $\set{W_1, W_2, \dots, W_k}$, or $V = W_1 \oplus W_2 \oplus \dots \oplus W_k$ if
     \begin{equation*}
         V = \sum_{i=1}^k W_i
     \end{equation*}
@@ -208,10 +239,21 @@ Be careful that the characteristic polynomial splits does not mean the matrix is
     \qed
 \end{definition}
 
+\begin{theorem}
+    A subspace $W$ with basis $\alpha = \set{v_1, v_2, \dots, v_k}$ is $T$-invariant. Let $\beta = \alpha \cup \gamma$ as the expanded basis of $V$. Then
+    \begin{equation}
+        \coordinate{T}_\beta = \begin{pmatrix}
+            A_{k \times k} & B \\
+            0 & C
+        \end{pmatrix}
+    \end{equation}
+    The reverse is true. If $\coordinate{T}_\beta$  has such representation, the first $k$ basis of $\beta$ is $T$-invariant. 
+\end{theorem}
+
 
 
 \begin{definition}
-    A $T$-\cindex{cyclic subspace} of $V$ generated by $x$ is defined as $W=\text{span} \left( \left \{x, T(x), T^2(x), \dots \right \}\right)$.
+    A $T$-\cindex{cyclic subspace} of $V$ generated by $x$ is defined as $W=\text{span} \left(  \set{x, T(x), T^2(x), \dots} \right)$.
 \end{definition}
 
 \begin{theorem}
@@ -226,18 +268,18 @@ Be careful that the characteristic polynomial splits does not mean the matrix is
 \begin{theorem}
     Let $T$ be a linear operator on finiate-dimensional vector space $V$, and let $W$ be a $T$-cyclic subspace of $V$ generated by nonzero vector $v \in V$. Let $k = \dimension{W}$. Then:
     \begin{enumerate}
-        \item $\left\{ v, T(v), T^2(v), \dots, T^{k-1}(v) \right\}$ is a basis for $W$.
+        \item $\set{v, T(v), T^2(v), \dots, T^{k-1}(v)}$ is a basis for $W$.
         \item If $a_0 v + a_1 T(v) + a_2 T^2(v) + \dots + a_{k-1} T^{k-1}(v) + T^k(v) = 0$, then the characteristic polynomial of $T_W$ is $f(t) = (-1)^k (a_0 + a_1 t + \dots + a_{k-1} t^{k-1} + t^k)$.
     \end{enumerate}
 \end{theorem}
 
 \begin{proof}
-    Let $\beta = \left\{v, T(v), T^2(v), \dots, T^{k-1}(v) \right\}$, and let $a_i$ be the scalars that 
+    Let $\beta = \set{v, T(v), T^2(v), \dots, T^{k-1}(v)}$, and let $a_i$ be the scalars that 
     \begin{equation*}
             a_0 v + a_1 T(v) + a_2 T^2(v) + \dots + a_{k-1} T^{k-1}(v) + T^k(v) = 0
     \end{equation*}
     
-    For each basis $\left\{v, T(v), T^2(v), \dots, T^{k-1}(v) \right\}$, $[T(v)]_\beta = [0,1,\dots]$, $T(T(v))_\beta = [0,0,1,\dots]$, etc, we have:
+    For each basis $\set{v, T(v), T^2(v), \dots, T^{k-1}(v)}$, $[T(v)]_\beta = [0,1,\dots]$, $T(T(v))_\beta = [0,0,1,\dots]$, etc, we have:
     \begin{equation*}
         [T_W]_\beta = \begin{pmatrix}
             0 & 0 & \dots & 0 & - a_0 \\
@@ -289,5 +331,226 @@ Be careful that the characteristic polynomial splits does not mean the matrix is
 
 
 \begin{theorem}
-    Suppose $V=W_1 \oplus W_2 \oplus \dots \oplus W_k$, where $W_i$ is a $T$-invariant subspace of $V$. Suppose $f_i(t)$ is the characteristic polynomial of $T_{W_i}$, Then $f_1(t) f_2(t) \dots f_k(t)$ is the characteristic polynomial of $T$. Let $\beta_i$ be an ordered basis for $W_i$, and let $\displaystyle \beta = \bigcup_{i=1}^k \beta_i$. Let $A=[T]_\beta$, and $B_i=[T_{W_i}]_\beta$. Then $A = B_1 \oplus B_2 \oplus \dots \oplus B_k$.
+    Suppose $V=W_1 \oplus W_2 \oplus \dots \oplus W_k$, where $W_i$ is a $T$-invariant subspace of $V$. Suppose $f_i(t)$ is the characteristic polynomial of $T_{W_i}$, Then $\displaystyle \prod_{i=1}^k f_i$ is the characteristic polynomial of $T$. Let $\beta_i$ be an ordered basis for $W_i$, and let $\displaystyle \beta = \bigcup_{i=1}^k \beta_i$. Let $A=[T]_\beta$, and $B_i=[T_{W_i}]_\beta$. Then $A = B_1 \oplus B_2 \oplus \dots \oplus B_k$.
 \end{theorem}
+
+
+
+\subsection{Limit of Markov Chain Matrix}
+
+\begin{definition}
+    A sequence $\set{A_1, A_2, \dots}$ \cindex{converge} to \cindex{limit} $L$ if $\displaystyle \lim_{m \rightarrow \infty} (A_m)_{ij} = L_{ij}$.
+\end{definition}
+
+\begin{theorem}
+    If $A_i \rightarrow L$, them for any $P$ and $Q$, $\displaystyle \lim_{m \rightarrow \infty} P A_m = PL$ and $\displaystyle \lim_{m \rightarrow \infty} A_m Q = LQ$.
+\end{theorem}
+
+\begin{theorem}
+    Let $Q$ be invertible and $A_i \rightarrow L$. Then $\displaystyle \lim_{m \rightarrow \infty} (Q A Q^{-1})^m = Q A Q^{-1}$.
+\end{theorem}
+
+\begin{definition}
+    Define a set $S$ which consists of the interior of unit disk and $1$:
+    \begin{equation}
+        S = \set{\lambda \in C :  \absolutevalue{\lambda} < 1   \vee \lambda = 1}
+    \end{equation}
+\end{definition}
+
+
+\begin{theorem}
+    Let $A$ be square matrix in $C$. $\displaystyle \lim_{m \rightarrow \infty} A^m$ exists if and only if:
+    \begin{enumerate}
+        \item Every eigenvalue of $A$ is in $S$.
+        \item If $1$ is an eigenvalue of $A$, then the dimension of its eigenspace equals its multiplicity.
+    \end{enumerate}
+\end{theorem}
+\begin{proof}
+    use Jordan canonical form.
+\end{proof}
+
+
+\begin{theorem}
+    For square matrix $A$ in $C$, if
+    \begin{enumerate}
+        \item Every eigenvalue of $A$ is in $S$.
+        \item $A$ is diagonalizable.
+    \end{enumerate}    
+    Then $\displaystyle \lim_{m \rightarrow \infty} A^m$ exists.
+\end{theorem}
+\begin{proof}
+    Since $A$ is diagonalizable, $\exists Q: A = Q D Q^{-1}$. So $A^m = Q D^m Q^{-1}$. This is used to calculate $A^m$.
+\end{proof}
+
+\begin{definition}
+    \cindex{transition matrix} or \cindex{stochastic matrix} is a square matrix $A$ that $A_{ij} \geq 0 \wedge \forall j \left(\sum_{i} A_{ij} = 1 \right)$.
+\end{definition}
+
+\begin{definition}
+    $P$ is a \cindex{probability vector} if its entries are all non-negative and sum to $1$.
+\end{definition}
+
+\begin{definition}
+    \cindex{$\vec{1_n}$} is a column vector that each coordinate is $1$.
+\end{definition}
+
+\begin{theorem}
+    Let $M$ be a square matrix with non-negative real entries, and $v$ a column vector with real non-negative coordinates. Then
+    \begin{enumerate}
+        \item $M$ is a transition matrix if and only if $M^\top \vec{1_n} = \vec{1_n}$.
+        \item $v$ is a probability vector if and only if $\vec{1_n}^\top v = 1$.
+        \item The product of two transition matrix is transition matrix.
+        \item The product of a transition matrix and probability vector is a probability vector.
+    \end{enumerate}    
+\end{theorem}
+
+\begin{definition}
+    A transition matrix is \cindex{regular} if some power of the matrix contains only positive entries. It may contain zero entries.
+\end{definition}
+
+\begin{definition}
+    For square matrix $A$, define $\displaystyle \rho_i (A) = \sum_j \absolutevalue{A_{ij}}$ and $\displaystyle v_j(A) = \sum_i \absolutevalue{A_{ij}}$. The \cindex{row sum} $\rho (A) = \max \rho_i$ and \cindex{column sum} $v(A) = \max v_j$.
+\end{definition}
+
+\begin{definition}
+    For square matrix $A_{n \times n}$, the \cindex{Gerschgorin disk} $C_i$ is defined as:
+    \begin{equation}
+        C_i = \set{z \in C: \absolutevalue{z - A_{ii}} < \rho_i (A) - \absolutevalue{A_{ii}}}
+    \end{equation}
+    So the disk center is the diagonal entry, and the radius is the sum of the absolute values of all rest row entries.
+\end{definition}
+
+\begin{theorem}
+    Every eigenvalue of $A$ is contained in a Gerschgorin disk.    
+\end{theorem}
+\begin{proof}
+    Let $\lambda$ be a eigenvalue with eigenvector $v$. So $\displaystyle \sum_{j=1}^n A_{ij} v_j = \lambda v_i$. Assume $v_k$ is the coordinate of $v$ that has the largest absolute value. Then $v_k \neq 0$ because $v \neq 0$. We have
+    \begin{equation*}
+        \begin{aligned}
+            \absolutevalue{\lambda v_k - A_{kk} v_k} = \absolutevalue{\sum_{j=1}^n A_kj v_j - A_{kk} v_k} = \absolutevalue{\sum_{j \neq k} A_{kj} v_j} \leq \sum_{j \neq k} \absolutevalue{A_{kj}} \absolutevalue{v_j} \leq \sum_{j \neq k} \absolutevalue{A_{kj}} \absolutevalue{v_k} = \absolutevalue{v_k} \left(\rho_i (A) - \absolutevalue{A_{kk}} \right)
+        \end{aligned}
+    \end{equation*}
+    So $\absolutevalue{v_k} \times \absolutevalue{\lambda - A_{kk} } \leq \absolutevalue{v_k} \left(\rho_i (A) - \absolutevalue{A_{kk}} \right)$ and $\absolutevalue{\lambda - A_{kk} } \leq \left(\rho_i (A) - \absolutevalue{A_{kk}} \right)$.
+\end{proof}
+
+\begin{theorem}
+    Let $\lambda$ be any eigenvalue of $A$. Then $\absolutevalue{\lambda} \leq \rho(A)$.
+\end{theorem}
+\begin{proof}
+    $\displaystyle \absolutevalue{\lambda} = \absolutevalue{(\lambda - A_{kk}) + A_{kk}} \leq \absolutevalue{\lambda - A_{kk}} + \absolutevalue{A_{kk}} \leq \rho_i (A) - \absolutevalue{A_{kk}}  + \absolutevalue{A_{kk}}  = \rho_i (A)$
+\end{proof}
+
+\begin{theorem}
+    Let $\lambda$ be any eigenvalue of $A$. Then $\absolutevalue{\lambda} \leq \min \set{\rho(A), v(A)}$.
+\end{theorem}
+\begin{proof}
+    $\lambda$ is an eigenvalue of $A^\top$.
+\end{proof}
+
+\begin{theorem}
+    If $\lambda$ is an eigenvalue of transition matrix, then $\absolutevalue{\lambda} \leq 1$.
+\end{theorem}
+
+\begin{theorem}
+    Every transition matrix has $1$ as eigenvalue.    
+\end{theorem}
+\begin{proof}
+    $A^\top \times  \vec{1_n} = \vec{1_n}$.
+\end{proof}
+
+\begin{theorem}
+    Let $A$ be a matrix with positive entries, and let $\lambda$ be an eigenvalue of $A$ that $\absolutevalue{\lambda} = \rho(A)$. Then $\lambda = \rho(A)$ and $\vec{1_n}$ is a basis for $E_\lambda$.
+\end{theorem}
+\begin{proof}
+    Let $v$ be an eigenvector for $\lambda$, and $v_k$ is the coordinate that has the largest absolute value $b = \absolutevalue{v_k}$. Then
+    \begin{equation*}
+        \absolutevalue{\lambda} b = \absolutevalue{\lambda v_k} = \absolutevalue{\sum_{j=1}^n A_{kj} v_j} \leq \sum_{j=1}^n \absolutevalue{A_{kj} v_j} = \sum_{j=1}^n \absolutevalue{A_{kj}} \absolutevalue{v_j} \leq \sum_{j=1}^n \absolutevalue{A_{kj}} b = \rho_k(A) b \leq \rho(A) b
+    \end{equation*}
+    Since $\absolutevalue{\lambda} = \rho(A)$, all inequalities are equalities, so
+    \begin{enumerate}
+        \item \label{transitionmatrixproperty1}$\displaystyle \absolutevalue{\sum_{j=1}^n A_{kj} v_j} = \sum_{j=1}^n \absolutevalue{A_{kj} v_j}$
+        \item \label{transitionmatrixproperty2}$\displaystyle \absolutevalue{A_{kj}} \absolutevalue{v_j} = \sum_{j=1}^n \absolutevalue{A_{kj}} b$
+        \item \label{transitionmatrixproperty3}$\rho_k(A) \leq \rho(A)$
+    \end{enumerate}
+    
+    For Item \ref{transitionmatrixproperty1} to hold, $A_{kj} v_j$ are non-negative multiplies of a common complex number $z$. Assume $\absolutevalue{z}=1$. Then $\left(\exists \set{c_j} \subset R^+ \right) (A_{kj} v_j = c_j z)$.
+    
+    For item \ref{transitionmatrixproperty2}, since $b = \max \absolutevalue{v_j}$, $\absolutevalue{v_j} = b$. So $\displaystyle b = \absolutevalue{v_j} = \absolutevalue{\frac{c_j}{A_{kj}} z} = \frac{c_j}{A_{kj}}$, and $\displaystyle v_j = \frac{c_j}{A_{kj}} z = bz$, and $v = bz \vec{1_n}$.
+    
+    Since $A$ and $\vec{1_n}$ are all positive, $A \vec{1_n} = \lambda \vec{1_n}$, so $\lambda > 0$.
+\end{proof}
+
+\begin{theorem}
+    Let $A$ be a transition matrix that each entry is positive, and let $\lambda$ be any eigenvalue of $A$ other than $1$. Then $\absolutevalue{\lambda} < 1$. Moreover, the eigenspace of eigenvalue $1$ has dimension $1$.
+\end{theorem}
+
+\begin{theorem}
+    Let $A$ be a regular transition matrix, and $\lambda$ be one of its eigenvalue, then
+    \begin{enumerate}
+        \item $\absolutevalue{\lambda} \leq 1$.
+        \item If $\absolutevalue{\lambda} = 1$, then $\lambda = 1$ and $\dimension{E_\lambda} = 1$.
+    \end{enumerate}    
+\end{theorem}
+
+\begin{theorem}
+    Let $A$ be a disagonalizable regular transition matrix, then $\displaystyle \lim_{m \rightarrow \infty} A^m$ exists.
+\end{theorem}
+
+\begin{theorem}
+    Let $A$ be a regular transition matrix, then
+    \begin{enumerate}
+        \item the multiplicity of eigenvalue $1$ is $1$.
+        \item $\displaystyle \lim_{m \rightarrow \infty} A^m$ exists.
+        \item $L = \displaystyle \lim_{m \rightarrow \infty} A^m$ is a transition matrix.
+        \item $AL = LA = L$.
+        \item The column of $L$ are identical vector $v$ which is the probability vector in $E_1$.
+        \item For any probability vector $w$, $\displaystyle \lim_{m \rightarrow \infty} A^m w = v$.
+    \end{enumerate}    
+\end{theorem}
+\begin{proof}
+    Since $AL = L$, $L$ are columns of eigenvector for eigenvalue $1$. Let $y = \displaystyle \lim_{m \rightarrow \infty} A^m w = Lw$, $Ay = ALw = Lw = y$. So $y$ is an eigenvector for eigenvalue $1$, and $y = v$.
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
