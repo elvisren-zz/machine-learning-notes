@@ -1,41 +1,165 @@
 \section{Classic Models}
 
+
+
+% linear regression
 \subsection{Linear Regression}
 
+The prediction is:
+\begin{equation}
+    \hat{y} = \theta_0 + \sum_{i=1}^n \theta_n x_n = \columnvector{\theta}^\top \columnvector{X}
+\end{equation}
+
+The cost function is:
+\begin{equation}
+    J(\columnvector{\theta} ) = \text{MSE} = \frac{1}{m} \sum_{i=1}^m \left(\columnvector{\theta}^\top  \subscription{X}{i} - \subscription{Y}{i} \right)^2
+\end{equation}
+
+The close solution is:
+\begin{equation}
+    \hat{\theta} = (\columnvector{{X}^\top \columnvector{X}} )^{-1} \columnvector{X}^\top \columnvector{Y}
+\end{equation}
+
+The $\hat{\theta}$ is usually calculates using pseudoinverse of $\columnvector{X}$ as $\columnvector{{X}}^{+} \columnvector{Y}$ using SVD which has time complexity $O(n^2)$. 
+
+
+The gradient vector of $J$ is calculated as:
+\begin{equation}
+    \begin{aligned}
+    \dpd{J(\theta)}{\theta_j} &= \frac{2}{m} \sum_{i=1}^m \left( \columnvector{\theta}^\top \subscription{X}{i} - \subscription{Y}{i} \right) \subscription{X}{i}_j \\
+    \nabla_\theta J(\theta) &= \frac{2}{m} \columnvector{X}^\top (\columnvector{X} \columnvector{\theta} - \columnvector{Y} )
+    \end{aligned}
+\end{equation}
+
+
+
+Linear regression model is convex, so it will be guaranteed to find global minimum using gradient descent.
+
+
+
+
+% logistic regression
 \subsection{Logistic Regression}
+
+
+\cindex{logistic regression} is a binary classifier. It uses the \cindex{sigmoid} function $\displaystyle \sigma(t) = \frac{1}{1 + \exp{(-t)}}$ and assigns probability to $\columnvector{X}$ that $\hat{p} = \sigma(\columnvector{X}^\top \columnvector{\theta} )$. The prediction is:
+\begin{equation}
+	\hat{y} = \begin{cases}
+		0 \text{, if } \hat{p} < 0.5 \\
+		1 \text{, if } \hat{p} \geq 0.5
+	\end{cases}
+\end{equation}
+
+So the prediction is $1$ if $\columnvector{X}^\top \columnvector{\theta} > 0$ and $0$ if it is negative.
+
+The \cindex{log loss} cost function is:
+\begin{equation}
+	J(\theta) = - \frac{1}{m} \sum_{i=1}^m \left\{ \subscription{Y}{i} \log \subscription{\hat{p}}{i} + \left(1- \subscription{Y}{i} \right) \log \left(1 - \subscription{\hat{p}}{i} \right) \right\}
+\end{equation}
+
+The derivative is:
+\begin{equation}
+	\dpd{J(\theta)}{\theta_j} = \frac{1}{m} \sum_{i=1}^m \left( \sigma \left(\columnvector{\theta}^\top \subscription{X}{i} \right) - \subscription{Y}{i} \right) \subscription{X}{i}_j
+\end{equation}
+
+
+
 
 \subsection{Softmax Regression}
 
+
+\cindex{Softmax Regression} is a multiclass version of \cindex{logistic regression}. Each class has its own parameter vector $\columnvector{\theta}_i$. The softmax score for class $k$ is $s_k (\columnvector{X} ) = \columnvector{X}^\top \columnvector{\theta}_k$ and its probability is:
+\begin{equation}
+    \hat{p}_k = \frac{\exp{{s_k (\columnvector{X})}}}{\displaystyle \sum_{i=1}^n \exp{s_i (\columnvector{X}) } }
+\end{equation}
+
+The prediction is:
+\begin{equation}
+	\hat{y} = \underset{k}{\text{argmax }} \columnvector{X}^\top \columnvector{\theta}_k
+\end{equation}
+
+The cost function is measures using \cindex{cross entropy} function:
+\begin{equation}
+	J(\theta)= -\frac{1}{m} \sum_{i=1}^m \sum_{k=1}^K \subscription{Y}{i}_k \log \subscription{\hat{p}}{i}_k
+\end{equation}
+
+
+The gradient vector is:
+\begin{equation}
+	\nabla_{\theta_k} J(\theta) = \frac{1}{m} \sum_{i=1}^m(\hat{p}_k^{(i)} - y_k^{(i)}) \mathbf{X}^i
+\end{equation}
+
+
+The cross entropy function is also called \cindex{Kullback-Leibler divergence}.
+
+
 \subsection{SVM}
+
+\cindex{Support Vector Machine} tries to separate the plane using two parallel lines. It maximize the distance between two lines. The points that these two lines touch is called \cindex{support vector}. The model is sensitive to feature scaling, so normalize the data before training. If all instances are on the opposite sides, it is called \cindex{hard margin classification}.
+
+
+For each label $i$, $\subscription{Y}{i} =1$ or $\subscription{Y}{i} =-1$.The hard margin classification is:
+\begin{equation}
+    \begin{aligned}
+        \text{minimize: } & \frac{1}{2} \columnvector{W}^\top \columnvector{W} \\
+        \text{subject to: } & \subscription{Y}{i} \left( \columnvector{W}^\top \subscription{X}{i} + b \right) \geq 1
+    \end{aligned}
+\end{equation}
+
+Soft margin classification uses \cindex{slack variable} $\subscription{\zeta}{i} \geq 0$ for each instance which measures how much margin violation is allowed. The optimization becomes:
+\begin{equation}
+    \begin{aligned}
+        \text{minimize: } & \frac{1}{2} \columnvector{W}^\top \columnvector{W} \\
+        \text{subject to: } & \subscription{Y}{i} \left( \columnvector{W}^\top \subscription{X}{i} + b \right) \geq 1 - \subscription{\zeta}{i} \\
+        & \subscription{\zeta}{i} \geq 0
+    \end{aligned}
+\end{equation}
+
 
 \subsection{Decision Trees}
 
 \subsection{Ensemble Learning}
 
+A group of predictors is called \cindex{ensemble}.
+
 \subsubsection{Voting Classifiers}
 
-A list of sufficiently diverse weak classifiers. It may have high success chance by the law of large numbers. There are two types:
+The class is chosen by majority vote, either by the majority number of votes called \cindex{hard voting}, or by the majority probability called \cindex{soft voting}.
 
-\begin{description}
-	\item [\cindex{hard voting}] majority vote
-	\item [\cindex{soft voting}] select highest average probability over all classifiers
-\end{description}
+
+It requires that all models are perfectly independent and have no correlated errors. It is not true because all models are trained on the same data.
 
 \subsubsection{Bagging and Pasting}
 
-One training algorithm but with different subset of training set. There are two different ways:
+It generate multiple classifier by using only one training algorithm but multiple training set. If each sample data is generated using replacement, it is called \cindex{bagging}. So a instance may appear multiple times in bagging. If each sample data is generated without replacement, it is called \cindex{pasting}. All predictors could be trained in parallel and good for scale up.
 
-\begin{description}
-	\item [\cindex{bagging}] random sample with replacement. put things back
-	\item [\cindex{pasting}] random sample without replacement. do not put things back
-\end{description}
+If it is classification, the result is chosen by majority vote. If it is regression, the result is averaged.
 
-bagging is more diverse so it has higher bias but lower variance. Overall bagging is better than pasting.
+In bagging, it will choose $1 - e^{-1} \approx 63.2\%$ samples. The remaining unchosen one is called \cindex{out-of-bag} instances which could be used as test test.
 
-\cindex{out-of-bag evaluation}: if there are $n$ samples, each classifier will also sample $n$ sample with replacement, which will choose $1 - e^{-1} \approx 63.2\%$ samples. The remaining could be used as test test.
+Bagging is more diverse so it has higher bias but lower variance. Overall bagging is better than pasting.
+
+
+
+\subsubsection{Random Patches and Random Subspaces}
+
+
+\cindex{Random Patch} will sample both training instances and model features. \cindex{Random Subspace} will run all training data but sample only model feature.
+
+
+\subsubsection{Random Forest and Extra-Trees}
+
+\cindex{Random Forest} is an ensemble of Decision Trees using bagging method (sometimes pasting). \cindex{Extra Tree} use random threshold for each Random Forest feature.
+
+
+\subsection{Boosting}
+
+\cindex{Boosting} trains multiple predictors sequentially, each trying to correct its predecessor. So it cannot be parallelized.
 
 
 \subsubsection{AdaBoost}
+
+Every instance is assigned a weight. The first algorithm trains on the data. The weight of misclassified instance will be increased. The second algorithm will run on the updated data set. Once all predictors are trained, the prediction is done by bagging or pasting except that the each predictor has different weight which is the average weight of its prediction.
 
 
 \subsubsection{Gradient Boosting}
@@ -51,7 +175,12 @@ In \cindex{gradient boosting} there is a series of models $\mathbf{F}_i$:
 	\end{aligned}
 \end{equation}
 
-It is called \cindex{gradient} because it is a gradient descent process. Suppose the loss function is:
+
+\begin{theorem}
+    Gradient boosting is a gradient descent process.
+\end{theorem}
+\begin{proof}
+    Suppose the loss function is:
 \begin{equation}
 	\mathcal{L}(\mathbf{Y},\mathbf{F}_k) = \frac{1}{2} \sum_i \Big ( y_i - \mathbf{F}_k (x_i) \Big )^2
 \end{equation}
@@ -59,7 +188,7 @@ It is called \cindex{gradient} because it is a gradient descent process. Suppose
 Suppose the aggregate function $\mathcal{F}_i = \sum\limits_i \mathbf{F}_i $, the derivative is:
 \begin{equation}
 	\begin{aligned}
-		\frac{\partial \mathcal{L}(\mathbf{Y},\mathbf{F}_k)}{\partial \mathbf{F}(x_i)} &= \mathbf{F}_k (x_i) - y_i \\
+	   \dpd{\mathcal{L}(\mathbf{Y},\mathbf{F}_k)}{\mathbf{F}(x_i)}	  &= \mathbf{F}_k (x_i) - y_i \\
 		y_i - \mathbf{F}_k (x_i) &= - \frac{\partial \mathcal{L}(\mathbf{Y},\mathbf{F}_k )}{\partial \mathbf{F}_k (x_i)}\\
 		\mathcal{F}_2 &= \mathbf{F}_1 + \mathbf{F}_2 \\
 		&= \mathbf{F}_1 + y_i - \mathbf{F}_1 \\
@@ -67,9 +196,23 @@ Suppose the aggregate function $\mathcal{F}_i = \sum\limits_i \mathbf{F}_i $, th
 		&= \mathcal{F}_1 - 1 \times \frac{\partial \mathcal{L}(\mathbf{Y},\mathcal{F}_1 )}{\partial \mathcal{F}_1 (x_i)} 
 	\end{aligned}
 \end{equation}
+\end{proof}
 
-So it is a gradient descent process.
+
 
 
 \subsubsection{Stacking}
+
+Instead of using soft or hard voting to aggregate the predictions, a model called \cindex{blender} is trained to perform the aggregation. The training set is split into two sets. The first set is used to train predictors. Next the predictors run on second set. The result of second set is used as the input to the blender.
+
+
+
+
+
+
+
+
+
+
+
 

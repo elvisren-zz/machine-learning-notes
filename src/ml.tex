@@ -52,21 +52,25 @@
 
 % set font
 
-%\usepackage{amsfonts}
 
-%\setmonofont{PragmataPro}
+
+%\usepackage[T1]{fontenc}
+\usepackage{fontspec}
+
+
+%\usepackage{kpfonts}
 %\setmainfont{Verdana}
-
-\usepackage[T1]{fontenc}
-\usepackage{kpfonts}
+%\setmainfont{Times New Roman}
+%\setmonofont{PragmataPro}
+\usepackage[charter,adobe-utopia,uppercase=upright]{mathdesign}
+%\usepackage{amsfonts}
 
 
 % no space in itemize
 \usepackage{enumitem}
-%\setitemize{noitemsep,topsep=0pt,parsep=0pt,partopsep=0pt}
-\setitemize{noitemsep}
-\setenumerate{noitemsep}
-\setdescription{noitemsep}
+\setenumerate{itemsep=0pt,partopsep=0pt,parsep=\parskip,topsep=2pt}
+\setitemize{itemsep=0pt,partopsep=0pt,parsep=\parskip,topsep=2pt}
+\setdescription{itemsep=0pt,partopsep=0pt,parsep=\parskip,topsep=2pt}
 
 
 % set line space
@@ -76,7 +80,17 @@
 
 % set page size
 \usepackage{geometry}
-\geometry{a4paper,top=2.5cm,bottom=2.5cm,left=2.5cm,right=2.0cm}
+%\geometry{a4paper}
+\geometry{a4paper,top=2cm,bottom=2cm,left=2.5cm,right=2cm}
+
+
+% set programming code highlight
+% \usepackage[chapter]{minted}
+
+
+% setup bibtex
+\usepackage{cite}
+
 
 
 % set toc and section level
@@ -119,12 +133,18 @@
 \newcommand\adjugate[1]{\displaystyle \mathbf{adj} \displaystyle #1 }
 \newcommand\cofactor[1]{\displaystyle \mathbf{cof} \displaystyle #1 }
 
+\newcommand\columnvector[1]{\boldsymbol{#1}}
+
 
 %probability
 \newcommand\probability[1]{\mathop{\bf P\/}\displaystyle \left\{#1\right\}}
 \newcommand\expect[1]{\mathop{\bf E\/}\displaystyle  \left[ #1 \right]}
 \newcommand\variance[1]{\mathop{\bf Var\/}\displaystyle \left[ #1 \right]}
 \newcommand\covariance[2]{\mathop{\bf Cov\/}\displaystyle \left(#1,#2 \right)}
+
+
+% machine learning
+\newcommand\subscription[2]{\boldsymbol{#1}^{(#2)}}
 
 
 
@@ -168,10 +188,12 @@
 
 
 \chapter{Classic Machine Learning}
-\include{machine_learning/classic.1.classification}
+\include{machine_learning/classic.1.basics}
 \include{machine_learning/classic.1.models}
 
 \chapter {Deep Neural Network}
+\include{deep_neural_network/dnn.1.intro}
+\include{deep_neural_network/dnn.2.training}
 
 
 \chapter{Reinforement Learning}
@@ -191,6 +213,9 @@
 \chapter{Others}
 \include{others/other}
 
+
+\bibliography{../../bibtex/library}{}
+\bibliographystyle{alpha}
 
 
 \printindex

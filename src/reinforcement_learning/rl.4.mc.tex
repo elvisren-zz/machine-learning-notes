@@ -97,13 +97,13 @@ If model is not available, $q_\pi$ is preferred than $V_\pi$ because it does not
 In $\varepsilon$-soft policy, all $\langle S_t, A_t \rangle$ pairs are tried in the middle with non-zero probability:
 
 \begin{itemize}
-	\item \cindex{$\varepsilon$-soft} : $\pi(a|s) > \frac{\varepsilon}{\mathcal{A}(s)}$.
+	\item \cindex{$\varepsilon$-soft} : $\pi(a|s) >\displaystyle \frac{\varepsilon}{\mathcal{A}(s)}$.
 	\item \cindex{$\varepsilon$-greedy} : see Algorithm (\ref{algo:fvmcsoft}) for detail.
 \begin{equation*}
 	\pi(a|s) = 	
 		\begin{cases}
-				\frac{\varepsilon}{\mathcal{A}(s)} & \text{, if } a \text{ is not the greedy choice} \\
-				1 - \varepsilon + \frac{\varepsilon}{\mathcal{A}(s)} & \text{, if } a  \text{ is the greedy choice}
+				\displaystyle \frac{\varepsilon}{\mathcal{A}(s)} & \text{, if } a \text{ is not the greedy choice} \\
+				1 - \varepsilon + \displaystyle \frac{\varepsilon}{\mathcal{A}(s)} & \text{, if } a  \text{ is the greedy choice}
 		\end{cases}
 \end{equation*}
 \end{itemize}
@@ -136,8 +136,8 @@ In $\varepsilon$-soft policy, all $\langle S_t, A_t \rangle$ pairs are tried in 
 					\For{$a \in \mathcal{A}(S_t)$}   \Comment{$\varepsilon$-greedy}
 						\State \begin{equation*}
 							\pi(a|S_t) \gets \begin{cases}
-								1 - \varepsilon + \frac{\varepsilon}{\mathcal{A}(s)} & \text{,if } a = A^* \\
-								\frac{\varepsilon}{\mathcal{A}(s)} & \text{,if } a \neq A^*
+								\displaystyle 1 - \varepsilon + \frac{\varepsilon}{\mathcal{A}(s)} & \text{,if } a = A^* \\
+								\displaystyle \frac{\varepsilon}{\mathcal{A}(s)} & \text{,if } a \neq A^*
 							\end{cases} 
 						\end{equation*}
 					\EndFor
@@ -227,8 +227,8 @@ Algorithm (\ref{algo:opmcp}) implements incremental solution of weighted importa
 			\For{$t \gets T-1, T-2, \dots, 0$}
 				\State $G \gets \gamma G + R_{t+1}$
 				\State $C(S_t,A_t) \gets C(S_t,A_t) + W$ 
-				\State $Q(S_t,A_t) \gets Q(S_t,A_t) + \frac{W}{C(S_t,A_t)} \Big ( G - Q(S_t,A_t) \Big)$
-				\State $W \gets W \frac{\pi(A_t|S_t)}{b(A_t|S_t)}$
+				\State $\displaystyle Q(S_t,A_t) \gets Q(S_t,A_t) + \frac{W}{C(S_t,A_t)} \Big ( G - Q(S_t,A_t) \Big)$
+				\State $\displaystyle W \gets W \frac{\pi(A_t|S_t)}{b(A_t|S_t)}$
 				
 				\If{$W = 0$} \Comment{$\pi(A_t|S_t) = 0$}, $b$ does not cover $\pi$
 					\State exit  For loop
@@ -263,14 +263,14 @@ Algorithm (\ref{algo:opmcpc}) implements incremental control of weighted importa
 			\For{$t \gets T-1, T-2, \dots, 0$}
 				\State $G \gets \gamma G + R_{t+1}$
 				\State $C(S_t,A_t) \gets C(S_t,A_t) + W$ 
-				\State $Q(S_t,A_t) \gets Q(S_t,A_t) + \frac{W}{C(S_t,A_t)} \Big( G - Q(S_t,A_t) \Big)$
+				\State $\displaystyle Q(S_t,A_t) \gets Q(S_t,A_t) + \frac{W}{C(S_t,A_t)} \Big( G - Q(S_t,A_t) \Big)$
 				\State $\pi(S_t) \gets \underset{a}{\text{argmax}}\  Q(S_t,a)$
 				
 				\If{$A_t \neq \pi(S_t)$}
 					\State exit  For loop
 				\EndIf
 				
-				\State $W \gets W \frac{1}{b(A_t|S_t)}$ \Comment{$\pi(A_t|S_t) = 1$ because it is greedy}
+				\State $\displaystyle W \gets W \frac{1}{b(A_t|S_t)}$ \Comment{$\pi(A_t|S_t) = 1$ because it is greedy}
 			\EndFor
 		\EndLoop
 	\end{algorithmic}
