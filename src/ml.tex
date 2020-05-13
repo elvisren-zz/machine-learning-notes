@@ -92,6 +92,10 @@
 \usepackage{cite}
 
 
+% include eps file
+\usepackage{epsfig}
+
+
 
 % set toc and section level
 \setcounter{secnumdepth}{7}
@@ -100,7 +104,9 @@
 
 
 % customized commands
-\newcommand\cindex[1]{\textcolor{blue}{\textbf{#1}}\index{#1}}
+\newcommand\cindex[1]{\underline{#1}\index{#1}}
+%\newcommand\cindex[1]{\textcolor{blue}{\textbf{#1}}\index{#1}}
+
 \newcommand\mathhilight[1]{\mathop{\bf #1\/}}
 
 

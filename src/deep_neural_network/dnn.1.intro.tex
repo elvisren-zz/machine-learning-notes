@@ -128,3 +128,180 @@ So the final result could calculated by backward propagation. Table \ref{reverse
 
 
 
+% Gradient Descent
+\section{Gradient Descent}
+
+\subsection{Gradient Descent Classification}
+
+\cindex{Gradient Descent} is a numeric optimization method to calculate the minimum value of a function. For a give function $f(x)$ with gradient everywhere, if we choose $\alpha$ small enough, it is possible that $f(x') < f(x)$ where:
+
+\begin{equation}\label{gradientdescentdefinition}
+    x' = x - \alpha \nabla_x f
+\end{equation}
+
+
+$\alpha$ is called \cindex{learning rate}. Please be noted that the $x$ here is a vector of all input samples.
+
+
+\cindex{Batch Gradient Descent} calculate the gradient of the cost function for the entire training set. So it is slow, and sometimes cannot be fit into the main memory.
+
+\cindex{Stochastic Gradient Descent} calculate the gradient for every single training sample. So it fluctuate. 
+
+
+\cindex{Mini-batch Gradient Descent} calculate the gradient for every batch of $n$ samples. It could use GPU to accelerate the training, and it is less volatile than stochastic gradient descent.
+
+So mini-batch gradient descent is the best of all choices. However it still has the following limitations:
+\begin{enumerate}
+    \item The learning rate cannot be too small or too big.
+    \item \cindex{learning rate schedule} is used to gradually reduce the learning rate, which mimics the \cindex{annealing}. However the training data may not match the learning schedule. 
+    \item One learning rate is applied to all data. The data could be sparse or dense.
+    \item Local minimum is usually not a problem. The real problem is the plateau around \cindex{saddle points}. The gradient is flat and takes long time to move away.
+\end{enumerate}
+
+So optimization algorithms is needed for an efficient gradient descent calculation.
+
+\subsection{Gradient Descent Optimization Algorithms}
+
+The idea of optimizing gradient descent is to change $\alpha \nabla_x f$ in Equation \eqref{gradientdescentdefinition}. We can change all of them, such as in Momentum and NAG algorithm, or change $\alpha$, such as in Adagrad, Adadelta, RMSprop, or change $\nabla_x f$, such as in Adam, AdaMax, Nadam. The popular optimization algorithms are summarized in \cite{Ruder2016}. The relationship among all these optimization algorithm is in Figure ~\ref{gradientdescentoptimizationalgorithmrelationship}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.5]{images/relation_among_gradient_descent}
+    \caption{Relation among Gradient Descent Algorithms}
+    \label{gradientdescentoptimizationalgorithmrelationship}
+\end{figure}
+
+
+\subsubsection{Momentum}
+
+\cindex{Momentum}\cite{Qian1999} takes a weighted average of all gradient:
+\begin{equation}
+    \begin{aligned}
+        \theta_{t+1} &= \theta_t - m_t \\
+        m_t &= \beta m_{t-1} + (1-\beta) \nabla_{\theta_t} J(\theta_t)
+    \end{aligned}
+\end{equation}
+
+$\alpha=0.9$ for most of the cases. The momentum term increases if gradients point in the same direction and reduces updates when gradients change direction. So it has momentum when moving towards the same direction, and it converges fast.
+
+
+
+
+
+\subsubsection{NAG}
+
+\cindex{Nesterov Accelerated Gradient}\cite{NESTEROV1983}, or \cindex{NAG}, is a look ahead calculation. Since $\theta_t$ will be reduced by a gradient every time: $\theta_{t+2} = \theta_{t+1} - m_{t+1} = \theta_t - m_t - m_{t+1}$, it replaces $\nabla_{\theta_t} J(\theta_t)$ by $\nabla_{\theta_t} J(\theta_t - \beta m_{t-1})$:
+\begin{equation}
+    \begin{aligned}
+        \theta_{t+1} &= \theta_t - m_t \\
+        m_t &= \beta m_{t-1} + (1-\beta) \nabla_{\theta_t} J(\theta_t - \beta m_{t-1})
+    \end{aligned}
+\end{equation}
+
+
+
+
+\subsubsection{Adagrad}
+
+\cindex{Adagrad}\cite{Duchi2012} performs large update for infrequent and small update for frequent parameters:
+\begin{equation}
+    \begin{aligned}
+        \theta_{t+1} &= \theta_t - \frac{\alpha}{\sqrt{G_t + \epsilon}}  \nabla_{\theta_t} J(\theta_t) \\
+        G_t &= G_{t-1} + \left(\nabla_{\theta_t} J(\theta_t) \right)^2
+    \end{aligned}
+\end{equation}
+
+$\epsilon$ is added to avoid division by zero. Usually $G_0 = 0$, $\alpha = 0.01$, $\epsilon = 10^{-8}$. Because $G_t$ keeps accumulating, eventually it will become too big for the algorithm to be effective.
+
+
+
+
+\subsubsection{Adadelta}
+\cindex{Adadelta}\cite{Zeiler2012} fixes the problem of Adagrad. It is a decay version of Adagrad:
+\begin{equation}
+    \begin{aligned}
+        \theta_{t+1} &= \theta_t - \frac{\sqrt{D_{t-1} + \epsilon}}{\sqrt{G_t + \epsilon}}  \nabla_{\theta_t} J(\theta_t) \\
+        G_t &= \beta G_{t-1} + (1-\beta) \left(\nabla_{\theta_t} J(\theta_t) \right)^2 \\
+        D_t &= \beta D_{t-1} + (1-\beta) (\theta_t - \theta_{t-1})^2
+    \end{aligned}
+\end{equation}
+
+Usually $G_0 = 0$, $D_0 = 0$, $\beta = 0.9$, $\epsilon = 10^{-6}$.
+
+\subsubsection{RMSprop}
+
+\cindex{RMSprop} is unpublished. It is a simplified version of Adadelta that $D_t = 0$:
+\begin{equation}
+    \begin{aligned}
+        \theta_{t+1} &= \theta_t - \frac{\alpha}{\sqrt{G_t + \epsilon}}  \nabla_{\theta_t} J(\theta_t) \\
+        G_t &= \beta G_{t-1} + (1-\beta) \left(\nabla_{\theta_t} J(\theta_t) \right)^2 \\
+    \end{aligned}
+\end{equation}
+
+Usually $G_0 = 0$, $\alpha = 0.001$, $\beta = 0.9$, $\epsilon = 10^{-6}$.
+
+
+
+
+\subsubsection{Adam}
+
+\cindex{Adaptive Moment Estimation}\cite{Kingma2015}, or \cindex{Adam}, is yet another adaptive method:
+
+\begin{equation}
+    \begin{aligned}
+        \theta_{t+1} &= \theta_t - \frac{\alpha}{\sqrt{\displaystyle \frac{G_t}{1-(\beta_2)^t}} + \epsilon} \frac{m_t}{1-(\beta_1)^t}  \\
+        m_t &= \beta_1 m_{t-1} + (1-\beta_1) \nabla_{\theta_t} J(\theta_t) \\
+        G_t &= \beta_2 G_{t-1} + (1-\beta_2) \left(\nabla_{\theta_t} J(\theta_t) \right)^2
+    \end{aligned}
+\end{equation}
+
+Usually $G_0 = 0$, $\alpha = 0.001$, $\beta_1 = 0.9$, $\beta_2 = 0.999$, $\epsilon = 10^{-8}$.
+
+
+
+
+
+\subsubsection{AdaMax}
+\cindex{AdaMax}\cite{Kingma2015} is a infinite norm version of Adam. Adam use $l_2$ norm for $G$. For infinite norm:
+\begin{equation}
+    \begin{aligned}
+        G_t &= \beta_2^\infty G_{t-1} + (1-\beta_2^\infty ) \norm{\nabla_{\theta_t} J(\theta_t)}^\infty  \\
+        &= \max \left(\beta_2 G_{t-1}, \norm{\nabla_{\theta_t} J(\theta_t)} \right)
+    \end{aligned}
+\end{equation}
+
+Because $G_t > 0$ in AdaMax, $\epsilon$ is no longer useful. So the equation could be simplified:
+
+\begin{equation}
+    \begin{aligned}
+        \theta_{t+1} &= \theta_t - \frac{\alpha}{G_t}  m_t \\
+        m_t &= \beta_1 m_{t-1} + (1-\beta_1) \nabla_{\theta_t} J(\theta_t) \\
+        G_t &= \max \left(\beta_2 G_{t-1}, \norm{\nabla_{\theta_t} J(\theta_t)} \right)
+    \end{aligned}
+\end{equation}
+
+Usually $G_0 = 0$, $\alpha = 0.001$, $\beta_1 = 0.9$, $\beta_2 = 0.999$.
+
+
+\subsubsection{Nadam}
+
+\cindex{Nadam}\cite{Dozat2016} combines Adam and NAG. Adam could be written as:
+\begin{equation}
+    \theta_{t+1} = \theta_t - \frac{\alpha}{\sqrt{\displaystyle \frac{G_t}{1-(\beta_2)^t}} + \epsilon} \left(\beta_1 \frac{m_{t-1}}{1-(\beta_1)^{t-1}} + \frac{1-\beta_1}{1-(\beta_1)^t} \nabla_{\theta_t} J(\theta_t) \right)
+\end{equation}
+
+Like NAG, Nadam changes Adam's $t-1$ version of $\displaystyle \frac{m_{t-1}}{1-(\beta_1)^{t-1}}$ to current $t$ version $\displaystyle \frac{m_t}{1-(\beta_1)^t}$:
+\begin{equation}
+    \begin{aligned}
+            \theta_{t+1} &= \theta_t - \frac{\alpha}{\sqrt{\displaystyle \frac{G_t}{1-(\beta_2)^t}} + \epsilon} \left(\beta_1 \frac{m}{1-(\beta_1)^t} + \frac{1-\beta_1}{1-(\beta_1)^t} \nabla_{\theta_t} J(\theta_t) \right)  \\
+        m_t &= \beta_1 m_{t-1} + (1-\beta_1) \nabla_{\theta_t} J(\theta_t) \\
+        G_t &= \beta_2 G_{t-1} + (1-\beta_2) \left(\nabla_{\theta_t} J(\theta_t) \right)^2    
+    \end{aligned}
+\end{equation}
+
+Usually $G_0 = 0$, $m_0 = 0$, $\alpha = 0.002$, $\beta_1 = 0.9$, $\beta_2 = 0.999$, $\epsilon = 10^{-7}$.
+
+
+
+
+
