@@ -11,7 +11,7 @@
 \end{proof}
 
 \begin{theorem}[\cindex{Schur}]\label{schurincomplexfield}
-    Suppose the characteristic polynomial of $T$ splits. Then there exists an orthonormal basis $\beta$ for $V$ that the $[T]_\beta$ is upper trianglar. Note:
+    Suppose the characteristic polynomial of $T$ splits. Then there exists an orthonormal basis $\beta$ for $V$ that the $\coordinate{T}_\beta$ is upper trianglar. Note:
     \begin{enumerate}
         \item $\beta$ does \emph{not} need to be eigenvectors of $T$.
         \item It works in $\mathcal{R}$ as long as $T$ splits.
@@ -24,12 +24,17 @@
             \innerproduct{T(y)}{x} = \innerproduct{T(y)}{cz} = \innerproduct{y}{T^*(cz)} = \innerproduct{y}{cT^*(z)} = \innerproduct{y}{c \lambda z} = \overline{c\lambda} \innerproduct{y}{z} = 0
         \end{aligned}
     \end{equation*}
-    According to induction, $\dimension{W^\bot} = n - 1$ and there exists an orthonormal basis $\gamma$ that $[T_{W^\bot}]_\gamma$ is upper triangular. Take $\gamma \cup \{z \}$.
+    According to induction, $\dimension{W^\bot} = n - 1$ and there exists an orthonormal basis $\gamma$ that $\coordinate{T_{W^\bot}}_\gamma$ is upper triangular. Take $\gamma \cup \set{z}$.
 \end{proof}
 
 \begin{theorem}
-    If $[T]_\beta$ is a diagonal matrix, $[T^*]_\beta = ([T]_\beta)^*$ is also a diagonal matrix.
+    If $\beta$ is an orthonormal basis and $\coordinate{T}_\beta$ is a diagonal matrix, $\coordinate{T^*}_\beta = \left(\coordinate{T}_\beta\right)^*$ is also a diagonal matrix.
 \end{theorem}
+
+\begin{theorem}
+    If an operator $T$ has orthogonal eigenvectors $\beta$ that are basis of the inner product space, then $\coordinate{T}_\beta$ is a diagonal matrix.
+\end{theorem}
+
 
 
 
@@ -38,7 +43,7 @@
 \end{definition}
 
 \begin{theorem}
-    $T$ is normal if and only of $[T]_\beta$ is normal under orthonormal basis $\beta$.
+    $T$ is normal if and only of $\coordinate{T}_\beta$ is normal under orthonormal basis $\beta$.
 \end{theorem}
 
 \begin{theorem}\label{propertyofnormaloperator}
@@ -79,7 +84,7 @@
     In $\mathcal{C}$, let $V$ be finite dimensional inner product space. $T$ is normal if and only if there exists an orthonormal basis for $V$ consisting of eigenvectors of $T$.
 \end{theorem}
 \begin{proof}
-    in $C$ the polynomial always splits. According to \thmref{schurincomplexfield} there exists a orthonormal basis $\beta = \{v_1, v_2, \dots, v_n\}$ that $[T]_\beta = A$ is upper triangular. $v_1$ is an eigenvector because $T(v_1)=A_{1,1} v_1$. Assuming $v_1, v_2, \dots, v_{k-1}$ are eigenvector of $T$, we prove that $v_k$ is also an eigenvector of $T$. Because $A$ is upper triangular, 
+    in $C$ the polynomial always splits. According to \thmref{schurincomplexfield} there exists a orthonormal basis $\beta = \{v_1, v_2, \dots, v_n\}$ that $\coordinate{T}_\beta = A$ is upper triangular. $v_1$ is an eigenvector because $T(v_1)=A_{1,1} v_1$. Assuming $v_1, v_2, \dots, v_{k-1}$ are eigenvector of $T$, we prove that $v_k$ is also an eigenvector of $T$. Because $A$ is upper triangular, 
     \begin{equation*}
         T(v_k) = A_{1,k} v_1 + A_{2,k} v_2 + \dots + A_{j,k} v_j + \dots + A_{k,k} v_k
     \end{equation*}
@@ -124,14 +129,14 @@
     \end{equation*}
     So $\lambda = \overline{\lambda}$, and $\lambda$ is real.
     
-    For a orthonormal basis $\beta$, $A = [T]_\beta$ is self-adjoint because $A^* = ([T]_\beta)^* = [T^*]_\beta = [T]_\beta = A$. Define $L_A(x) = Ax$ in $\mathcal{C}^n$. Here we create a function in $\mathcal{C}^n$ from a function in $\mathcal{R}^n$. Let $\gamma$ be the standard basis for $\mathcal{C}$ which is orthonormal. $[L_A]_\gamma = A$ is self-adjoint, so $L_A$ is self-adjoint in $\mathcal{C}^n$. The characteristic polynomial of $L_A$ splits. Since $L_A$ is self-adjoint, all eigenvalues are real, so the polynomial split in $\mathcal{R}$. But $L_A$, $A$ and $T$ has the same characteristic polynomial.
+    For a orthonormal basis $\beta$, $A = \coordinate{T}_\beta$ is self-adjoint because $A^* = (\coordinate{T}_\beta)^* = [T^*]_\beta = \coordinate{T}_\beta = A$. Define $L_A(x) = Ax$ in $\mathcal{C}^n$. Here we create a function in $\mathcal{C}^n$ from a function in $\mathcal{R}^n$. Let $\gamma$ be the standard basis for $\mathcal{C}$ which is orthonormal. $[L_A]_\gamma = A$ is self-adjoint, so $L_A$ is self-adjoint in $\mathcal{C}^n$. The characteristic polynomial of $L_A$ splits. Since $L_A$ is self-adjoint, all eigenvalues are real, so the polynomial split in $\mathcal{R}$. But $L_A$, $A$ and $T$ has the same characteristic polynomial.
 \end{proof}
 
 \begin{theorem}\label{selfadjointmatrixhasorthonormalbasis}
     Let $T$ be a linear operator on finite dimensional real inner product space. $T$ is self-adjoint if and only if there exists an orthonormal basis $\beta$ for $V$ consisting of eigenvectors of $T$.    
 \end{theorem}
 \begin{proof}
-    By \thmref{schurincomplexfield} there exists orthonormal basis $\beta$ for $V$ that $A = [T]_\beta$ is upper triangular. Because $A^* = ([T]_\beta)^* = [T^*]_\beta = [T]_\beta = A$, $A$ is diagonal matrix.
+    By \thmref{schurincomplexfield} there exists orthonormal basis $\beta$ for $V$ that $A = \coordinate{T}_\beta$ is upper triangular. Because $A^* = (\coordinate{T}_\beta)^* = [T^*]_\beta = \coordinate{T}_\beta = A$, $A$ is diagonal matrix.
 \end{proof}
 
 
@@ -261,7 +266,7 @@
 \end{proof}
 
 \begin{theorem}
-    $T$ is isometry if $[T]_\beta$ is isometry for a orthonormal basis $\beta$ of $V$.
+    $T$ is isometry if $\coordinate{T}_\beta$ is isometry for a orthonormal basis $\beta$ of $V$.
 \end{theorem}
 
 \begin{definition}
@@ -518,7 +523,13 @@
             0 & \text{for } y \in \rangespace{T}^\bot
         \end{cases}
     \end{equation}
-    
+    Let $\set{v_1, v_2,\dots, v_r}$ be a basis for $\nullspace{T}^\bot$, $\set{v_{r+1}, v_{r+2}, \dots, v_{n}}$ be a basis for $\nullspace{T}$, $\set{u_1, u_2, \dots, u_r}$ be basis for $\rangespace{T}$, $\set{u_{r_1}, u_{r+2}, \dots, u_m}$ be a basis for $\rangespace{T}^\bot$, then:
+    \begin{equation*}
+        T^\dag (u_i) = \begin{cases}
+            \displaystyle \frac{1}{\sigma_i} v_i & \text{if } 1 \leq i \leq r \\
+            0
+        \end{cases}
+    \end{equation*}
     So although not all $T$ has inverse, the restriction $\left. T \right|_{\nullspace{T}^\bot}$ could have proper inverse.
 \end{definition}
 
@@ -526,10 +537,11 @@
     Let $A_{m \times n}$ be a square matrix of rank $r$ with singular value decomposition $A = U \Sigma V^*$ and non-zero singular values $\sigma_1 \geq \sigma_2 \geq \dots \geq \sigma_r$. Let $\Sigma^\dag_{m \times n}$  be a matrix that 
     \begin{equation}
         \Sigma^\dag_{ij} = \begin{cases}
-            \frac{1}{\sigma_i} & \text{if } i = i \leq r \\
+            \displaystyle \frac{1}{\sigma_i} & \text{if } i = j \leq r \\
             0 
         \end{cases}
     \end{equation}
+    
     Then $A^\dag = V \Sigma^\dag U^*$ is a singular value decomposition of $A$.
 \end{theorem}
 
@@ -541,6 +553,9 @@
         \item $TT^\dag$ is the orthogonal projection of $W$ on $\rangespace{T}$.
     \end{enumerate}    
 \end{theorem}
+\begin{proof}
+    Define $L: \nullspace{T}^\bot \rightarrow W$ by $L(x) = T(x)$. If $x \in \nullspace{T}^\bot$, then $T^\dag T (x) = L^{-1} L (x) = x$. If $x \in \nullspace{T}$, then $T^\dag T (x) = T^\dag (0) = 0$.
+\end{proof}
 
 
 \begin{theorem}
@@ -549,7 +564,16 @@
         \item If $Ax=b$ is consistent, then $z$ is the unique solution with minimal norm.
         \item If $Ax=b$ is inconsistent, then $z$ is the best approximation: $\forall y$, $\norm{Ax-b} \leq \norm{Ay-b}$. Also if $Az = Ay$, then $\norm{z} \leq \norm{y}$.
     \end{enumerate}
+    
+    $A^\dag b$ is the optimal solution discussed in section \ref{consistentandinconsistentequation} on page \pageref{consistentandinconsistentequation}.
 \end{theorem}
+\begin{proof}
+    Let $z = A^\dag b$. If the equation is consistent, then $b \in \rangespace{T}$, then $Az = AA^\dag b = TT^\dag (b) = b$ because $TT^\dag$ is a orthogonal projection, so $z$ is a solution to the linear system.
+    
+    If $y$ is any solution, then $T^\dag T (y) = A^\dag A y = A^\dag b = z$. So $z$ is a orthogonal projection of $y$ on $\nullspace{T}^\bot$. So $\norm{z} \leq \norm{y}$.
+    
+    If the equation is inconsistent, then $Az = AA^\dag b$ is the orthogonal projection of $b$ on $\rangespace{T}$, so $Az$ is the nearest vector to $b$.
+\end{proof}
 
 
 

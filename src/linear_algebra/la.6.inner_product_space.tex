@@ -9,10 +9,10 @@
 		\item $\innerproduct{x+z}{y} = \innerproduct{x}{y} + \innerproduct{z}{y}$ \label{firstproductdefinition}
 		\item $\innerproduct{cx}{y} = c \innerproduct{x}{y}$ \label{secondproductdefinition}
 		\item $\overline{\innerproduct{x}{y}} = \innerproduct{y}{x}$
-		\item $\innerproduct{x}{x} \geq 0$
+		\item $\innerproduct{x}{x} > 0$ if $x \neq 0$
 	\end{enumerate}
 	Item (\ref{firstproductdefinition}) and (\ref{secondproductdefinition}) means the inner product is \emph{linear in first component}.
-	Please be noted that the result of inner product could be a complex value.
+	Please be noted that the result of inner product could be a complex value, but the result of $\innerproduct{x}{x}$ is a non-negative real number.
 	\qed
 \end{definition}
 
@@ -22,7 +22,7 @@
 	\begin{enumerate}
 		\item $\innerproduct{x}{y+z} = \innerproduct{x}{y} + \innerproduct{x}{z}$ \label{firstproductproperty}
 		\item $\innerproduct{x}{cy} = \overline{c} \innerproduct{x}{y} $ \label{secondproductproperty}
-		\item $\innerproduct{x}{x} > 0$ unless $x=0$
+		\item $\innerproduct{x}{x} = 0$ if and only if $x = 0$.
 		\item If $\innerproduct{x}{y} = \innerproduct{x}{z}$ for all $x \in V$, then $y=z$.
 	\end{enumerate}
 	Item (\ref{firstproductproperty}) and (\ref{secondproductproperty}) means the inner product is \cindex{conjugate linear} in second component.
@@ -30,7 +30,7 @@
 
 
 \begin{definition}
-	the \cindex{standard inner product} on $F^n$ for $x=(a_1,a_2,\dots,a_n)$ and $y=(b_1,b_2,\dots,b_n)$ is:
+	the \cindex{standard inner product} on $F^n$ for $x=\rowvector{a_1,a_2,\dots,a_n}$ and $y=\rowvector{b_1,b_2,\dots,b_n}$ is:
 	\begin{equation}
 		\innerproduct{x}{y} = \sum_{i=1}^n a_i \overline{b_i}		
 	\end{equation}
@@ -38,7 +38,7 @@
 \end{definition}
 
 \begin{definition}
-	For $A \in M_{m \times n}(F)$, the \cindex{conjugate transpose} or \cindex{adjoint} of $A$ is $A^* \in M_{n \times m}(F)$ that $(A^*)_{ij} = \overline{A_{ji}}$. If $A$ is complex, $A^* = \overline{A^\top}$ .If $A$ is real, $A^*$ is $A^\top$.
+	For $A \in M_{m \times n}(F)$, the \cindex{conjugate transpose} or \cindex{adjoint} of $A$ is $A^* \in M_{n \times m}(F)$ that $(A^*)_{ij} = \overline{A_{ji}}$. If $A$ is complex, $A^* = \overline{A^\top}$ . If $A$ is real, $A^*$ is $A^\top$.
 \end{definition}
 
 \begin{definition}[Forbenius Inner Product]
@@ -74,7 +74,7 @@
 \begin{theorem}
 	the property of norm:
 	\begin{itemize}
-		\item $\norm{cx} = \absolutevalue{c} \times \norm{x}$
+		\item $\norm{cx} = \absolutevalue{c} \cdot \norm{x}$
 		\item $\norm{x} = 0 \iff x = 0$
 		\item \cindex{Cauchy-Schwarz Inequality} $\absolutevalue{\innerproduct{x}{y}} \leq \norm{x} \cdot \norm{y}$
 		\item \cindex{Triangle Inequality} $\norm{x+y} \leq \norm{x} + \norm{y}$
@@ -82,7 +82,7 @@
 \end{theorem}
 
 \begin{theorem}\label{zerotforalltx}
-    If $\forall x \in \mathcal{C}$,$\innerproduct{T(x)}{x} = 0$. Then $T = 0$.\footnote{For it to work in all $V$, $T$ needs to be self-adjoint. See \thmref{zerotforalltxforselfadjoint} on page \pageref{zerotforalltxforselfadjoint}.}
+    If $\forall x \in C$,$\innerproduct{T(x)}{x} = 0$. Then $T = 0$.\footnote{For it to work in all $V$, $T$ needs to be self-adjoint. See \thmref{zerotforalltxforselfadjoint} on page \pageref{zerotforalltxforselfadjoint}.}
 \end{theorem}
 \begin{proof}
     \begin{equation*}
@@ -158,9 +158,13 @@
 \end{definition}
 
 \begin{theorem}
-	let $S=\{ v_1, v_2, \dots, v_k \}$ be an orthogonal subset of $V$ consisting of non-zero vectors. If $y \in \text{span}(S)$, then
+	Let $S=\set{ v_1, v_2, \dots, v_k }$ be an orthogonal subset of $V$ consisting of non-zero vectors. If $y \in \vectorspan{S}$, then
 	\begin{equation}
 		y = \sum_{i=1}^k \frac{\innerproduct{y}{v_i}}{\norm{v_i}^2} v_i
+	\end{equation}
+	Define the projection of vector $a$ onto vector $u$ as $\displaystyle \projection{a}{u} = \frac{\innerproduct{a}{u}}{\norm{u}^2}$. So 
+	\begin{equation}
+	    y = \sum_{i=1}^k \left(\projection{y}{v_i}\right) v_i
 	\end{equation}
 	If $S$ is orthonormal, then
 	\begin{equation}
@@ -178,29 +182,29 @@
 \end{proof}
 
 \begin{theorem}
-	an orthogonal subset of $V$ is linearly independent.
+	An orthogonal subset of $V$ is linearly independent.
 \end{theorem}
 
 \begin{definition}[\cindex{Gram-Schmidt process}]
-	Let $S=\{w_1, w_2, \dots, w_n \}$ be linearly independent subset of $V$. Define $S^\prime=\{v_1,v_2,\dots,v_n  \}$, where $v_1=w_1$ and 
+	Let $S=\set{w_1, w_2, \dots, w_n }$ be linearly independent subset of $V$. Define $S^\prime=\{v_1,v_2,\dots,v_n  \}$, where $v_1=w_1$ and 
 	\begin{equation}
 		v_k = w_k - \sum_{j=1}^{k-1} \frac{\innerproduct{w_k}{v_j}}{\norm{v_j}^2} v_j
 	\end{equation}
-	then $S^\prime$ is an orthogonal set of non-zero vectors that $\text{span}(S^\prime) = \text{span}(S)$. The process is that for the $k$th basis $w_k$, first project it on top of the $k-1$ orthogonal vectors $\displaystyle \sum_{j=1}^{k-1} \frac{\innerproduct{w_k}{v_j}}{\norm{v_j}^2} v_j$, and calculate the reciprocal vector $\displaystyle w_k - \sum_{j=1}^{k-1} \frac{\innerproduct{w_k}{v_j}}{\norm{v_j}^2} v_j$.
+	then $S^\prime$ is an orthogonal set of non-zero vectors that $\vectorspan{S^\prime} = \vectorspan{S}$. The process is that for the $k$-th basis $w_k$, first project it on top of the $k-1$ orthogonal vectors $\displaystyle \sum_{j=1}^{k-1} \frac{\innerproduct{w_k}{v_j}}{\norm{v_j}^2} v_j$, and calculate the reciprocal vector $\displaystyle w_k - \sum_{j=1}^{k-1} \frac{\innerproduct{w_k}{v_j}}{\norm{v_j}^2} v_j$.
 	\qed
 \end{definition}
 
 \begin{theorem}[\cindex{QR Decomposition}]
-    Define $\displaystyle \projection{a}{u} = \frac{\innerproduct{a}{u}}{\norm{u}^2}$. Let $A_{m \times n} = [a_1, a_2, \dots, a_n]$ with $\rank{A} = n$, use Gram-Schmidt process to form $n$ orthonomal index:
+    Let $A_{m \times n} = \rowvector{a_1, a_2, \dots, a_n}$ with $\rank{A} = n$, so $\set{a_i}$ is linearly independent. Use Gram-Schmidt process to form $n$ orthonomal basis:
     \begin{equation*}
         \begin{aligned}
-            u_1 &= a_1 & , e_1 = \frac{u_1}{\norm{u_1}} \\
-            u_2 &= a_2 - \projection{a_2}{u_1} & , e_2 = \frac{u_2}{\norm{u_2}} \\
+            u_1 &= a_1 & \text{ , } e_1 = \frac{u_1}{\norm{u_1}} \\
+            u_2 &= a_2 - \projection{a_2}{u_1} & \text{ , } e_2 = \frac{u_2}{\norm{u_2}} \\
             \dots \\
-            u_n &= a_n - \sum_{j=1}^{n-1} \projection{a_n}{u_j} & , e_n = \frac{u_n}{\norm{u_n}} 
+            u_n &= a_n - \sum_{j=1}^{n-1} \projection{a_n}{u_j} & \text{ , } e_n = \frac{u_n}{\norm{u_n}} 
         \end{aligned}
     \end{equation*}
-    Then $\displaystyle a_k = \sum_{j=1}^k \innerproduct{a_k}{e_k} e_k$. So
+    Then $\forall k$, $\displaystyle a_k = \sum_{j=1}^k \innerproduct{a_k}{e_k} e_k$. So
     \begin{equation}
         A = QR = [e_1, e_2, \dots, e_n] \times \begin{pmatrix}
             \innerproduct{a_1}{e_1} & \innerproduct{a_2}{e_1} & \innerproduct{a_3}{e_1} & \cdots & \innerproduct{a_n}{e_1}\\
@@ -211,7 +215,7 @@
         \end{pmatrix}
     \end{equation}
     
-    The $Q$ is an orthonormal basis from $A$. $R$ could be calculated by:
+    The $Q$ is an orthonormal matrix. $R$ could be calculated by:
     \begin{equation}
         R = Q^\top Q R = Q^\top A
     \end{equation}
@@ -230,8 +234,8 @@
 \end{definition}
 
 
-\begin{theorem}
-	Let $V$ with an orthonormal basis $\beta=\set{v_1,v_2,\dots,v_n}$. $T$ is a linear operator on $V$ and let $A=[T]_\beta$. then $A_{ij}=\innerproduct{T(v_j)}{v_i}$.
+\begin{theorem}\label{matrixelementasinnerproductresult}
+	Let $V$ with an orthonormal basis $\beta=\set{v_1,v_2,\dots,v_n}$. $T$ is a linear operator on $V$ and let $A= \coordinate{T}_\beta$. then $A_{ij}=\innerproduct{T(v_j)}{v_i}$.
 \end{theorem}
 \begin{proof}
 	From \thmref{vectorinorthonormalbasis} we have
@@ -284,13 +288,23 @@
     \begin{equation}
         y = \sum_{i=1}^n \overline{g(v_i)} v_i
     \end{equation}
+    
+    So every vector in the dual space\footnote{Defined in \thmref{dualspacedefinition} on page \pageref{dualspacedefinition}.} can be represented by an inner product.
 \end{theorem}
+\begin{proof}
+    Define $h(x) = \innerproduct{x}{y}$ with $y$ defined above. So
+    \begin{equation*}
+        h(v_j) = \innerproduct{v_j}{y} = \innerproduct{v_j}{\sum_{i=1}^n \overline{g(v_i)} v_i} = \sum_{i=1}^n \innerproduct{v_j}{\overline{g(v_i)} v_i} = \sum_{i=1}^n g(v_i) \innerproduct{v_j}{ v_i} = g(v_j)
+    \end{equation*}
+\end{proof}
+
+
 
 \begin{theorem}
     Let $T$ be a linear operator on $V$. Then there existing a unique linear operator $T^* : V \rightarrow V$ that $\innerproduct{T(x)}{y}=\innerproduct{x}{T^*(y)}$ for all $x,y \in V$. $T^*$ is called the \cindex{adjoint} of $T$.
 \end{theorem}
 \begin{proof}
-    For each $y$, $\innerproduct{T(x)}{y}$ is a linear operator from $V$ to $F$, so by \thmref{uniquelinearoperatortof}, $\exists y'$ that $\innerproduct{T(x)}{y} = \innerproduct{x}{y'}$.
+    For each $y$, $\innerproduct{T(x)}{y}$ is a linear operator from $V$ to $F$, so by \thmref{uniquelinearoperatortof}, $\exists y'$ that $\innerproduct{T(x)}{y} = \innerproduct{x}{y'}$. Define $T^*$ as $T^*(y) = y'$.
 \end{proof}
 
 \begin{theorem}
@@ -319,7 +333,7 @@
     \end{equation}
 \end{theorem}
 \begin{proof}
-    Let $A=[T]_\beta$, $B=[T^*]_\beta$, and $\beta=\{v_1, v_2, \dots, v_n \}$. Then
+    Let $A=[T]_\beta$, $B=[T^*]_\beta$, and $\beta=\{v_1, v_2, \dots, v_n \}$. Then according to \thmref{matrixelementasinnerproductresult}:
     \begin{equation*}
         B_{ij} = \innerproduct{T^*(v_j)}{v_i} = \overline{\innerproduct{v_i}{T^*(v_j)}} = \overline{\innerproduct{T(v_i)}{v_j}} = \overline{A_{ji}} = (A^*)_{ij}
     \end{equation*}
@@ -328,7 +342,7 @@
 \begin{theorem}
     Let $T$ and $U$ be linear operator on $V$, then
     \begin{enumerate}
-        \item $(aT+bU)^* = \overline{a}T^* + \overline{b}U^*$
+        \item $(aT+bU)^* = \overline{a} T^* + \overline{b} U^*$
         \item $(UT)^* = T^* U^*$
         \item $T^{**} = T$
     \end{enumerate}    
@@ -374,13 +388,15 @@
 
 
 % Example in statistics
-\subsection{Examples in Statistics}
+\subsection{Examples in Statistics}\label{consistentandinconsistentequation}
 
 The following two examples show that for linear equation $Ax - y = 0$, 
 \begin{enumerate}
     \item if it is consistent, that is there is solution, we want to find the solution with minimal norm.
-    \item If it is inconsistent, that is no solution, we want a result that give the least error norm.
+    \item If it is inconsistent, that is no solution, we want a result that has the least norm.
 \end{enumerate}
+
+The same topic is discussed in pseudo inverse.
 
 
 % Least Square Approximation

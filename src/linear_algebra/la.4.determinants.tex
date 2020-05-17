@@ -7,16 +7,12 @@
 	\end{equation}
 	
 	where $\tilde{A}_{ij}$ is obtained from $A$ by deleting row $i$ and column $j$. This is called \cindex{Laplace expansion}.
-	
-	$(-1)^{i + j} A_{ij} \times \determinate{\tilde{A}_{ij}}$ is called the \cindex{cofactor} of $A$ in row $i$ and column $j$.
-	
-	If the determinate is calculated using cofactor operation, the performance is $n!$ multiplication. However if it is calculated using elementary row operation, the performance is $\displaystyle \frac{n^3 + 2n - 3}{3}$ multiplication.
 	\qed
 \end{definition}
 
 
 \begin{theorem}
-    A function $\delta: M_{n \times n} (F) \rightarrow F \equiv \determinate{A}$ if it satisfies the following 3 properties:
+    A function $\delta: M_{n \times n} (F) \rightarrow F$ is the same as $\determinate{A}$ if it satisfies the following 3 properties:
     \begin{enumerate}
         \item It is \cindex{$n$-linear function}: for a scalar $k$, \begin{equation}
         \determinate{\begin{pmatrix}
@@ -42,7 +38,7 @@
     \item It is \cindex{alternating}: $\delta(A) = 0$ if any two adjacent rows are identical.
     \item $\delta(I) = 1$.
     \end{enumerate}
-    The determinate is linear on each row when the remaining rows are held fixed:
+    The determinate is linear on each row when the remaining rows are held fixed.
     \qed
 \end{theorem}
 
@@ -74,16 +70,18 @@
 \end{theorem}
 
 \begin{theorem}
-	A matrix $A \in M_{n \times n}(F)$ is invertible $\Leftrightarrow$ $\determinate{A} \neq 0$. If it is invertible, $\determinate{A^{-1}} = \dfrac{1}{\determinate{A}}$
+	A matrix $A \in M_{n \times n}(F)$ is invertible $\Leftrightarrow$ $\determinate{A} \neq 0$. If it is invertible, $\determinate{A^{-1}} = \dfrac{1}{\determinate{A}}$.
 \end{theorem}
 
 \begin{definition}
     The \cindex{cofactor} of $A$ is defined as 
     \begin{equation}
         \cofactor{A}_{ij} = (-1)^{i+j} \determinate{\tilde{A}_{ij}}
-    \end{equation}
+    \end{equation}\qed
 \end{definition}
 
+
+If the determinate is calculated using cofactor operation, the performance is $n!$ multiplication. However if it is calculated using elementary row operation, the performance is $\displaystyle \frac{n^3 + 2n - 3}{3}$ multiplication.
 
 \begin{definition}
     The \cindex{adjugate} of $A$ is defined as
@@ -151,7 +149,7 @@
 Note: Cramer's Rule is too slow for real world calculation.
 
 \begin{theorem}
-	In geometry, for a square matrix $A \in M_{n\times n}(F)$, $\absolutevalue{\text{det}(A)}$ is the \cindex{n-dimensional volume} of the parallelepiped having vector $a_i$ as adjacent sides.
+	In geometry, for a square matrix $A \in M_{n\times n}(F)$, $\absolutevalue{\determinatetext{A}}$ is the \cindex{n-dimensional volume} of the parallelepiped having vector $A_{i,\cdot}$ as adjacent sides.
 \end{theorem}
 
 

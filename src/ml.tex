@@ -126,18 +126,21 @@
 \newcommand\rangespace[1]{\mathcal{R}(#1)}
 \newcommand\absolutevalue[1]{\abs{#1}}
 \newcommand\determinate[1]{\absolutevalue{#1}}
+\newcommand\determinatetext[1]{\displaystyle \mathbf{det} ~\displaystyle #1}
 \newcommand\coordinate[1]{\sbr{#1}}
 \newcommand\projection[2]{\mathbf{proj}_{#2} #1}
+\newcommand\rowvector[1]{\left[ \displaystyle #1 \right]}
 
 
 \newcommand\dimension[1]{\displaystyle \mathbf{dim}\left( #1 \right)}
+\newcommand\vectorspan[1]{\displaystyle \mathbf{span}\left( #1 \right)}
 \newcommand\rank[1]{\displaystyle \mathbf{rank}( #1 )}
 \newcommand\innerproduct[2]{\left\langle \displaystyle #1, #2 \right\rangle}
 \newcommand\trace[1]{\displaystyle \mathbf{tr}( #1 )}
 
 
-\newcommand\adjugate[1]{\displaystyle \mathbf{adj} \displaystyle #1 }
-\newcommand\cofactor[1]{\displaystyle \mathbf{cof} \displaystyle #1 }
+\newcommand\adjugate[1]{\displaystyle \mathbf{adj} ~\displaystyle #1 }
+\newcommand\cofactor[1]{\displaystyle \mathbf{cof} ~\displaystyle #1 }
 
 \newcommand\columnvector[1]{\boldsymbol{#1}}
 
@@ -166,6 +169,7 @@
 
 %\setcounter{page}{1}
 
+\part{Mathematical Background}
 
 \chapter{Set Theory}
 \include{set_theory/st.1.axioms}
@@ -192,6 +196,7 @@
 \include{probability/p.1.random_variable}
 \include{probability/p.2.conditional_expectation}
 
+\part{Machine Learning}
 
 \chapter{Classic Machine Learning}
 \include{machine_learning/classic.1.basics}

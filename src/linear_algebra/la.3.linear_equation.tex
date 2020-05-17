@@ -26,13 +26,13 @@
 	For any $A \in M_{m\times n}(F)$, 
 	\begin{equation*}
 		\begin{aligned}
-			\text{rank}(A) &= \text{rank}(L_A) = \text{dim}(R(L_A)) = \text{span}(L_A(\beta)) \\
-			&= \text{span}(\{ L_A(e_1), L_A(e_2), \dots, L_A(e_n) \})
+			\text{rank}(A) &= \rank{L_A} = \dimension{R(L_A)} = \vectorspan{L_A(\beta)} \\
+			&= \vectorspan{\set{ L_A(e_1), L_A(e_2), \dots, L_A(e_n) }}
 		\end{aligned}
 	\end{equation*}
 	we have $L_A(e_j) = A e_j = a_j$ where $a_j$ is the $j$th column of A. Hence
 	\begin{equation*}
-		R(L_A) = \text{span}(\{ a_1, a_2, \dots, a_n \})
+		R(L_A) = \vectorspan{\set{ a_1, a_2, \dots, a_n}}
 	\end{equation*}
 \end{proof}
 
@@ -84,7 +84,7 @@
 \begin{theorem}\label{equationfromoneandnullspace}
 	Let $K$ be the solution set of $Ax=b$, $K_H$ be the solution set of $Ax=0$. Then for all solution $s$ to $Ax=b$,
 	\begin{equation}
-		K = \{ s \} + K_H = \{s+k: k \in K_H \}
+		K = \set{s} + K_H = \set{s+k: k \in K_H }
 	\end{equation}
 \end{theorem}
 
@@ -96,16 +96,16 @@
 
 
 \begin{theorem}
-	Let $Ax=b$ be a system. the system is consistent $\Leftrightarrow$ $\text{rank}(A) = \text{rank}(A|b)$.
+	Let $Ax=b$ be a system of linear equations. the system is consistent $\Leftrightarrow$ $\text{rank}(A) = \text{rank}(A|b)$.
 \end{theorem}
 
 \begin{proof}
-    $R(L_A) = \text{span}(\{a_1, a_2, \dots, a_n \})$. Since $b \in R(L_A)$, the extended span is the same.
+    $R(L_A) = \vectorspan{\set{a_1, a_2, \dots, a_n }}$. Since $b \in R(L_A)$, the extended span is the same.
 \end{proof}
 
 
 \begin{definition}
-	A matrix is in \cindex{reduced row echelon form} if 
+	A matrix is in \cindex{reduced row echelon form} if:
 	\begin{enumerate}
 		\item any row containing a nonzero entry precedes any row in which all the entries are zero.
 		\item the first nonzero entry in each row is the only nonzero entry in its column.
@@ -142,7 +142,7 @@
         A^\top A x = A^\top b
     \end{equation}
     
-    $A^\top A x = A^\top b$ is always consistent and has unique solution when $\rank{A} = n$. If $Ax=b$ is consistent, two solutions are the same.
+    $A^\top A x = A^\top b$ is always consistent and has unique solution when $\rank{A} = n$. If $Ax=b$ is consistent, two solutions are the same. \qed
 \end{theorem}
 
 
