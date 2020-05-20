@@ -15,25 +15,25 @@
     A function $\delta: M_{n \times n} (F) \rightarrow F$ is the same as $\determinate{A}$ if it satisfies the following 3 properties:
     \begin{enumerate}
         \item It is \cindex{$n$-linear function}: for a scalar $k$, \begin{equation}
-        \determinate{\begin{pmatrix}
+        \determinate{\begin{bmatrix}
             a_1\\
             \vdots\\
             u + kv \\
             \vdots\\
             a_n
-        \end{pmatrix}} = \determinate{\begin{pmatrix}
+        \end{bmatrix}} = \determinate{\begin{bmatrix}
             a_1\\
             \vdots\\
             u \\
             \vdots\\
             a_n
-        \end{pmatrix}} + k \determinate{\begin{pmatrix}
+        \end{bmatrix}} + k \determinate{\begin{bmatrix}
             a_1\\
             \vdots\\
             v \\
             \vdots\\
             a_n
-        \end{pmatrix}}
+        \end{bmatrix}}
     \end{equation}
     \item It is \cindex{alternating}: $\delta(A) = 0$ if any two adjacent rows are identical.
     \item $\delta(I) = 1$.
@@ -81,7 +81,7 @@
 \end{definition}
 
 
-If the determinate is calculated using cofactor operation, the performance is $n!$ multiplication. However if it is calculated using elementary row operation, the performance is $\displaystyle \frac{n^3 + 2n - 3}{3}$ multiplication.
+If the determinate is calculated using cofactor operation, the performance is $n!$ multiplication. However if it is calculated using elementary row operation, the performance is $\dfrac{n^3 + 2n - 3}{3}$ multiplication.
 
 \begin{definition}
     The \cindex{adjugate} of $A$ is defined as
@@ -111,20 +111,20 @@ If the determinate is calculated using cofactor operation, the performance is $n
 	Let $a_k$ be the $k$th column of $A$ and $X_k$ denote the matrix obtained from replacing the column $k$ of identity matrix $I_n$ by $x$. Then $A X_k = M_k$:
 	\begin{equation*}
 	\begin{aligned}
-        A X_k &= A \begin{pmatrix}
+        A X_k &= A \begin{bmatrix}
 			1 &   &   & x &   \\
 			 & 1 &  & x &   \\
 			 && \ddots &  \vdots \\
 			&&& x & \\
 			&&& \vdots & \ddots \\
 			&&& x&   & 1 
-		\end{pmatrix} \\
-		&= \begin{pmatrix}
+		\end{bmatrix} \\
+		&= \begin{bmatrix}
 		    Ae_1, Ae_2, \dots, Ax, \dots, Ae_n
-		\end{pmatrix} \\
-		& = \begin{pmatrix}
+		\end{bmatrix} \\
+		& = \begin{bmatrix}
 		    a_1, a_2, \dots, b, \dots, a_n
-		\end{pmatrix} \\
+		\end{bmatrix} \\
 		&= M_k
 		\end{aligned}
     \end{equation*}

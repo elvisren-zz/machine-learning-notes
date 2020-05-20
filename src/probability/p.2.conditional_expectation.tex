@@ -17,12 +17,12 @@
 \begin{definition}
     The \cindex{conditional probability mass function} of $X$ given $Y=y$ is 
     \begin{equation}
-        \displaystyle p_{X|Y}(x|y) = \frac{p(x,y)}{p_Y (y)}
+        p_{X|Y}(x|y) = \dfrac{p(x,y)}{p_Y (y)}
     \end{equation}
     
-    The \cindex{conditional probability density function} of $X$ given $Y=y$ ($f_Y (y) > 0$) is 
+    The \cindex{conditional probability density function} of $X$ given $Y=y$ (where $f_Y (y) > 0$) is 
     \begin{equation}
-        \displaystyle f_{X|Y}(x|y) = \frac{f(x,y)}{f_Y (y)} = \frac{f(x,y)}{\displaystyle \int_x f(x,y) \dif{x}}
+        f_{X|Y}(x|y) = \dfrac{f(x,y)}{f_Y (y)} = \dfrac{f(x,y)}{\displaystyle \int_x f(x,y) \dif{x}}
     \end{equation}
 \end{definition}
 
@@ -123,12 +123,12 @@ Note: $\expect{X|Y}$ is a random variable of $Y$. $Y$ here may be an expression 
         \probability{E_n} = \probability{E_n|M} \probability{M} + \probability{E_n|M^c} \probability{M^c}
     \end{equation*}
 
-    Because $\probability{E|M} = 0$, $\displaystyle \probability{E_n} = \frac{n-1}{n} \probability{E_n|M^c} $.
+    Because $\probability{E|M} = 0$, $\probability{E_n} = \dfrac{n-1}{n} \probability{E_n|M^c} $.
     
     In $M^c$ case, the first man selected the hat of another person. there are two possibilities on whether the other person select the hat of the first man:
     \begin{enumerate}
         \item the "another" man did not select the hat of first man. In this case, $\probability{E_{n}|?} = \probability{E_{n-1}}$.
-        \item the "another" man did select the hat of the first man. In this case, $\probability{E_{n}|?} = \probability{E_{n-2}} \probability{?} = \displaystyle \frac{1}{n-1} \probability{E_{n-2}}$.
+        \item the "another" man did select the hat of the first man. In this case, $\probability{E_{n}|?} = \probability{E_{n-2}} \probability{?} = \dfrac{1}{n-1} \probability{E_{n-2}}$.
     \end{enumerate}
     
     So 
@@ -167,7 +167,7 @@ Note: $\expect{X|Y}$ is a random variable of $Y$. $Y$ here may be an expression 
     
     
     
-    For equestion question (\ref{hatq3}), the probability $i$th man select its hat is $\displaystyle \probability{H_i} = \frac{1}{n}$, so 
+    For equestion question (\ref{hatq3}), the probability $i$th man select its hat is $\probability{H_i} = \dfrac{1}{n}$, so 
     \begin{equation*}
         \begin{aligned}
             \expect{\sum_i H_i} &= \sum_i \expect{H_i} \\
@@ -212,14 +212,14 @@ Note: $\expect{X|Y}$ is a random variable of $Y$. $Y$ here may be an expression 
     \begin{equation*}
         \expect{S_n} = n + \expect{S_{n - X_n}}
     \end{equation*}
-    And the solution is $\expect{S_n} = n + \displaystyle \frac{n^2}{2}$.
+    And the solution is $\expect{S_n} = n + \dfrac{n^2}{2}$.
     
     For question (\ref{hatq8}),
     \begin{equation*}
         \begin{aligned}
             \sum_{j=1}^n (C_j + 1) & = S_n \\
             \expect{C_j} &= \expect{C_j + 1} -1 \\
-            &= \displaystyle \frac{\expect{S_n}}{n}  -1\\
+            &= \dfrac{\expect{S_n}}{n}  -1\\
             &= \left( 1 + \frac{n}{2} \right) - 1 \\
             &= \frac{n}{2}
         \end{aligned}
@@ -339,7 +339,7 @@ what is the number of necessary trial to get $k$ consecutive success? Each trial
             &= \frac{k}{n} \log{\frac{n-1}{k}}
         \end{aligned}
     \end{equation*}
-    The best $k$ is $\displaystyle \frac{1}{e} n$.
+    The best $k$ is $\dfrac{1}{e} n$.
 \end{proof}
 
 \begin{example}[The Ballot Problem]
@@ -350,7 +350,7 @@ what is the number of necessary trial to get $k$ consecutive success? Each trial
     \begin{equation*}
         P_{n,m} = \frac{n}{n+m} P_{n-1,m} + \frac{m}{n+m}P_{n,m-1}
     \end{equation*}    
-    The solution is $\displaystyle P_{n,m} = \frac{n-m}{n+m}$
+    The solution is $P_{n,m} = \dfrac{n-m}{n+m}$
 \end{proof}
 
 

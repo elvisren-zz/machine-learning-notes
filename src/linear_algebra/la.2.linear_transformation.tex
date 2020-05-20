@@ -91,12 +91,12 @@ The \cindex{zero transformation}  $T_0: V \rightarrow W$ is defined as $T_0 = 0$
 	
 	the \cindex{coordinate vector}  of $x$ relative to $\beta$, is defined as 
 	\begin{equation}
-		\coordinate{x}_\beta = \begin{pmatrix}
+		\coordinate{x}_\beta = \begin{bmatrix}
 		a_1 \\
 		a_2 \\
 		\vdots \\
 		a_n
-		\end{pmatrix}
+		\end{bmatrix}
 	\end{equation}
 	
 	Note that $\coordinate{u_i}_\beta = e_i$.
@@ -334,10 +334,10 @@ If $Q$ changes $\beta^\prime$-coordinate into $\beta$-coordinate, $Q^{-1}$ chang
 \begin{example}
 There is an example of the usage of change of coordinate matrix: do reflection operation $T$ against a line $y = a x$. Let $\beta$ be the standard basis of $R^2$ and $\beta^\prime$ be the standard basis of $R^2$ after the rotation of $y = a x$. The operation $T$ has a matrix representation in $\beta^\prime$
 	\begin{equation*}
-		\coordinate{T}_{\beta^\prime} = \begin{pmatrix}
+		\coordinate{T}_{\beta^\prime} = \begin{bmatrix}
 			1 & 0 \\
 			0 & -1
-		\end{pmatrix}		
+		\end{bmatrix}		
 	\end{equation*}
 	Then calculate $\coordinate{T}_\beta$ based on $\coordinate{T}_{\beta^\prime}$.    
 \end{example}
@@ -414,17 +414,17 @@ If $T$ is a linear operator on finite dimension vector space $V$, and if $\beta$
 \begin{definition}
 	An $i$-th coordinate function $f_i$ with respect to basis $\beta$ is defined as $f_i(x) = a_i$ where
 	\begin{equation*}
-		\coordinate{x}_\beta = \begin{pmatrix}
+		\coordinate{x}_\beta = \begin{bmatrix}
 			a_1 \\
 			a_2 \\
 			\vdots \\
 			a_n
-		\end{pmatrix} = \begin{pmatrix}
+		\end{bmatrix} = \begin{bmatrix}
 			f_1(a) \\
 			f_2(a) \\
 			\vdots \\
 			f_n(a)
-		\end{pmatrix}
+		\end{bmatrix}
 	\end{equation*}
 \end{definition}
 
@@ -440,12 +440,12 @@ The dimension of dual space is $\dimension{V^*} = \dimension{\mathcal{L}(V,F)} =
 \begin{definition}
 	Let $\beta = \set{x_i}$ be an ordered basis for finite dimensional vector space $V$. Define $f_i (x) = a_i$ where
 	\begin{equation*}
-	    \coordinate{x}_\beta = \begin{pmatrix}
+	    \coordinate{x}_\beta = \begin{bmatrix}
 	        a_1 \\
 	        a_2 \\
 	        \vdots \\
 	        a_n
-	    \end{pmatrix}
+	    \end{bmatrix}
 	\end{equation*}
 	
 	$f_i$ is the $i$-th coordinate function with respect to basis $\beta$. let $\beta^*=\set{f_i}$. Then $\beta^*$ is an ordered basis for $V^*$, and $\forall f \in V^*$, we have

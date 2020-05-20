@@ -162,7 +162,7 @@
 	\begin{equation}
 		y = \sum_{i=1}^k \frac{\innerproduct{y}{v_i}}{\norm{v_i}^2} v_i
 	\end{equation}
-	Define the projection of vector $a$ onto vector $u$ as $\displaystyle \projection{a}{u} = \frac{\innerproduct{a}{u}}{\norm{u}^2}$. So 
+	Define the projection of vector $a$ onto vector $u$ as $\projection{a}{u} = \dfrac{\innerproduct{a}{u}}{\norm{u}^2}$. So 
 	\begin{equation}
 	    y = \sum_{i=1}^k \left(\projection{y}{v_i}\right) v_i
 	\end{equation}
@@ -176,7 +176,7 @@
 	\begin{equation*}
 		\innerproduct{y}{v_i} = \innerproduct{\sum_{i=1}^k a_i v_i}{v_j} = \sum_{i=1}^k a_i \innerproduct{v_i}{v_j} = a_j \norm{v_j}^2
 	\end{equation*}
-	So $\displaystyle a_j = \frac{\innerproduct{y}{v_j}}{\norm{v_j}^2}$.
+	So $a_j = \dfrac{\innerproduct{y}{v_j}}{\norm{v_j}^2}$.
 	
 	
 \end{proof}
@@ -190,7 +190,7 @@
 	\begin{equation}
 		v_k = w_k - \sum_{j=1}^{k-1} \frac{\innerproduct{w_k}{v_j}}{\norm{v_j}^2} v_j
 	\end{equation}
-	then $S^\prime$ is an orthogonal set of non-zero vectors that $\vectorspan{S^\prime} = \vectorspan{S}$. The process is that for the $k$-th basis $w_k$, first project it on top of the $k-1$ orthogonal vectors $\displaystyle \sum_{j=1}^{k-1} \frac{\innerproduct{w_k}{v_j}}{\norm{v_j}^2} v_j$, and calculate the reciprocal vector $\displaystyle w_k - \sum_{j=1}^{k-1} \frac{\innerproduct{w_k}{v_j}}{\norm{v_j}^2} v_j$.
+	then $S^\prime$ is an orthogonal set of non-zero vectors that $\vectorspan{S^\prime} = \vectorspan{S}$. The process is that for the $k$-th basis $w_k$, first project it on top of the $k-1$ orthogonal vectors $\displaystyle \sum_{j=1}^{k-1} \dfrac{\innerproduct{w_k}{v_j}}{\norm{v_j}^2} v_j$, and calculate the reciprocal vector $\displaystyle w_k - \sum_{j=1}^{k-1} \dfrac{\innerproduct{w_k}{v_j}}{\norm{v_j}^2} v_j$.
 	\qed
 \end{definition}
 
@@ -206,13 +206,13 @@
     \end{equation*}
     Then $\forall k$, $\displaystyle a_k = \sum_{j=1}^k \innerproduct{a_k}{e_k} e_k$. So
     \begin{equation}
-        A = QR = [e_1, e_2, \dots, e_n] \times \begin{pmatrix}
+        A = QR = [e_1, e_2, \dots, e_n] \times \begin{bmatrix}
             \innerproduct{a_1}{e_1} & \innerproduct{a_2}{e_1} & \innerproduct{a_3}{e_1} & \cdots & \innerproduct{a_n}{e_1}\\
             0 & \innerproduct{a_2}{e_2} & \innerproduct{a_3}{e_2} & \cdots & \innerproduct{a_n}{e_2}\\
             0 & 0 & \innerproduct{a_3}{e_3} & \cdots & \innerproduct{a_n}{e_3} \\            
             \vdots & \vdots & \vdots & \ddots & \vdots \\
             0 & 0 & 0 & 0 & \innerproduct{a_n}{e_n}
-        \end{pmatrix}
+        \end{bmatrix}
     \end{equation}
     
     The $Q$ is an orthonormal matrix. $R$ could be calculated by:
@@ -260,7 +260,7 @@
 
 
 \begin{theorem}
-    For $S=\set{v_1, v_2, \dots, v_k}$ be an orthogonal subset of $V$. For $\forall y \in V$, the orthogonal projection of $y$ on $S$ is $\displaystyle u = \sum_{i=1}^k \frac{\innerproduct{y}{v_i}}{\norm{v_i}^2} v_i$. If $S$ are orthonormal, $\displaystyle u = \sum_{i=1}^k \innerproduct{y}{v_i} v_i$. If $y$ is in span of $S$, then $y = u$.
+    For $S=\set{v_1, v_2, \dots, v_k}$ be an orthogonal subset of $V$. For $\forall y \in V$, the orthogonal projection of $y$ on $S$ is $\displaystyle u = \sum_{i=1}^k \dfrac{\innerproduct{y}{v_i}}{\norm{v_i}^2} v_i$. If $S$ are orthonormal, $\displaystyle u = \sum_{i=1}^k \innerproduct{y}{v_i} v_i$. If $y$ is in span of $S$, then $y = u$.
 \end{theorem}
 
 
@@ -403,20 +403,20 @@ The same topic is discussed in pseudo inverse.
 \subsubsection{Least Square Approximation}
 
 \begin{definition}
-    The \cindex{Least Square Approximation} is a problem that for $A = \begin{pmatrix}
+    The \cindex{Least Square Approximation} is a problem that for $A = \begin{bmatrix}
         t_1 & 1 \\
         t_2 & 1 \\
         \vdots & \vdots \\
         t_m & 1
-    \end{pmatrix}$,  $y = \begin{pmatrix}
+    \end{bmatrix}$,  $y = \begin{bmatrix}
         y_1\\
         y_2\\
         \vdots\\
         y_m
-    \end{pmatrix}$, find $x_0 = \begin{pmatrix}
+    \end{bmatrix}$, find $x_0 = \begin{bmatrix}
         c \\
         d
-    \end{pmatrix}$ that minimize $\norm{Ax-y}$.
+    \end{bmatrix}$ that minimize $\norm{Ax-y}$.
 \end{definition}
 
 \begin{definition}

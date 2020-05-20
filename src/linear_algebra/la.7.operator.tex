@@ -457,7 +457,7 @@
     Conversely, for $1 \leq i \leq n$, $v_i$ is an eigenvector of $T^*T$ with corresponding eigenvalue $\sigma_i^2$ if $1 \leq i \leq r$ and $0$ if $i > r$. 
 \end{theorem}
 \begin{proof}
-    $T^*T$ has rank $r$ according to \thmref{rankofadjoint}, and positive semidefinite by \thmref{positiveoperatorproperty}. So there is an orthonormal basis $v_i$ for $V$ consisting of eigenvectors of $T^*T$ with corresponding eigenvalues $\lambda_i$ where $\lambda_1 \geq \lambda_2 \geq \dots \geq \lambda_r > 0$ and $\lambda_i = 0$ for $i > r$. For $1 \leq i \leq r$, define $\sigma_i = \sqrt{\lambda_i}$ and $\displaystyle u_i = \frac{1}{\sigma_i} T(v_i)$. We have:
+    $T^*T$ has rank $r$ according to \thmref{rankofadjoint}, and positive semidefinite by \thmref{positiveoperatorproperty}. So there is an orthonormal basis $v_i$ for $V$ consisting of eigenvectors of $T^*T$ with corresponding eigenvalues $\lambda_i$ where $\lambda_1 \geq \lambda_2 \geq \dots \geq \lambda_r > 0$ and $\lambda_i = 0$ for $i > r$. For $1 \leq i \leq r$, define $\sigma_i = \sqrt{\lambda_i}$ and $u_i = \dfrac{1}{\sigma_i} T(v_i)$. We have:
     \begin{equation*}
     \innerproduct{u_i}{u_j} = \innerproduct{\frac{1}{\sigma_i} T(v_i)}{\frac{1}{\sigma_j} T(v_j)} = \frac{1}{\sigma_i \sigma_j} \innerproduct{T^*T(v_i)}{v_j} = \frac{1}{\sigma_i \sigma_j} \innerproduct{\lambda_i v_i}{v_j} = \frac{\sigma_i^2}{\sigma_i \sigma_j} \innerproduct{v_i}{v_j} = \delta_{ij}
     \end{equation*}
@@ -488,7 +488,7 @@
         \item sort the singular value from big to small.
         \item for non-zero singular value $\sigma_i$, put $\sqrt{\sigma_i}$ to the $i$-th diagonal of $\Sigma$.
         \item form $U$ of normalized eigenvector of $A^*A$.
-        \item for non-zero singular value $\sigma_i$, calculate orthonormal vector $\displaystyle u_i = \frac{1}{\sigma_i} L_A(v_i)$.
+        \item for non-zero singular value $\sigma_i$, calculate orthonormal vector $u_i = \dfrac{1}{\sigma_i} L_A(v_i)$.
         \item expand the $u_i$ to orthonormal basis and form $V$.
     \end{enumerate}
 \end{theorem}
@@ -526,7 +526,7 @@
     Let $\set{v_1, v_2,\dots, v_r}$ be a basis for $\nullspace{T}^\bot$, $\set{v_{r+1}, v_{r+2}, \dots, v_{n}}$ be a basis for $\nullspace{T}$, $\set{u_1, u_2, \dots, u_r}$ be basis for $\rangespace{T}$, $\set{u_{r_1}, u_{r+2}, \dots, u_m}$ be a basis for $\rangespace{T}^\bot$, then:
     \begin{equation*}
         T^\dag (u_i) = \begin{cases}
-            \displaystyle \frac{1}{\sigma_i} v_i & \text{if } 1 \leq i \leq r \\
+            \dfrac{1}{\sigma_i} v_i & \text{if } 1 \leq i \leq r \\
             0
         \end{cases}
     \end{equation*}
@@ -537,7 +537,7 @@
     Let $A_{m \times n}$ be a square matrix of rank $r$ with singular value decomposition $A = U \Sigma V^*$ and non-zero singular values $\sigma_1 \geq \sigma_2 \geq \dots \geq \sigma_r$. Let $\Sigma^\dag_{m \times n}$  be a matrix that 
     \begin{equation}
         \Sigma^\dag_{ij} = \begin{cases}
-            \displaystyle \frac{1}{\sigma_i} & \text{if } i = j \leq r \\
+            \frac{1}{\sigma_i} & \text{if } i = j \leq r \\
             0 
         \end{cases}
     \end{equation}
@@ -587,7 +587,7 @@
 \end{definition}
 
 \begin{definition}
-    The \cindex{relative change} in $b$ is $\displaystyle \frac{\norm{\dif{b}}}{\norm{b}}$ with $\norm{\cdot}$ be the standard norm on $\mathcal{C}^n$.
+    The \cindex{relative change} in $b$ is $\dfrac{\norm{\dif{b}}}{\norm{b}}$ with $\norm{\cdot}$ be the standard norm on $\mathcal{C}^n$.
 \end{definition}
 
 \begin{definition}
@@ -599,7 +599,7 @@
 
 
 \begin{definition}
-    Let $B$ be a self-adjoint matrix. The \cindex{Rayleigh quotient} for $x \neq 0$ is $\displaystyle R(x) = \frac{\innerproduct{Bx}{x}}{\norm{x}^2}$
+    Let $B$ be a self-adjoint matrix. The \cindex{Rayleigh quotient} for $x \neq 0$ is $R(x) = \dfrac{\innerproduct{Bx}{x}}{\norm{x}^2}$
 \end{definition}
 
 
@@ -622,7 +622,7 @@ For a self-adjoint matrix $B$, the $\displaystyle \max_{x \neq 0} R(x)$ is the l
 \end{theorem}
 
 \begin{theorem}
-    Let $A$ be invertible matrix. Then $\displaystyle \norm{A^{-1}} = \frac{1}{\sqrt{\lambda}}$ where $\lambda$ is the smallest eigenvalue of $A^*A$.
+    Let $A$ be invertible matrix. Then $\norm{A^{-1}} = \dfrac{1}{\sqrt{\lambda}}$ where $\lambda$ is the smallest eigenvalue of $A^*A$.
 \end{theorem}
 
 \begin{definition}
@@ -632,8 +632,8 @@ For a self-adjoint matrix $B$, the $\displaystyle \max_{x \neq 0} R(x)$ is the l
 \begin{theorem}
     For system $Ax=b$ where $A$ is invertible and $b \neq 0$, we have:
     \begin{enumerate}
-        \item For any norm $\norm{\cdot}$, we have $\displaystyle \frac{1}{\text{cond}(A)} \frac{\norm{\dif b}}{\norm{b}} \leq \frac{\norm{\dif x}}{\norm{x}} \leq \text{cond}(A) \frac{\norm{\dif b}}{\norm{b}}$.
-        \item If $\norm{\cdot}$ is the Euclidean norm, then $\displaystyle \text{cond}(A) = \sqrt{\frac{\lambda_1}{\lambda_n}}$ where $\lambda_1$ and $\lambda_n$ are the largest and smallest eigenvalue of $A^*A$.
+        \item For any norm $\norm{\cdot}$, we have $\dfrac{1}{\text{cond}(A)} \dfrac{\norm{\dif b}}{\norm{b}} \leq \dfrac{\norm{\dif x}}{\norm{x}} \leq \text{cond}(A) \dfrac{\norm{\dif b}}{\norm{b}}$.
+        \item If $\norm{\cdot}$ is the Euclidean norm, then $\text{cond}(A) = \sqrt{\dfrac{\lambda_1}{\lambda_n}}$ where $\lambda_1$ and $\lambda_n$ are the largest and smallest eigenvalue of $A^*A$.
     \end{enumerate}
     
     So when $\text{cond} (b) \geq 1$. If $\text{cond}(b)$ is close to $1$, the relative error in $x$ is small when relative error of $b$ is small. However when $\text{cond}(b)$ is large, the relative error in $x$ could be large or small. 
